@@ -6,7 +6,9 @@ const Header = () => {
   return (
     <header className="bg-blue-500 text-blue-50 flex justify-between items-center py-4 px-8">
       <div>
-        <h1 className="text-xl font-bold">ShopEasy</h1>
+        <Link to="/">
+          <h1 className="text-xl font-bold">ShopEasy</h1>
+        </Link>
       </div>
 
       <nav>

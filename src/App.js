@@ -1,19 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
+
+import HomePage from './pages/HomePage';
+import ProductPage from './pages/ProductPage';
 import Footer from './components/Footer';
 import Header from './components/Header';
-
-export const Home = () => <h1>Home</h1>;
-export const About = () => <h1>About</h1>;
+import './App.css';
 
 function App() {
   return (
     <Router>
       <Header />
-      <div className="container mx-auto my-5" style={{ height: '80vh' }}>
+      <div
+        className="container mx-auto my-5 px-32"
+        style={{ minHeight: '80vh' }}
+      >
         <Routes>
-          <Route path="/about" element={<About />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product/:productId" element={<ProductPage />} />
         </Routes>
       </div>
       <Footer />
