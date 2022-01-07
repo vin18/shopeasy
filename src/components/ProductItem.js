@@ -1,5 +1,5 @@
 import React from 'react';
-import StarIcon from '../assets/icons/StarIcon';
+import Review from './Review';
 
 const ProductItem = ({ product }) => {
   return (
@@ -9,13 +9,7 @@ const ProductItem = ({ product }) => {
       </div>
 
       <div className="mt-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-lg">{product.name}</h3>
-          <div className="inline-flex items-center bg-blue-600 text-blue-100 p-1 rounded mt-1">
-            <span className="text-sm">{product.rating}</span> <StarIcon />
-          </div>
-        </div>
-
+        <Review product={product} />
         <p className="text-lg text-gray-800 mt-1">₹{product.price}</p>
       </div>
     </div>
