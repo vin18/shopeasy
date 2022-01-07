@@ -1,16 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
-const Home = () => <h1>Home</h1>
-const About = () => <h1>About</h1>
+export const Home = () => <h1>Home</h1>;
+export const About = () => <h1>About</h1>;
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <Header />
+      <div className="container mx-auto my-5" style={{ height: '80vh' }}>
+        <Routes>
+          <Route path="/about" element={<About />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
+      <Footer />
     </Router>
   );
 }
