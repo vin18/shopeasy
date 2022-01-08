@@ -3,16 +3,15 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import connectDb from './config/connectDb.js';
 
+import productRoutes from './routes/productRoute.js';
+
 dotenv.config();
 const app = express();
 
 connectDb();
+app.use(express.json());
 
-app.get(`/`, (req, res) => {
-  res
-    .status(200)
-    .json({ status: 'success', message: 'Hello, this is a shopeasy api' });
-});
+app.use(`/api/v1/products`, productRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
