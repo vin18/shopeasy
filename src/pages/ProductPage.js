@@ -4,21 +4,23 @@ import { Link, useParams } from 'react-router-dom';
 import LeftArrowIcon from '../assets/icons/LeftArrowIcon';
 import Review from '../components/Review';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from '../store/slices/product';
 
 const ProductPage = () => {
-  const [product, setProduct] = useState({});
   const { productId } = useParams();
+  const dispatch = useDispatch();
 
+  const { productData: product, loading } = useSelector(
+    (state) => state.product
+  );
   const isProductAvailable = product.countInStock > 0;
 
   useEffect(() => {
-    async function fetchProduct() {
-      const { data } = await axios.get(`/api/v1/products/${productId}`);
-      setProduct(data?.product);
-    }
+    dispatch(fetchProduct(productId));
+  }, [productId]);
 
-    fetchProduct();
-  }, []);
+  if (loading) return <p>Loading..</p>;
 
   return (
     <div>
