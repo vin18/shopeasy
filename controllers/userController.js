@@ -1,9 +1,10 @@
+import { StatusCodes } from 'http-status-codes';
 import User from '../models/userModel.js';
 import { sendResponse } from '../utils/sendResponse.js';
 
 /**
  * @desc    Register user
- * @route   POST /api/v1/users
+ * @route   POST /api/v1/users/register
  * @access  Public
  */
 const register = async (req, res) => {
@@ -34,7 +35,7 @@ const register = async (req, res) => {
 
 /**
  * @desc    Register user
- * @route   POST /api/v1/users
+ * @route   POST /api/v1/users/login
  * @access  Public
  */
 const login = async (req, res) => {
@@ -64,4 +65,21 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+/**
+ * @desc    Logout user
+ * @route   GET /api/v1/users/logout
+ * @access  Private
+ */
+const logout = async (req, res) => {
+  res.cookie('token', null, {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000),
+  });
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    message: 'User logged out',
+  });
+};
+
+export { register, login, logout };
