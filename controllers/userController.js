@@ -32,4 +32,36 @@ const register = async (req, res) => {
   }
 };
 
-export { register };
+/**
+ * @desc    Register user
+ * @route   POST /api/v1/users
+ * @access  Public
+ */
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: `Invalid credentials!` });
+    }
+
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ success: false, message: `Invalid credentials!` });
+    }
+
+    sendResponse(user, res);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+export { register, login };

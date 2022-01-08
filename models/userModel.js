@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide password'],
       minlength: 6,
+      select: false,
     },
     role: {
       type: String,
@@ -43,6 +44,11 @@ userSchema.methods.createJWT = function () {
   return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+};
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
 };
 
 const User = mongoose.model('User', userSchema);
