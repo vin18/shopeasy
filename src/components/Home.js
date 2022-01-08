@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductItem from './ProductItem.js';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../store/slices/products.js';
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const { productsData: products, loading } = useSelector(
+    (state) => state.products
+  );
 
   useEffect(() => {
-    async function fetchProducts() {
-      const { data } = await axios.get(`/api/v1/products`);
-      setProducts(data?.products);
-    }
-
-    fetchProducts();
+    dispatch(fetchProducts());
   }, []);
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <div>
@@ -22,8 +24,8 @@ const Home = () => {
       </h1>
 
       <div className="grid grid-cols-3 gap-8">
-        {products.map((product) => (
-          <Link key={product._id} to={`/product/${product._id}`}>
+        {products?.map((product) => (
+          <Link key={product?._id} to={`/product/${product?._id}`}>
             <ProductItem product={product} />
           </Link>
         ))}
