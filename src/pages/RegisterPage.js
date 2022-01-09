@@ -5,6 +5,7 @@ import TextInput from '../components/custom/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../store/slices/user';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
   const initialValues = {
@@ -18,6 +19,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (userData?.email) {
+      toast.success(`Registered successfully!`);
       return history(`/`);
     }
   }, [userData]);
@@ -96,7 +98,7 @@ const RegisterPage = () => {
                 </div>
 
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
-                  Register
+                  {!loading ? 'Register' : 'Please wait..'}
                 </button>
               </div>
             </Form>

@@ -1,20 +1,24 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { About, Home } from '../App';
 import { getMe, logout } from '../store/slices/user';
+import toast from 'react-hot-toast';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.user);
   const isLoggedIn = Boolean(userData?.email);
+  const history = useNavigate();
 
   useEffect(() => {
     dispatch(getMe());
   }, []);
 
   const handleLogout = () => {
+    toast.success(`Logged out!`);
     dispatch(logout());
+    history(`/`);
   };
 
   return (
@@ -26,7 +30,7 @@ const Header = () => {
       </div>
 
       <nav>
-        <ul className="flex space-x-4">
+        <ul className="flex space-x-4 cursor-pointer">
           <li className="flex">
             <Link to="/cart">Cart</Link>
           </li>
