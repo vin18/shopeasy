@@ -1,8 +1,18 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { About, Home } from '../App';
+import { getMe } from '../store/slices/user';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const { userData, loading } = useSelector((state) => state.user);
+  const isLoggedIn = Boolean(userData?.email);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, []);
+
   return (
     <header className="bg-blue-500 text-blue-50 flex justify-between items-center py-4 px-8">
       <div>
@@ -17,9 +27,13 @@ const Header = () => {
             <Link to="/cart">Cart</Link>
           </li>
 
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
+          {!isLoggedIn && (
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+          )}
+
+          {isLoggedIn && <li>Logout</li>}
         </ul>
       </nav>
     </header>

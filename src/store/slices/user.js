@@ -47,3 +47,23 @@ export const register = (userData) => async (dispatch) => {
     });
   }
 };
+
+export const getMe = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: userRequest.type,
+    });
+
+    const { data } = await axios.get(`/api/v1/users/me`);
+
+    dispatch({
+      type: userRequestSuccess.type,
+      payload: data?.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: userRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
