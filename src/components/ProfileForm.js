@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from './custom/TextInput';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../store/slices/user';
 
 const ProfileForm = () => {
@@ -118,7 +117,7 @@ const ProfileForm = () => {
                 </div>
 
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
-                  Update profile
+                  {!loading ? 'Update profile' : 'Please wait..'}
                 </button>
               </div>
             </Form>
