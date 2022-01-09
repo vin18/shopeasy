@@ -7,15 +7,20 @@
   "scripts": {
     "start": "node server",
     "dev": "NODE_ENV=development nodemon server.js",
-    "prod": "NODE_ENV=production nodemon server.js"
+    "prod": "NODE_ENV=production nodemon server.js",
+    "import:data": "node seeder -i",
+    "delete:data": "node seeder -d"
   },
   "author": "Vinit Raut",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "http-status-codes": "^2.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.5"
   },
   "devDependencies": {
