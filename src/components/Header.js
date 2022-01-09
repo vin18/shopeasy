@@ -14,7 +14,7 @@ const Header = () => {
       <nav>
         <ul className="flex space-x-4">
           <li className="flex">
-            <Link to="/">Cart</Link>
+            <Link to="/cart">Cart</Link>
           </li>
 
           <li>
