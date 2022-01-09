@@ -1,17 +1,21 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
+import { fetchProductsInCart } from '../store/slices/cart';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
-  const { productsData: products, loading } = useSelector(
-    (state) => state.products
-  );
+  const { cartData, loading } = useSelector((state) => state.cart);
+  const { products } = cartData;
 
-  const product = products[0];
+  const dispatch = useDispatch();
 
-  if (!product) return <p>loading</p>;
+  useEffect(() => {
+    dispatch(fetchProductsInCart());
+  }, []);
+
+  if (loading) return <p>loading</p>;
 
   return (
     <div className="flex mt-8">
@@ -49,41 +53,42 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-32 w-32">
-                        <img className="rounded" src={product?.image} alt="" />
-                      </div>
-                      <div className="ml-4">
+                {products?.map((product) => (
+                  <tr key={product?.productId}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-32 w-32">
+                          <img
+                            className="rounded"
+                            src={product?.image}
+                            alt=""
+                          />
+                        </div>
                         <div className="font-medium text-gray-900">
                           {product.name}
                         </div>
-                        <div className="text-sm text-gray-500">
-                          {capitalizeFirstLetter(product.category)}
-                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-gray-900">₹{product.price}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex">
-                      <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
-                        <PlusIcon />
-                      </span>
-                      <span className="mx-1">4</span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-gray-900">₹{product.price}</div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex">
+                        <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
+                          <PlusIcon />
+                        </span>
+                        <span className="mx-1">{product?.quantity}</span>
 
-                      <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
-                        <MinusIcon />
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ₹{product.price * 5}
-                  </td>
-                </tr>
+                        <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
+                          <MinusIcon />
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      ₹{product.price * product?.quantity}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -101,7 +106,7 @@ const CartPage = () => {
       <div className="mx-32 p-4 w-1/4 border-2 border-blue-100 ml-8 mt-24 shadow rounded">
         <div className="flex justify-between mb-1">
           <p>Subtotal</p>
-          <p>₹{product.price * 10}</p>
+          <p>₹1000</p>
         </div>
 
         <div className="flex justify-between mb-3">
@@ -111,7 +116,7 @@ const CartPage = () => {
 
         <div className="flex justify-between text-xl font-bold">
           <p>Order Total</p>
-          <p>₹{product.price * 10 + 40}</p>
+          <p>₹1040</p>
         </div>
 
         <div className="border-b border-blue-100 my-2"></div>
