@@ -82,4 +82,25 @@ const logout = async (req, res) => {
   });
 };
 
-export { register, login, logout };
+/**
+ * @desc    Get logged in user
+ * @route   GET /api/v1/users/me
+ * @access  Private
+ */
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+export { register, login, logout, getMe };
