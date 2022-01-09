@@ -107,3 +107,23 @@ export const getMe = () => async (dispatch) => {
     });
   }
 };
+
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: userRequest.type,
+    });
+
+    const { data } = await axios.patch(`/api/v1/users/profile`, userData);
+
+    dispatch({
+      type: userRequestSuccess.type,
+      payload: data?.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: userRequestFail.type,
+      payload: error.message,
+    });
+  }
+};

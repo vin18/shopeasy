@@ -1,15 +1,32 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from './custom/TextInput';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateProfile } from '../store/slices/user';
 
 const ProfileForm = () => {
-  const initialValues = {
+  const { userData, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [initialValues, setInitialValues] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-  };
+  });
+
+  useEffect(() => {
+    if (userData?.email) {
+      setInitialValues({
+        name: userData?.name,
+        email: userData?.email,
+        password: '',
+        confirmPassword: '',
+      });
+    }
+  }, [userData?.email]);
 
   const profileSchema = yup.object().shape({
     name: yup
@@ -37,7 +54,9 @@ const ProfileForm = () => {
       .oneOf([yup.ref('password')], 'Passwords do not match'),
   });
 
-  const handleSubmit = (values) => {};
+  const handleSubmit = (values) => {
+    dispatch(updateProfile(values));
+  };
 
   return (
     <div className="flex justify-center items-center w-full mt-24">
@@ -45,6 +64,7 @@ const ProfileForm = () => {
         validationSchema={profileSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
+        enableReinitialize
       >
         {({ handleSubmit, handleChange, values, errors, setFieldValue }) => {
           return (
@@ -59,8 +79,8 @@ const ProfileForm = () => {
                     labelName="Name"
                     value={values.name}
                     onChange={handleChange}
-                    name="text"
-                    type="string"
+                    name="name"
+                    type="text"
                     error={errors.name}
                     placeholder="Your name"
                   />
@@ -73,6 +93,7 @@ const ProfileForm = () => {
                     type="email"
                     error={errors.email}
                     placeholder="Your email"
+                    disabled
                   />
 
                   <TextInput

@@ -43,6 +43,12 @@ const Header = () => {
             </li>
           )}
 
+          {isLoggedIn && (
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          )}
+
           {isLoggedIn && <li onClick={handleLogout}>Logout</li>}
         </ul>
       </nav>
