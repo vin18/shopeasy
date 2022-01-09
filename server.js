@@ -4,8 +4,9 @@ import colors from 'colors';
 import cookieParser from 'cookie-parser';
 import connectDb from './config/connectDb.js';
 
-import productRoutes from './routes/productRoute.js';
+import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use(`/api/v1/products`, productRoutes);
 app.use(`/api/v1/users`, userRoutes);
+app.use(`/api/v1/cart`, cartRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
