@@ -68,6 +68,26 @@ export const login = (userData) => async (dispatch) => {
   }
 };
 
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: userRequest.type,
+    });
+
+    await axios.get(`/api/v1/users/logout`);
+
+    dispatch({
+      type: userRequestSuccess.type,
+      payload: null,
+    });
+  } catch (error) {
+    dispatch({
+      type: userRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
 export const getMe = () => async (dispatch) => {
   try {
     dispatch({
