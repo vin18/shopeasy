@@ -1,7 +1,10 @@
+import { useEffect } from 'react';
 import { Form, Formik } from 'formik';
-import React from 'react';
 import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../store/slices/user';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const initialValues = {
@@ -9,6 +12,15 @@ const RegisterPage = () => {
     email: '',
     password: '',
   };
+  const history = useNavigate();
+  const dispatch = useDispatch();
+  const { userData, loading } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (userData?.email) {
+      return history(`/`);
+    }
+  }, [userData]);
 
   const registerSchema = yup.object().shape({
     name: yup
@@ -33,7 +45,7 @@ const RegisterPage = () => {
   });
 
   const handleSubmit = (values) => {
-    console.log(values);
+    dispatch(register(values));
   };
 
   return (
