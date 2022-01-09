@@ -103,4 +103,41 @@ const getMe = async (req, res) => {
   }
 };
 
-export { register, login, logout, getMe };
+/**
+ * @desc    Update user profile
+ * @route   PATCH /api/v1/users/profile
+ * @access  Private
+ */
+const updateProfile = async (req, res) => {
+  const { name, email, password, confirmPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        status: 'error',
+        error: `Please login`,
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        status: 'error',
+        error: `Passwords don't match`,
+      });
+    }
+
+    user.name = name;
+    user.password = password;
+
+    await user.save();
+    sendResponse(user, res);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+export { register, login, logout, getMe, updateProfile };
