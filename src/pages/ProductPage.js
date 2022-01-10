@@ -1,24 +1,43 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import LeftArrowIcon from '../assets/icons/LeftArrowIcon';
 import Review from '../components/Review';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from '../store/slices/product';
+import ProductQuantity from '../components/ProductQuantity';
+import { addProductsToCart } from '../store/slices/cart';
+import toast from 'react-hot-toast';
 
 const ProductPage = () => {
+  const [quantity, setQuantity] = useState(1);
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const history = useNavigate();
 
   const { productData: product, loading } = useSelector(
     (state) => state.product
   );
-  const isProductAvailable = product.countInStock > 0;
 
   useEffect(() => {
     dispatch(fetchProduct(productId));
   }, [productId]);
+
+  const isProductAvailable = product.countInStock > 0;
+
+  const handleAddToCart = () => {
+    const productsData = {
+      productId,
+      quantity,
+      name: product?.name,
+      price: product?.price,
+      image: product?.image,
+    };
+    toast.success(`Item added to the cart!`);
+    dispatch(addProductsToCart(productsData));
+    history(`/cart`);
+  };
 
   if (loading) return <p>Loading..</p>;
 
@@ -51,7 +70,16 @@ const ProductPage = () => {
               {isProductAvailable ? 'Available' : 'Not Available'}
             </p>
           </div>
-          <button className="bg-blue-800 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600">
+          <ProductQuantity
+            quantity={quantity}
+            setQuantity={setQuantity}
+            countInStock={product.countInStock}
+            handleAddToCart={handleAddToCart}
+          />
+          <button
+            onClick={handleAddToCart}
+            className="bg-blue-800 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600"
+          >
             Add to cart
           </button>
         </div>

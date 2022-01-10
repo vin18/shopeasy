@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
+import ProductQuantity from '../components/ProductQuantity';
 import { fetchProductsInCart } from '../store/slices/cart';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
   const { cartData, loading } = useSelector((state) => state.cart);
-
+  const history = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,16 +82,7 @@ const CartPage = () => {
                       <div className="text-gray-900">₹{product.price}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex">
-                        <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
-                          <PlusIcon />
-                        </span>
-                        <span className="mx-1">{product?.quantity}</span>
-
-                        <span className="inline-flex leading-5 font-semibold rounded-full text-blue-800">
-                          <MinusIcon />
-                        </span>
-                      </div>
+                      <ProductQuantity quantity={product?.quantity} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       ₹{product.price * product?.quantity}
@@ -100,7 +93,10 @@ const CartPage = () => {
             </table>
           </div>
           <div className="flex justify-between mt-3">
-            <button className="bg-blue-500 text-blue-100 py-1 px-4 rounded">
+            <button
+              onClick={() => history(`/`)}
+              className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+            >
               Continue Shopping
             </button>
             <button className="bg-red-500 text-blue-100 py-1 px-4 rounded">
