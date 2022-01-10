@@ -7,7 +7,6 @@ import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
   const { cartData, loading } = useSelector((state) => state.cart);
-  const { products } = cartData;
 
   const dispatch = useDispatch();
 
@@ -16,6 +15,14 @@ const CartPage = () => {
   }, []);
 
   if (loading) return <p>loading</p>;
+
+  if (!cartData)
+    return (
+      <h2 className="text-4xl text-center mt-32">
+        There are currently no items in your cart!
+      </h2>
+    );
+  const { products } = cartData;
 
   return (
     <div className="flex mt-8">
