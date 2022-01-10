@@ -44,6 +44,8 @@ const addItemToCart = async (req, res) => {
         let productItem = cart.products[itemIndex];
         productItem.quantity = quantity;
         cart.products[itemIndex] = productItem;
+
+        cart = await cart.save();
       } else {
         // product does not exists in cart, add new item
         cart.products.push({
