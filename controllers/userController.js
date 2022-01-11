@@ -109,26 +109,22 @@ const getMe = async (req, res) => {
  * @access  Private
  */
 const updateProfile = async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const { name, email, address, city, postalCode, country } = req.body;
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
+      return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
-        error: `Please login`,
+        error: `User not found`,
       });
     }
 
-    if (password !== confirmPassword) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({
-        status: 'error',
-        error: `Passwords don't match`,
-      });
-    }
-
-    user.name = name;
-    user.password = password;
+    if (name) user.name = name;
+    if (address) user.address = address;
+    if (city) user.city = city;
+    if (postalCode) user.postalCode = postalCode;
+    if (country) user.country = country;
 
     await user.save();
     sendResponse(user, res);

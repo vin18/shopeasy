@@ -22,6 +22,22 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false,
     },
+    address: {
+      type: String,
+      trim: true,
+    },
+    city: {
+      type: String,
+      trim: true,
+    },
+    postalCode: {
+      type: String,
+      trim: true,
+    },
+    country: {
+      type: String,
+      trim: true,
+    },
     role: {
       type: String,
       enum: ['admin', 'user'],
