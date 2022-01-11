@@ -12,8 +12,10 @@ const ProfileForm = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
   });
 
   useEffect(() => {
@@ -21,8 +23,10 @@ const ProfileForm = () => {
       setInitialValues({
         name: userData?.name,
         email: userData?.email,
-        password: '',
-        confirmPassword: '',
+        address: userData?.address,
+        city: userData?.city,
+        postalCode: userData?.postalCode,
+        country: userData?.country,
       });
     }
   }, [userData?.email]);
@@ -41,16 +45,10 @@ const ProfileForm = () => {
       .lowercase()
       .required('Email is required')
       .defined(),
-    password: yup
-      .string()
-      .min(6, 'Password must be at least 6 characters long')
-      .max(150)
-      .required('Password is required')
-      .defined(),
-    confirmPassword: yup
-      .string()
-      .required('Please confirm your password')
-      .oneOf([yup.ref('password')], 'Passwords do not match'),
+    address: yup.string().trim().defined(),
+    city: yup.string().trim().defined(),
+    postalCode: yup.string().trim().defined(),
+    country: yup.string().trim().defined(),
   });
 
   const handleSubmit = (values) => {
@@ -96,23 +94,33 @@ const ProfileForm = () => {
                   />
 
                   <TextInput
-                    labelName="Password"
-                    value={values.password}
+                    labelName="Address"
+                    value={values.address}
                     onChange={handleChange}
-                    name="password"
-                    type="password"
-                    error={errors.password}
-                    placeholder="Your password"
+                    name="address"
+                    type="text"
+                    error={errors.address}
+                    placeholder="Your address"
                   />
 
                   <TextInput
-                    labelName="Confirm Password"
-                    value={values.confirmPassword}
+                    labelName="Postal Code"
+                    value={values.postalCode}
                     onChange={handleChange}
-                    name="confirmPassword"
-                    type="password"
-                    error={errors.confirmPassword}
-                    placeholder="Confirm password"
+                    name="postalCode"
+                    type="text"
+                    error={errors.postalCode}
+                    placeholder="Your postal code"
+                  />
+
+                  <TextInput
+                    labelName="Country"
+                    value={values.country}
+                    onChange={handleChange}
+                    name="country"
+                    type="text"
+                    error={errors.country}
+                    placeholder="Your country"
                   />
                 </div>
 
