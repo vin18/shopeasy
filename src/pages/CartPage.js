@@ -26,6 +26,13 @@ const CartPage = () => {
     );
   const { products } = cartData;
 
+  const totalPrice = products?.reduce(
+    (acc, product) => acc + product?.price * product?.quantity,
+    0
+  );
+  const shippingPrice = parseFloat(totalPrice) > 500 ? 50 : 0;
+  const orderTotal = parseFloat(shippingPrice) + parseFloat(totalPrice);
+
   return (
     <div className="flex mt-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 flex-1">
@@ -62,33 +69,35 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {products?.map((product) => (
-                  <tr key={product?.productId}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-32 w-32">
-                          <img
-                            className="rounded"
-                            src={product?.image}
-                            alt=""
-                          />
+                {products?.map((product) => {
+                  return (
+                    <tr key={product?.productId}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-32 w-32">
+                            <img
+                              className="rounded"
+                              src={product?.image}
+                              alt=""
+                            />
+                          </div>
+                          <div className="font-medium text-gray-900">
+                            {product.name}
+                          </div>
                         </div>
-                        <div className="font-medium text-gray-900">
-                          {product.name}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-gray-900">₹{product.price}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <ProductQuantity quantity={product?.quantity} />
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      ₹{product.price * product?.quantity}
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-gray-900">₹{product.price}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <ProductQuantity quantity={product?.quantity} />
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        ₹{product.price * product?.quantity}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -109,17 +118,17 @@ const CartPage = () => {
       <div className="mx-32 p-4 w-1/4 border-2 border-blue-100 ml-8 mt-24 shadow rounded">
         <div className="flex justify-between mb-1">
           <p>Subtotal</p>
-          <p>₹1000</p>
+          <p>₹{totalPrice}</p>
         </div>
 
         <div className="flex justify-between mb-3">
           <p>Shipping Fee</p>
-          <p>₹40</p>
+          <p>₹{shippingPrice}</p>
         </div>
 
         <div className="flex justify-between text-xl font-bold">
           <p>Order Total</p>
-          <p>₹1040</p>
+          <p>₹{orderTotal}</p>
         </div>
 
         <div className="border-b border-blue-100 my-2"></div>
