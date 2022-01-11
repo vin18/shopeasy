@@ -45,3 +45,22 @@ export const fetchProductsInCart = () => async (dispatch) => {
     });
   }
 };
+
+export const addProductsToCart = (productsData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: cartRequest.type,
+    });
+
+    const { data } = await axios.post(`/api/v1/cart`, productsData);
+    dispatch({
+      type: cartRequestSuccess.type,
+      payload: data?.cart,
+    });
+  } catch (error) {
+    dispatch({
+      type: cartRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
