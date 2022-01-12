@@ -12,6 +12,7 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import ShippingPage from './pages/ShippingPage';
 import PlaceorderPage from './pages/PlaceorderPage';
+import OrderItemPage from './pages/OrderItem';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/placeorder" element={<PlaceorderPage />} />
+          <Route path="/orders/:orderId" element={<OrderItemPage />} />
         </Routes>
       </div>
       <Toaster />

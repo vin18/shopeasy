@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const PlaceorderPage = () => {
   const [loading, setLoading] = useState(false);
@@ -9,6 +10,7 @@ const PlaceorderPage = () => {
   const { address, city, country, postalCode } = userData;
   const { cartData } = useSelector((state) => state.cart);
   const { products } = cartData;
+  const history = useNavigate();
 
   const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
   const totalProductsPrice = products?.reduce(
@@ -49,7 +51,7 @@ const PlaceorderPage = () => {
           description: `Example transaction`,
           order_id,
           handler: async function (response) {
-            const result = await axios.post(`/api/v1/orders/pay-order`, {
+            const orderObj = {
               amountPaid,
               shippingPrice,
               totalPrice: orderTotal,
@@ -65,9 +67,14 @@ const PlaceorderPage = () => {
                 orderId: response.razorpay_order_id,
                 signature: response.razorpay_signature,
               },
-            });
+            };
+            const { data } = await axios.post(
+              `/api/v1/orders/pay-order`,
+              orderObj
+            );
 
             toast.success(`Payment successfull!`);
+            history(`/orders/${data?.order?._id}`);
           },
           prefill: {
             name: `${userData.username}`,
