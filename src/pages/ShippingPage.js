@@ -4,10 +4,12 @@ import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../store/slices/user';
+import { useNavigate } from 'react-router-dom';
 
 const ShippingPage = () => {
   const { userData, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const history = useNavigate();
 
   const [initialValues, setInitialValues] = useState({
     address: '',
@@ -41,6 +43,7 @@ const ShippingPage = () => {
       ...values,
     };
     dispatch(updateProfile(userObj));
+    history(`/placeorder`);
   };
 
   return (

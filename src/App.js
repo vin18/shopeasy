@@ -11,6 +11,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import ShippingPage from './pages/ShippingPage';
+import PlaceorderPage from './pages/PlaceorderPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/placeorder" element={<PlaceorderPage />} />
         </Routes>
       </div>
       <Toaster />
