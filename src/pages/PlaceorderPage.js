@@ -1,29 +1,101 @@
-import React from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const PlaceorderPage = () => {
+  const [loading, setLoading] = useState(false);
   const { userData } = useSelector((state) => state.user);
   const { address, city, country, postalCode } = userData;
   const { cartData } = useSelector((state) => state.cart);
   const { products } = cartData;
 
-  const addressStr = `${address}, ${postalCode}, ${city}, ${country}`;
-
+  const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
   const totalProductsPrice = products?.reduce(
     (acc, product) => acc + product?.price,
     0
   );
-
   const shippingPrice = parseFloat(totalProductsPrice) > 500 ? 50 : 0;
-
   const orderTotal = parseFloat(totalProductsPrice) + parseFloat(shippingPrice);
+
+  const loadRazorpay = () => {
+    const script = document.createElement('script');
+    script.src = `https://checkout.razorpay.com/v1/checkout.js`;
+    script.onerror = () => {
+      toast.error(`Razorpay SDK failed to load!`);
+    };
+    script.onload = async () => {
+      try {
+        setLoading(true);
+
+        const razorpayOrder = await axios.post(`/api/v1/orders/create-order`, {
+          amount: `${orderTotal}00`,
+        });
+
+        const {
+          amount: amountPaid,
+          id: order_id,
+          currency,
+        } = razorpayOrder.data.order;
+        const {
+          data: { key: razorpayKey },
+        } = await axios.get(`/api/v1/orders/get-razorpay-key`);
+
+        const options = {
+          key: razorpayKey,
+          amount: amountPaid.toString(),
+          currency,
+          name: `Example name`,
+          description: `Example transaction`,
+          order_id,
+          handler: async function (response) {
+            const result = await axios.post(`/api/v1/orders/pay-order`, {
+              amountPaid,
+              shippingPrice,
+              totalPrice: orderTotal,
+              shippingAddress: {
+                address,
+                city,
+                country,
+                postalCode,
+              },
+              orderItems: products,
+              paymentInfo: {
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                signature: response.razorpay_signature,
+              },
+            });
+
+            toast.success(`Payment successfull!`);
+          },
+          prefill: {
+            name: `${userData.username}`,
+            email: `${userData.email}`,
+            contact: '9876543210',
+          },
+          theme: {
+            color: '#4299e1',
+          },
+        };
+
+        setLoading(false);
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+      } catch (error) {
+        console.error(`ERROR: ${error}`);
+        setLoading(false);
+      }
+    };
+    document.body.appendChild(script);
+  };
 
   return (
     <div className="flex w-full mt-24">
       <div className="flex flex-1 flex-col space-y-8 mr-64">
         <div>
           <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
-          <p>Address: {addressStr}</p>
+          <p>Address: {shippingAddress}</p>
         </div>
 
         <div>
@@ -70,7 +142,10 @@ const PlaceorderPage = () => {
             <p>₹{orderTotal}</p>
           </div>
 
-          <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
+          <button
+            className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+            onClick={loadRazorpay}
+          >
             Place order
           </button>
         </div>
