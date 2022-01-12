@@ -9,6 +9,8 @@ import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
   const { cartData, loading } = useSelector((state) => state.cart);
+  const { userData } = useSelector((state) => state.user);
+  const isLoggedIn = Boolean(userData?.email);
   const history = useNavigate();
   const dispatch = useDispatch();
 
@@ -134,9 +136,21 @@ const CartPage = () => {
         <div className="border-b border-blue-100 my-2"></div>
 
         <div className="mt-5 flex justify-center">
-          <button className="bg-blue-500 text-blue-100 px-4 rounded py-1 ">
-            Buy products
-          </button>
+          {isLoggedIn ? (
+            <button
+              onClick={() => history(`/shipping`)}
+              className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+            >
+              Proceed to checkout
+            </button>
+          ) : (
+            <button
+              onClick={() => history(`/login?redirect=shipping`)}
+              className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+            >
+              Login
+            </button>
+          )}
         </div>
       </div>
     </div>

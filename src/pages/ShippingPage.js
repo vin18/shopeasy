@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
-import TextInput from './custom/TextInput';
+import TextInput from '../components/custom/TextInput';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../store/slices/user';
+import { useNavigate } from 'react-router-dom';
 
-const ProfileForm = () => {
+const ShippingPage = () => {
   const { userData, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const history = useNavigate();
 
   const [initialValues, setInitialValues] = useState({
-    name: '',
-    email: '',
     address: '',
     city: '',
     postalCode: '',
@@ -21,8 +21,6 @@ const ProfileForm = () => {
   useEffect(() => {
     if (userData?.email) {
       setInitialValues({
-        name: userData?.name,
-        email: userData?.email,
         address: userData?.address,
         city: userData?.city,
         postalCode: userData?.postalCode,
@@ -31,20 +29,7 @@ const ProfileForm = () => {
     }
   }, [userData?.email]);
 
-  const profileSchema = yup.object().shape({
-    name: yup
-      .string()
-      .min(3, 'Name must be atleast 3 characters')
-      .max(30, 'Name must not exceed 30 characters')
-      .trim()
-      .required('Name is required')
-      .defined(),
-    email: yup
-      .string()
-      .email('Email must be a valid email')
-      .lowercase()
-      .required('Email is required')
-      .defined(),
+  const shippingSchema = yup.object().shape({
     address: yup.string().trim().defined(),
     city: yup.string().trim().defined(),
     postalCode: yup.string().trim().defined(),
@@ -52,13 +37,19 @@ const ProfileForm = () => {
   });
 
   const handleSubmit = (values) => {
-    dispatch(updateProfile(values));
+    const userObj = {
+      name: userData?.name,
+      email: userData?.email,
+      ...values,
+    };
+    dispatch(updateProfile(userObj));
+    history(`/placeorder`);
   };
 
   return (
     <div className="flex justify-center items-center w-full mt-24">
       <Formik
-        validationSchema={profileSchema}
+        validationSchema={shippingSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
         enableReinitialize
@@ -69,29 +60,8 @@ const ProfileForm = () => {
               <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-sm border-2 border-blue-100">
                 <div className="space-y-4">
                   <h1 className="text-center text-2xl font-semibold text-gray-600">
-                    Update Profile
+                    Shipping
                   </h1>
-
-                  <TextInput
-                    labelName="Name"
-                    value={values.name}
-                    onChange={handleChange}
-                    name="name"
-                    type="text"
-                    error={errors.name}
-                    placeholder="Your name"
-                  />
-
-                  <TextInput
-                    labelName="Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    name="email"
-                    type="email"
-                    error={errors.email}
-                    placeholder="Your email"
-                    disabled
-                  />
 
                   <TextInput
                     labelName="Address"
@@ -135,7 +105,7 @@ const ProfileForm = () => {
                 </div>
 
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
-                  {!loading ? 'Update profile' : 'Please wait..'}
+                  {!loading ? 'Continue' : 'Please wait..'}
                 </button>
               </div>
             </Form>
@@ -146,4 +116,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export default ShippingPage;
