@@ -85,4 +85,38 @@ const createRazorpayPayment = async (req, res) => {
   }
 };
 
-export { getRazorpayKey, createRazorpayOrder, createRazorpayPayment };
+/**
+ * @desc    Get single order
+ * @route   GET /api/orders/:orderId
+ * @access  Private
+ */
+const getSingleOrder = async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        error: `No order found with id: ${orderId}`,
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      order,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export {
+  getRazorpayKey,
+  createRazorpayOrder,
+  createRazorpayPayment,
+  getSingleOrder,
+};
