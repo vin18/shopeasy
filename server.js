@@ -7,6 +7,7 @@ import connectDb from './config/connectDb.js';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(`/api/v1/products`, productRoutes);
 app.use(`/api/v1/users`, userRoutes);
 app.use(`/api/v1/cart`, cartRoutes);
+app.use(`/api/v1/orders`, orderRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
