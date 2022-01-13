@@ -114,9 +114,31 @@ const getSingleOrder = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get all orders
+ * @route   GET /api/orders
+ * @access  Private
+ */
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export {
   getRazorpayKey,
   createRazorpayOrder,
   createRazorpayPayment,
   getSingleOrder,
+  getAllOrders,
 };
