@@ -136,4 +136,23 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export { register, login, logout, getMe, updateProfile };
+/**
+ * @desc    Get all users
+ * @route   GET /api/v1/users/admin
+ * @access  Private (Admin)
+ */
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(StatusCodes.OK).json({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+export { register, login, logout, getMe, updateProfile, getUsers };
