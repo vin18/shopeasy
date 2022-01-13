@@ -1,10 +1,11 @@
-import React from 'react';
+import Orders from '../components/Orders';
 import ProfileForm from '../components/ProfileForm';
 
 const ProfilePage = () => {
   return (
-    <div>
+    <div className="flex">
       <ProfileForm />
+      <Orders />
     </div>
   );
 };
