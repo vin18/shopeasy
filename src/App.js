@@ -14,6 +14,7 @@ import ShippingPage from './pages/ShippingPage';
 import PlaceorderPage from './pages/PlaceorderPage';
 import OrderItemPage from './pages/OrderItem';
 import AdminUser from './pages/AdminUser';
+import AdminUserEdit from './pages/AdminUserEdit';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/placeorder" element={<PlaceorderPage />} />
           <Route path="/orders/:orderId" element={<OrderItemPage />} />
           <Route path="/admin/users" element={<AdminUser />} />
+          <Route path="/admin/users/:userId" element={<AdminUserEdit />} />
         </Routes>
       </div>
       <Toaster />

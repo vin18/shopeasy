@@ -5,7 +5,9 @@ const slice = createSlice({
   name: 'admin',
   initialState: {
     adminUserData: [],
+    adminUser: null,
     userDeleted: false,
+    userUpdated: false,
     loading: false,
     error: null,
   },
@@ -17,6 +19,10 @@ const slice = createSlice({
       state.loading = false;
       state.adminUserData = action.payload;
     },
+    adminSingleUserRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.adminUser = action.payload;
+    },
     adminUserRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
@@ -25,8 +31,15 @@ const slice = createSlice({
       state.loading = false;
       state.userDeleted = true;
     },
+    adminUserUpdateSuccess: (state, action) => {
+      state.loading = false;
+      state.userUpdated = true;
+    },
     adminUserDeleteReset: (state, action) => {
       state.userDeleted = false;
+    },
+    adminUserUpdateReset: (state, action) => {
+      state.userUpdated = false;
     },
   },
 });
@@ -40,6 +53,9 @@ export const {
   adminUserRequestFail,
   adminUserDeleteSuccess,
   adminUserDeleteReset,
+  adminUserUpdateSuccess,
+  adminUserUpdateReset,
+  adminSingleUserRequestSuccess,
 } = slice.actions;
 
 export const getAdminUsers = () => async (dispatch) => {
@@ -53,6 +69,45 @@ export const getAdminUsers = () => async (dispatch) => {
     dispatch({
       type: adminUserRequestSuccess.type,
       payload: data?.users,
+    });
+  } catch (error) {
+    dispatch({
+      type: adminUserRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const getAdminUser = (userId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: adminUserRequest.type,
+    });
+
+    const { data } = await axios.get(`/api/v1/users/admin/${userId}`);
+
+    dispatch({
+      type: adminSingleUserRequestSuccess.type,
+      payload: data?.user,
+    });
+  } catch (error) {
+    dispatch({
+      type: adminUserRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const updateAdminUser = (user) => async (dispatch) => {
+  try {
+    dispatch({
+      type: adminUserRequest.type,
+    });
+
+    await axios.patch(`/api/v1/users/admin/${user._id}`, user);
+
+    dispatch({
+      type: adminUserUpdateSuccess.type,
     });
   } catch (error) {
     dispatch({

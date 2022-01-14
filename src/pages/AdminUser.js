@@ -7,12 +7,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const AdminUser = () => {
   const dispatch = useDispatch();
   const { adminUserData, loading, error, userDeleted } = useSelector(
     (state) => state.admin
   );
+  const history = useNavigate();
 
   useEffect(() => {
     dispatch(getAdminUsers());
@@ -32,6 +34,10 @@ const AdminUser = () => {
 
   const handleDeleteUser = (userId) => {
     dispatch(deleteAdminUser(userId));
+  };
+
+  const handleUpdateUser = (userId) => {
+    return history(`/admin/users/${userId}`);
   };
 
   return (
@@ -80,7 +86,10 @@ const AdminUser = () => {
                       {user?.role}
                     </td>
                     <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      <FaEdit className="mr-1 text-lg text-blue-500" />
+                      <FaEdit
+                        onClick={() => handleUpdateUser(user._id)}
+                        className="mr-1 text-lg text-blue-500"
+                      />
                       <FaTrash
                         className="mr-1 text-lg text-blue-500"
                         onClick={() => handleDeleteUser(user._id)}
