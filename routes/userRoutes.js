@@ -6,6 +6,7 @@ import {
   getMe,
   updateProfile,
   getUsers,
+  deleteUser,
 } from '../controllers/userController.js';
 import { protect } from '../middlewares/authorization.js';
 import { authorizeRoles } from '../middlewares/authorizeRoles.js';
@@ -17,5 +18,8 @@ router.route('/logout').get(protect, logout);
 router.route('/me').get(protect, getMe);
 router.route('/profile').patch(protect, updateProfile);
 router.route(`/admin`).get(protect, authorizeRoles('admin'), getUsers);
+router
+  .route(`/admin/:userId`)
+  .delete(protect, authorizeRoles('admin'), deleteUser);
 
 export default router;

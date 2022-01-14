@@ -155,4 +155,25 @@ const getUsers = async (req, res) => {
     });
   }
 };
-export { register, login, logout, getMe, updateProfile, getUsers };
+
+/**
+ * @desc    Delete user
+ * @route   DELETE /api/v1/users/admin/:userId
+ * @access  Private (Admin)
+ */
+const deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(StatusCodes.OK).json({
+      success: true,
+      msg: 'User deleted',
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+export { register, login, logout, getMe, updateProfile, getUsers, deleteUser };
