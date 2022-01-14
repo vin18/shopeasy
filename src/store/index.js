@@ -6,6 +6,7 @@ import productReducer from './slices/product';
 import cartReducer from './slices/cart';
 import userReducer from './slices/user';
 import ordersReducer from './slices/orders';
+import adminReducer from './slices/admin';
 
 const reducer = combineReducers({
   products: productsReducer,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
   orders: ordersReducer,
+  admin: adminReducer,
 });
 
 const store = configureStore({
