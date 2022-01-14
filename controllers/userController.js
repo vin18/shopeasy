@@ -157,6 +157,49 @@ const getUsers = async (req, res) => {
 };
 
 /**
+ * @desc    Get single user
+ * @route   GET /api/v1/users/admin/:userId
+ * @access  Private (Admin)
+ */
+const getSingleUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    res.status(StatusCodes.OK).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * @desc    Update user
+ * @route   PATCH /api/v1/users/admin/:userId
+ * @access  Private (Admin)
+ */
+const updateUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.body._id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(StatusCodes.OK).json({
+      success: true,
+      user: {},
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+/**
  * @desc    Delete user
  * @route   DELETE /api/v1/users/admin/:userId
  * @access  Private (Admin)
@@ -176,4 +219,14 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { register, login, logout, getMe, updateProfile, getUsers, deleteUser };
+export {
+  register,
+  login,
+  logout,
+  getMe,
+  updateProfile,
+  getUsers,
+  deleteUser,
+  getSingleUser,
+  updateUser,
+};
