@@ -155,6 +155,37 @@ const getAllAdminOrders = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Update delivered order
+ * @route   PATCH /api/orders/admin/delivered-order/:orderId
+ * @access  Private (Admin)
+ */
+const updateOrderDelivered = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        error: `No order found with id: ${orderId}`,
+      });
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    await order.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      order,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export {
   getRazorpayKey,
   createRazorpayOrder,
@@ -162,4 +193,5 @@ export {
   getSingleOrder,
   getAllOrders,
   getAllAdminOrders,
+  updateOrderDelivered,
 };
