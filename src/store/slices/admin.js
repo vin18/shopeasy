@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'admin',
   initialState: {
     adminUserData: [],
+    userDeleted: false,
     loading: false,
     error: null,
   },
@@ -20,14 +21,26 @@ const slice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    adminUserDeleteSuccess: (state, action) => {
+      state.loading = false;
+      state.userDeleted = true;
+    },
+    adminUserDeleteReset: (state, action) => {
+      state.userDeleted = false;
+    },
   },
 });
 
 export default slice.reducer;
 
 // Actions
-const { adminUserRequest, adminUserRequestSuccess, adminUserRequestFail } =
-  slice.actions;
+export const {
+  adminUserRequest,
+  adminUserRequestSuccess,
+  adminUserRequestFail,
+  adminUserDeleteSuccess,
+  adminUserDeleteReset,
+} = slice.actions;
 
 export const getAdminUsers = () => async (dispatch) => {
   try {
@@ -40,6 +53,25 @@ export const getAdminUsers = () => async (dispatch) => {
     dispatch({
       type: adminUserRequestSuccess.type,
       payload: data?.users,
+    });
+  } catch (error) {
+    dispatch({
+      type: adminUserRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const deleteAdminUser = (userId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: adminUserRequest.type,
+    });
+
+    await axios.delete(`/api/v1/users/admin/${userId}`);
+
+    dispatch({
+      type: adminUserDeleteSuccess.type,
     });
   } catch (error) {
     dispatch({

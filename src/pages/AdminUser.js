@@ -1,17 +1,38 @@
 import { useEffect } from 'react';
-import admin, { getAdminUsers } from '../store/slices/admin';
+import {
+  getAdminUsers,
+  deleteAdminUser,
+  adminUserDeleteReset,
+} from '../store/slices/admin';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const AdminUser = () => {
   const dispatch = useDispatch();
-  const { adminUserData, loading, error } = useSelector((state) => state.admin);
+  const { adminUserData, loading, error, userDeleted } = useSelector(
+    (state) => state.admin
+  );
 
   useEffect(() => {
     dispatch(getAdminUsers());
   }, []);
 
+  useEffect(() => {
+    if (userDeleted) {
+      toast.success(`User deleted!`);
+      setTimeout(() => {
+        dispatch(adminUserDeleteReset());
+      }, 2000);
+      dispatch(getAdminUsers());
+    }
+  }, [userDeleted]);
+
   if (loading) return <p>Loading..</p>;
+
+  const handleDeleteUser = (userId) => {
+    dispatch(deleteAdminUser(userId));
+  };
 
   return (
     <div className="flex flex-col mt-5">
@@ -60,7 +81,10 @@ const AdminUser = () => {
                     </td>
                     <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       <FaEdit className="mr-1 text-lg text-blue-500" />
-                      <FaTrash className="mr-1 text-lg text-blue-500" />
+                      <FaTrash
+                        className="mr-1 text-lg text-blue-500"
+                        onClick={() => handleDeleteUser(user._id)}
+                      />
                     </td>
                   </tr>
                 ))}
