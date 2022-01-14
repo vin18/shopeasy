@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'orders',
   initialState: {
     allOrders: [],
+    orderDelivered: false,
     singleOrder: null,
     loading: false,
     error: null,
@@ -21,6 +22,14 @@ const slice = createSlice({
       state.loading = false;
       state.singleOrder = action.payload;
     },
+    orderDeliveredRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.orderDelivered = true;
+    },
+    orderDeliveredReset: (state, action) => {
+      state.loading = false;
+      state.orderDelivered = false;
+    },
     ordersRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
@@ -33,11 +42,13 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-const {
+export const {
   ordersRequest,
   ordersRequestSuccess,
   orderRequestSuccess,
   ordersRequestFail,
+  orderDeliveredRequestSuccess,
+  orderDeliveredReset,
 } = slice.actions;
 
 export const fetchAllOrders = () => async (dispatch) => {
@@ -50,6 +61,25 @@ export const fetchAllOrders = () => async (dispatch) => {
     dispatch({
       type: ordersRequestSuccess.type,
       payload: data?.orders,
+    });
+  } catch (error) {
+    dispatch({
+      type: ordersRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const orderDelivered = (orderId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ordersRequest.type,
+    });
+
+    await axios.patch(`/api/v1/orders/admin/order-delivered/${orderId}`);
+
+    dispatch({
+      type: orderDeliveredRequestSuccess.type,
     });
   } catch (error) {
     dispatch({

@@ -1,21 +1,36 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import { orderDelivered, orderDeliveredReset } from '../store/slices/orders';
 
 const OrderItemPage = () => {
   const [order, setOrder] = useState();
+  const { userData } = useSelector((state) => state.user);
+  const { orderDelivered } = useSelector((state) => state.orders);
   const { orderId } = useParams();
+  const dispatch = useDispatch();
+
+  async function fetchOrder() {
+    const { data } = await axios.get(`/api/v1/orders/${orderId}`);
+    setOrder(data?.order);
+  }
 
   useEffect(() => {
-    async function fetchOrder() {
-      const { data } = await axios.get(`/api/v1/orders/${orderId}`);
-      setOrder(data?.order);
-    }
     fetchOrder();
-  }, []);
+  }, [orderId]);
+
+  useEffect(() => {
+    if (orderDelivered) {
+      toast.success(`Order delivered!`);
+      fetchOrder();
+      setTimeout(() => {
+        dispatch(orderDeliveredReset());
+      }, 2000);
+    }
+  }, [orderDelivered]);
 
   if (!order) return <p>Loading..</p>;
 
@@ -33,6 +48,10 @@ const OrderItemPage = () => {
   const { address, city, country, postalCode } = shippingAddress;
   const addressStr = `${address}, ${city}, ${country}, ${postalCode}`;
 
+  const handleOrderDelivered = () => {
+    dispatch(orderDelivered(orderId));
+  };
+
   return (
     <div className="flex w-full mt-24">
       <div className="flex flex-1 flex-col space-y-8 mr-64">
@@ -40,6 +59,7 @@ const OrderItemPage = () => {
           <h3 className="text-3xl mb-1 uppercase">OrderID</h3>
           <p>{orderID}</p>
         </div>
+
         <div>
           <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
           <p>Address: {addressStr}</p>
@@ -48,6 +68,20 @@ const OrderItemPage = () => {
         <div>
           <h3 className="text-3xl mb-1 uppercase">Payment Method</h3>
           <p>Razorpay</p>
+        </div>
+
+        <div>
+          <h3 className="text-3xl mb-1 uppercase">Paid At</h3>
+          <p>
+            {order.paidAt
+              ? moment(order.paidAt).format(`DD-MM-YYYY, HH:mm`)
+              : 'Not Paid'}
+          </p>
+        </div>
+
+        <div>
+          <h3 className="text-3xl mb-1 uppercase">Delivered At</h3>
+          <p>{order.isDelivered ? 'Delivered' : 'Not Delivered'}</p>
         </div>
 
         <div>
@@ -103,6 +137,14 @@ const OrderItemPage = () => {
             </div>
           )}
         </div>
+        {!order.isDelivered && userData?.role === 'admin' && (
+          <button
+            onClick={handleOrderDelivered}
+            className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+          >
+            Delivered
+          </button>
+        )}
       </div>
     </div>
   );
