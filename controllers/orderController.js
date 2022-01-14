@@ -142,8 +142,7 @@ const getAllOrders = async (req, res) => {
  */
 const getAllAdminOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
-
+    const orders = await Order.find().populate('user', 'id name');
     res.status(StatusCodes.OK).json({
       success: true,
       orders,
