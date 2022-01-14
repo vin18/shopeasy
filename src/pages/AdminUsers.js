@@ -9,7 +9,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const AdminUser = () => {
+const AdminUsers = () => {
   const dispatch = useDispatch();
   const { adminUserData, loading, error, userDeleted } = useSelector(
     (state) => state.admin
@@ -106,4 +106,4 @@ const AdminUser = () => {
   );
 };
 
-export default AdminUser;
+export default AdminUsers;

@@ -13,8 +13,9 @@ import ProfilePage from './pages/ProfilePage';
 import ShippingPage from './pages/ShippingPage';
 import PlaceorderPage from './pages/PlaceorderPage';
 import OrderItemPage from './pages/OrderItem';
-import AdminUser from './pages/AdminUser';
+import AdminUsers from './pages/AdminUsers';
 import AdminUserEdit from './pages/AdminUserEdit';
+import AdminOrders from './pages/AdminOrders';
 
 function App() {
   return (
@@ -34,8 +35,9 @@ function App() {
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/placeorder" element={<PlaceorderPage />} />
           <Route path="/orders/:orderId" element={<OrderItemPage />} />
-          <Route path="/admin/users" element={<AdminUser />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/users/:userId" element={<AdminUserEdit />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
         </Routes>
       </div>
       <Toaster />

@@ -10,20 +10,32 @@ const slice = createSlice({
     userUpdated: false,
     loading: false,
     error: null,
+    adminOrders: [],
   },
   reducers: {
     adminUserRequest: (state, action) => {
+      state.loading = true;
+    },
+    adminOrdersRequest: (state, action) => {
       state.loading = true;
     },
     adminUserRequestSuccess: (state, action) => {
       state.loading = false;
       state.adminUserData = action.payload;
     },
+    adminOrdersRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.adminOrders = action.payload;
+    },
     adminSingleUserRequestSuccess: (state, action) => {
       state.loading = false;
       state.adminUser = action.payload;
     },
     adminUserRequestFail: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    adminOrdersRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -56,6 +68,9 @@ export const {
   adminUserUpdateSuccess,
   adminUserUpdateReset,
   adminSingleUserRequestSuccess,
+  adminOrdersRequest,
+  adminOrdersRequestSuccess,
+  adminOrdersRequestFail,
 } = slice.actions;
 
 export const getAdminUsers = () => async (dispatch) => {
@@ -131,6 +146,26 @@ export const deleteAdminUser = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminUserRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const getAdminOrders = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: adminOrdersRequest.type,
+    });
+
+    const { data } = await axios.get(`/api/v1/orders/admin`);
+
+    dispatch({
+      type: adminOrdersRequestSuccess.type,
+      payload: data?.orders,
+    });
+  } catch (error) {
+    dispatch({
+      type: adminOrdersRequestFail.type,
       payload: error.message,
     });
   }
