@@ -41,4 +41,24 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-export { getAllProducts, getSingleProduct };
+/**
+ * @desc    Get all products
+ * @route   GET /api/products/admin
+ * @access  Private (Admin)
+ */
+const getAllAdminProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(StatusCodes.OK).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export { getAllProducts, getSingleProduct, getAllAdminProducts };
