@@ -6,6 +6,8 @@ const slice = createSlice({
   initialState: {
     productData: [],
     productDeleted: false,
+    productUpdated: false,
+    productAdminData: null,
     loading: false,
     error: null,
   },
@@ -20,6 +22,19 @@ const slice = createSlice({
     productAdminDeleteRequestSuccess: (state, action) => {
       state.loading = false;
       state.productDeleted = true;
+    },
+    productAdminUpdateSuccess: (state, action) => {
+      state.loading = false;
+      state.productAdminData = action.payload;
+      state.productUpdated = true;
+    },
+    productAdminRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.productAdminData = action.payload;
+    },
+    adminProductUpdateReset: (state, action) => {
+      state.loading = false;
+      state.productUpdated = false;
     },
     adminProductDeleteReset: (state, action) => {
       state.loading = false;
@@ -41,6 +56,9 @@ export const {
   productRequestFail,
   productAdminDeleteRequestSuccess,
   adminProductDeleteReset,
+  productAdminUpdateSuccess,
+  productAdminRequestSuccess,
+  adminProductUpdateReset,
 } = slice.actions;
 export const fetchProduct = (productId) => async (dispatch) => {
   try {
@@ -51,6 +69,47 @@ export const fetchProduct = (productId) => async (dispatch) => {
 
     dispatch({
       type: productRequestSuccess.type,
+      payload: data?.product,
+    });
+  } catch (error) {
+    dispatch({
+      type: productRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const fetchAdminProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: productRequest.type,
+    });
+    const { data } = await axios.get(`/api/v1/products/${productId}`);
+
+    dispatch({
+      type: productAdminRequestSuccess.type,
+      payload: data?.product,
+    });
+  } catch (error) {
+    dispatch({
+      type: productRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const updateAdminProduct = (product) => async (dispatch) => {
+  try {
+    dispatch({
+      type: productRequest.type,
+    });
+    const { data } = await axios.patch(
+      `/api/v1/products/admin/${product._id}`,
+      product
+    );
+
+    dispatch({
+      type: productAdminUpdateSuccess.type,
       payload: data?.product,
     });
   } catch (error) {
