@@ -61,4 +61,29 @@ const getAllAdminProducts = async (req, res) => {
   }
 };
 
-export { getAllProducts, getSingleProduct, getAllAdminProducts };
+/**
+ * @desc    Delete product
+ * @route   DELETE /api/products/admin/:productId
+ * @access  Private (Admin)
+ */
+const deleteAdminProduct = async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.productId);
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Product deleted!',
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export {
+  getAllProducts,
+  getSingleProduct,
+  getAllAdminProducts,
+  deleteAdminProduct,
+};
