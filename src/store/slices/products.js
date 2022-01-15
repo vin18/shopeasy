@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'products',
   initialState: {
     productsData: [],
+    adminProductsData: [],
     loading: false,
     error: null,
   },
@@ -16,6 +17,10 @@ const slice = createSlice({
       state.loading = false;
       state.productsData = action.payload;
     },
+    productsAdminRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.adminProductsData = action.payload;
+    },
     productsRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
@@ -26,8 +31,12 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-const { productsRequest, productsRequestSuccess, productsRequestFail } =
-  slice.actions;
+const {
+  productsRequest,
+  productsRequestSuccess,
+  productsRequestFail,
+  productsAdminRequestSuccess,
+} = slice.actions;
 export const fetchProducts = () => async (dispatch) => {
   try {
     dispatch({
@@ -37,6 +46,25 @@ export const fetchProducts = () => async (dispatch) => {
 
     dispatch({
       type: productsRequestSuccess.type,
+      payload: data?.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: productsRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const fetchAdminProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: productsRequest.type,
+    });
+    const { data } = await axios.get(`/api/v1/products/admin`);
+
+    dispatch({
+      type: productsAdminRequestSuccess.type,
       payload: data?.products,
     });
   } catch (error) {

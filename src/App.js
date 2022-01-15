@@ -16,6 +16,7 @@ import OrderItemPage from './pages/OrderItem';
 import AdminUsers from './pages/AdminUsers';
 import AdminUserEdit from './pages/AdminUserEdit';
 import AdminOrders from './pages/AdminOrders';
+import AdminProducts from './pages/AdminProducts';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/users/:userId" element={<AdminUserEdit />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
         </Routes>
       </div>
       <Toaster />

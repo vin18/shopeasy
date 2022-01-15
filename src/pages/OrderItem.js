@@ -142,7 +142,7 @@ const OrderItemPage = () => {
             onClick={handleOrderDelivered}
             className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
           >
-            Delivered
+            Mark as delivered
           </button>
         )}
       </div>
