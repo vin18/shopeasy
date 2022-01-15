@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'product',
   initialState: {
     productData: [],
+    productDeleted: false,
     loading: false,
     error: null,
   },
@@ -16,6 +17,14 @@ const slice = createSlice({
       state.loading = false;
       state.productData = action.payload;
     },
+    productAdminDeleteRequestSuccess: (state, action) => {
+      state.loading = false;
+      state.productDeleted = true;
+    },
+    adminProductDeleteReset: (state, action) => {
+      state.loading = false;
+      state.productDeleted = false;
+    },
     productRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
@@ -26,8 +35,13 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-const { productRequest, productRequestSuccess, productRequestFail } =
-  slice.actions;
+export const {
+  productRequest,
+  productRequestSuccess,
+  productRequestFail,
+  productAdminDeleteRequestSuccess,
+  adminProductDeleteReset,
+} = slice.actions;
 export const fetchProduct = (productId) => async (dispatch) => {
   try {
     dispatch({
@@ -38,6 +52,24 @@ export const fetchProduct = (productId) => async (dispatch) => {
     dispatch({
       type: productRequestSuccess.type,
       payload: data?.product,
+    });
+  } catch (error) {
+    dispatch({
+      type: productRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const deleteAdminProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: productRequest.type,
+    });
+    await axios.delete(`/api/v1/products/admin/${productId}`);
+
+    dispatch({
+      type: productAdminDeleteRequestSuccess.type,
     });
   } catch (error) {
     dispatch({

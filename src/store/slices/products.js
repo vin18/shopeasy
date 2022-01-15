@@ -31,7 +31,7 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-const {
+export const {
   productsRequest,
   productsRequestSuccess,
   productsRequestFail,

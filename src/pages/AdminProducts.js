@@ -9,22 +9,37 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { fetchAdminProducts } from '../store/slices/products';
+import {
+  deleteAdminProduct,
+  adminProductDeleteReset,
+} from '../store/slices/product';
 
 const AdminProducts = () => {
   const dispatch = useDispatch();
   const { adminProductsData, loading, error } = useSelector(
     (state) => state.products
   );
+  const { productDeleted } = useSelector((state) => state.product);
   const history = useNavigate();
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
   }, []);
 
+  useEffect(() => {
+    if (productDeleted) {
+      toast.success(`Product deleted!`);
+      setTimeout(() => {
+        dispatch(adminProductDeleteReset());
+      }, 2000);
+      dispatch(fetchAdminProducts());
+    }
+  }, [productDeleted]);
+
   if (loading) return <p>Loading..</p>;
 
   const handleDeleteProduct = (productId) => {
-    dispatch(deleteAdminUser(productId));
+    dispatch(deleteAdminProduct(productId));
   };
 
   const handleUpdateProduct = (productId) => {
