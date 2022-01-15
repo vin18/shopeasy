@@ -62,6 +62,53 @@ const getAllAdminProducts = async (req, res) => {
 };
 
 /**
+ * @desc    Get single product
+ * @route   GET /api/products/admin/:productId
+ * @access  Private (Admin)
+ */
+const getAdminProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    res.status(StatusCodes.OK).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * @desc    Update product
+ * @route   DELETE /api/products/admin/:productId
+ * @access  Private (Admin)
+ */
+const updateAdminProduct = async (req, res) => {
+  try {
+    const product = await Product.findByIdAndUpdate(
+      req.params.productId,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(StatusCodes.OK).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+/**
  * @desc    Delete product
  * @route   DELETE /api/products/admin/:productId
  * @access  Private (Admin)
@@ -86,4 +133,6 @@ export {
   getSingleProduct,
   getAllAdminProducts,
   deleteAdminProduct,
+  updateAdminProduct,
+  getAdminProduct,
 };

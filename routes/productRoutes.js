@@ -4,6 +4,8 @@ import {
   getSingleProduct,
   getAllAdminProducts,
   deleteAdminProduct,
+  updateAdminProduct,
+  getAdminProduct,
 } from '../controllers/productController.js';
 import { protect } from '../middlewares/authorization.js';
 import { authorizeRoles } from '../middlewares/authorizeRoles.js';
@@ -15,6 +17,8 @@ router
   .get(protect, authorizeRoles('admin'), getAllAdminProducts);
 router
   .route(`/admin/:productId`)
+  .get(protect, authorizeRoles('admin'), getAdminProduct)
+  .patch(protect, authorizeRoles('admin'), updateAdminProduct)
   .delete(protect, authorizeRoles('admin'), deleteAdminProduct);
 router.route('/:id').get(getSingleProduct);
 
