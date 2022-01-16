@@ -8,7 +8,20 @@ import { StatusCodes } from 'http-status-codes';
  * @access  Public
  */
 const getAllReviews = async (req, res) => {
-  res.send('get all reviews');
+  try {
+    const reviews = await Review.find();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      count: reviews.length,
+      reviews,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
 };
 
 /**
@@ -62,7 +75,26 @@ const createReview = async (req, res) => {
  * @access  Public
  */
 const getSingleReview = async (req, res) => {
-  res.send('single review');
+  try {
+    const review = await Review.findById(req.params.reviewId);
+
+    if (!review) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: `No review found with id: $${req.params.reviewId}`,
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      review,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
 };
 
 /**
