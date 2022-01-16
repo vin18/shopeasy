@@ -81,7 +81,7 @@ const getSingleReview = async (req, res) => {
     if (!review) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
-        error: `No review found with id: $${req.params.reviewId}`,
+        error: `No review found with id: ${req.params.reviewId}`,
       });
     }
 
@@ -103,7 +103,40 @@ const getSingleReview = async (req, res) => {
  * @access  Private
  */
 const updateReview = async (req, res) => {
-  res.send('update review');
+  const { rating, title, comment } = req.body;
+
+  try {
+    const review = await Review.findById(req.params.reviewId);
+
+    if (!review) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: `No review found with id: ${req.params.reviewId}`,
+      });
+    }
+
+    if (String(req.user._id) !== String(review.user._id)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        error: `You do not have permission to review`,
+      });
+    }
+
+    review.rating = rating;
+    review.title = title;
+    review.comment = comment;
+    await review.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      review,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
 };
 
 /**
