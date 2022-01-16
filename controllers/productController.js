@@ -28,7 +28,7 @@ const getAllProducts = async (req, res) => {
  */
 const getSingleProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate('reviews');
 
     res.status(StatusCodes.OK).json({
       product,
