@@ -9,7 +9,7 @@ import { StatusCodes } from 'http-status-codes';
  */
 const getAllReviews = async (req, res) => {
   try {
-    const reviews = await Review.find();
+    const reviews = await Review.find().populate();
 
     res.status(StatusCodes.OK).json({
       success: true,
@@ -176,10 +176,33 @@ const deleteReview = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get single product review
+ * @route   GET /api/v1/reviews/:reviewId
+ * @access  Public
+ */
+const getSingleProductReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({ product: req.params.id });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      count: reviews.length,
+      reviews,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
 export {
   createReview,
   getAllReviews,
   getSingleReview,
   updateReview,
   deleteReview,
+  getSingleProductReviews,
 };
