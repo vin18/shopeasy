@@ -112,7 +112,35 @@ const updateReview = async (req, res) => {
  * @access  Private
  */
 const deleteReview = async (req, res) => {
-  res.send('delete review');
+  try {
+    const review = await Review.findById(req.params.reviewId);
+
+    if (!review) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        error: `No review found with id: $${req.params.reviewId}`,
+      });
+    }
+
+    if (String(req.user._id) !== String(review.user._id)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        error: `You do not have permission to review`,
+      });
+    }
+
+    await review.remove();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Review removed`,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
 };
 
 export {
