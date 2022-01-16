@@ -32,8 +32,11 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'A product must have a brand'],
     },
-    rating: Number,
-    numReviews: {
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+    numOfReviews: {
       type: Number,
       default: 0,
     },
