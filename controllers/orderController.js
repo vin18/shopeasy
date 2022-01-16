@@ -135,10 +135,63 @@ const getAllOrders = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get all orders
+ * @route   GET /api/orders
+ * @access  Private (Admin)
+ */
+const getAllAdminOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate('user', 'id name');
+    res.status(StatusCodes.OK).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * @desc    Update delivered order
+ * @route   PATCH /api/orders/admin/delivered-order/:orderId
+ * @access  Private (Admin)
+ */
+const updateOrderDelivered = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    if (!order) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        error: `No order found with id: ${orderId}`,
+      });
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    await order.save();
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      order,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
 export {
   getRazorpayKey,
   createRazorpayOrder,
   createRazorpayPayment,
   getSingleOrder,
   getAllOrders,
+  getAllAdminOrders,
+  updateOrderDelivered,
 };

@@ -6,6 +6,7 @@ import productsData from './mockData/products.js';
 import usersData from './mockData/users.js';
 import Product from './models/productModel.js';
 import User from './models/userModel.js';
+import Order from './models/orderModel.js';
 
 dotenv.config();
 connectDb();
@@ -14,6 +15,7 @@ const importData = async () => {
   try {
     await User.deleteMany();
     await Product.deleteMany();
+    await Order.deleteMany();
 
     const users = await User.insertMany(usersData);
     const adminUser = users[0]._id;
@@ -35,6 +37,7 @@ const deleteData = async () => {
   try {
     await User.deleteMany();
     await Product.deleteMany();
+    await Order.deleteMany();
 
     console.log(`Data Deleted`.red.inverse);
     process.exit();
