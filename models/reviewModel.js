@@ -28,6 +28,10 @@ const reviewSchema = mongoose.Schema(
       ref: 'Product',
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   {
     timstamps: true,
