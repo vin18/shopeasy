@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { About, Home } from '../App';
 import { getMe, logout } from '../store/slices/user';
 import toast from 'react-hot-toast';
+import Search from './Search';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const Header = () => {
           <h1 className="text-xl font-bold">ShopEasy</h1>
         </Link>
       </div>
+
+      <Search />
 
       <nav>
         <ul className="flex space-x-4 cursor-pointer">

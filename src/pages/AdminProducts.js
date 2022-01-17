@@ -7,24 +7,26 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { fetchAdminProducts } from '../store/slices/products';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchProducts } from '../store/slices/products';
 import {
   deleteAdminProduct,
   adminProductDeleteReset,
 } from '../store/slices/product';
+import Paginate from '../components/Paginate';
 
 const AdminProducts = () => {
+  const { pageNumber = 1 } = useParams();
   const dispatch = useDispatch();
-  const { adminProductsData, loading, error } = useSelector(
+  const { productsData, loading, error, page, pages } = useSelector(
     (state) => state.products
   );
   const { productDeleted } = useSelector((state) => state.product);
   const history = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchAdminProducts());
-  }, []);
+    dispatch(fetchProducts('', pageNumber));
+  }, [pageNumber]);
 
   useEffect(() => {
     if (productDeleted) {
@@ -32,11 +34,9 @@ const AdminProducts = () => {
       setTimeout(() => {
         dispatch(adminProductDeleteReset());
       }, 2000);
-      dispatch(fetchAdminProducts());
+      dispatch(fetchProducts('', pageNumber));
     }
-  }, [productDeleted]);
-
-  if (loading) return <p>Loading..</p>;
+  }, [productDeleted, pageNumber]);
 
   const handleDeleteProduct = (productId) => {
     dispatch(deleteAdminProduct(productId));
@@ -45,6 +45,8 @@ const AdminProducts = () => {
   const handleUpdateProduct = (productId) => {
     return history(`/admin/products/${productId}`);
   };
+
+  if (loading) return <p>Loading..</p>;
 
   return (
     <div className="flex flex-col mt-5">
@@ -92,7 +94,7 @@ const AdminProducts = () => {
                 </tr>
               </thead>
               <tbody>
-                {adminProductsData?.map((product) => (
+                {productsData?.map((product) => (
                   <tr key={product?._id} className="bg-gray-100 border-b">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {product?._id}
@@ -123,6 +125,8 @@ const AdminProducts = () => {
                 ))}
               </tbody>
             </table>
+
+            <Paginate pages={pages} page={page} isAdmin={true} />
           </div>
         </div>
       </div>
