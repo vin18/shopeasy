@@ -7,8 +7,13 @@ import Product from '../models/productModel.js';
  * @access  Public
  */
 const getAllProducts = async (req, res) => {
+  const { keyword } = req.query;
+  const searchQuery = keyword
+    ? { name: { $regex: keyword, $options: 'i' } }
+    : {};
+
   try {
-    const products = await Product.find();
+    const products = await Product.find({ ...searchQuery });
 
     res.status(StatusCodes.OK).json({
       products,
