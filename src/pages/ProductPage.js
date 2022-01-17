@@ -9,6 +9,7 @@ import { fetchProduct } from '../store/slices/product';
 import ProductQuantity from '../components/ProductQuantity';
 import { addProductsToCart } from '../store/slices/cart';
 import toast from 'react-hot-toast';
+import Reviews from '../components/Reviews';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -84,6 +85,8 @@ const ProductPage = () => {
           </button>
         </div>
       </div>
+
+      <Reviews productId={productId} />
     </div>
   );
 };
