@@ -4,17 +4,21 @@ import ProductItem from './ProductItem.js';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../store/slices/products.js';
+import Paginate from '../components/Paginate';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { keyword } = useParams();
-  const { productsData: products, loading } = useSelector(
-    (state) => state.products
-  );
+  const { keyword = '', pageNumber = 1 } = useParams();
+  const {
+    productsData: products,
+    loading,
+    pages,
+    page,
+  } = useSelector((state) => state.products);
 
   useEffect(() => {
-    dispatch(fetchProducts(keyword));
-  }, [keyword]);
+    dispatch(fetchProducts(keyword, pageNumber));
+  }, [keyword, pageNumber]);
 
   if (loading) return <h1>Loading...</h1>;
 
@@ -31,6 +35,8 @@ const Home = () => {
           </Link>
         ))}
       </div>
+
+      <Paginate pages={pages} page={page} keyword={keyword} />
     </div>
   );
 };

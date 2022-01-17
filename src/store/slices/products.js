@@ -8,14 +8,20 @@ const slice = createSlice({
     adminProductsData: [],
     loading: false,
     error: null,
+    pages: 6,
+    page: 1,
   },
   reducers: {
     productsRequest: (state, action) => {
       state.loading = true;
     },
     productsRequestSuccess: (state, action) => {
+      const { products, pages, page } = action.payload;
+
       state.loading = false;
-      state.productsData = action.payload;
+      state.productsData = products;
+      state.pages = pages;
+      state.page = page;
     },
     productsAdminRequestSuccess: (state, action) => {
       state.loading = false;
@@ -38,17 +44,19 @@ export const {
   productsAdminRequestSuccess,
 } = slice.actions;
 export const fetchProducts =
-  (keyword = '') =>
+  (keyword = '', pageNumber = '') =>
   async (dispatch) => {
     try {
       dispatch({
         type: productsRequest.type,
       });
-      const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`);
+      const { data } = await axios.get(
+        `/api/v1/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
 
       dispatch({
         type: productsRequestSuccess.type,
-        payload: data?.products,
+        payload: data,
       });
     } catch (error) {
       dispatch({
@@ -57,22 +65,3 @@ export const fetchProducts =
       });
     }
   };
-
-export const fetchAdminProducts = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: productsRequest.type,
-    });
-    const { data } = await axios.get(`/api/v1/products/admin`);
-
-    dispatch({
-      type: productsAdminRequestSuccess.type,
-      payload: data?.products,
-    });
-  } catch (error) {
-    dispatch({
-      type: productsRequestFail.type,
-      payload: error.message,
-    });
-  }
-};
