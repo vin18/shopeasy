@@ -37,24 +37,26 @@ export const {
   productsRequestFail,
   productsAdminRequestSuccess,
 } = slice.actions;
-export const fetchProducts = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: productsRequest.type,
-    });
-    const { data } = await axios.get(`/api/v1/products`);
+export const fetchProducts =
+  (keyword = '') =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: productsRequest.type,
+      });
+      const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`);
 
-    dispatch({
-      type: productsRequestSuccess.type,
-      payload: data?.products,
-    });
-  } catch (error) {
-    dispatch({
-      type: productsRequestFail.type,
-      payload: error.message,
-    });
-  }
-};
+      dispatch({
+        type: productsRequestSuccess.type,
+        payload: data?.products,
+      });
+    } catch (error) {
+      dispatch({
+        type: productsRequestFail.type,
+        payload: error.message,
+      });
+    }
+  };
 
 export const fetchAdminProducts = () => async (dispatch) => {
   try {
