@@ -7,11 +7,23 @@ import Product from '../models/productModel.js';
  * @access  Public
  */
 const getAllProducts = async (req, res) => {
+  const { keyword, pageNumber: page = 1 } = req.query;
+  const pageSize = 6;
+
+  const searchQuery = keyword
+    ? { name: { $regex: keyword, $options: 'i' } }
+    : {};
+
   try {
-    const products = await Product.find();
+    const count = await Product.countDocuments({ ...searchQuery });
+    const products = await Product.find({ ...searchQuery })
+      .limit(pageSize)
+      .skip(pageSize * (Number(page) - 1));
 
     res.status(StatusCodes.OK).json({
       products,
+      page,
+      pages: Math.ceil(count / pageSize),
     });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -36,26 +48,6 @@ const getSingleProduct = async (req, res) => {
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
-      error: error.message,
-    });
-  }
-};
-
-/**
- * @desc    Get all products
- * @route   GET /api/products/admin
- * @access  Private (Admin)
- */
-const getAllAdminProducts = async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.status(StatusCodes.OK).json({
-      success: true,
-      products,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
       error: error.message,
     });
   }
@@ -131,7 +123,6 @@ const deleteAdminProduct = async (req, res) => {
 export {
   getAllProducts,
   getSingleProduct,
-  getAllAdminProducts,
   deleteAdminProduct,
   updateAdminProduct,
   getAdminProduct,
