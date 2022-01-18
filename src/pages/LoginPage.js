@@ -63,7 +63,7 @@ const LoginPage = () => {
                     value={values.email}
                     onChange={handleChange}
                     name="email"
-                    type="string"
+                    type="text"
                     error={errors.email}
                     placeholder="Your email"
                   />
@@ -73,7 +73,7 @@ const LoginPage = () => {
                     value={values.password}
                     onChange={handleChange}
                     name="password"
-                    type="string"
+                    type="text"
                     error={errors.password}
                     placeholder="Your password"
                   />
