@@ -17,6 +17,7 @@ import {
   postProductReview,
   reviewReset,
   removeProductReview,
+  updateProductReview,
 } from '../store/slices/reviews';
 
 const ProductPage = () => {
@@ -24,6 +25,8 @@ const ProductPage = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const history = useNavigate();
+  const [isReviewUpdate, setReviewUpdate] = useState(false);
+  const [reviewToUpdate, setReviewToUpdate] = useState();
   const [rating, setRating] = useState('');
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
@@ -37,6 +40,7 @@ const ProductPage = () => {
     loading: reviewLoading,
     reviewPosted,
     reviewRemoved,
+    reviewUpdated,
     error: reviewError,
   } = useSelector((state) => state.reviews);
 
@@ -48,26 +52,25 @@ const ProductPage = () => {
   }, [productId]);
 
   useEffect(() => {
-    dispatch(fetchProductReviews(productId));
-  }, [productId]);
+    dispatch(reviewReset());
 
-  useEffect(() => {
     if (reviewError) {
-      dispatch(reviewReset());
       toast.error(reviewError);
     } else if (reviewPosted) {
       toast.success(`Review posted!`);
-      dispatch(fetchProductReviews(productId));
-      dispatch(reviewReset());
-      setRating('');
-      setTitle('');
-      setComment('');
+    } else if (reviewUpdated) {
+      toast.success(`Review updated!`);
     } else if (reviewRemoved) {
       toast.success(`Review removed!`);
-      dispatch(fetchProductReviews(productId));
-      dispatch(reviewReset());
     }
-  }, [reviewPosted, reviewRemoved, reviewError]);
+
+    dispatch(fetchProductReviews(productId));
+    setRating('');
+    setTitle('');
+    setComment('');
+    setReviewUpdate(false);
+    setReviewUpdate(null);
+  }, [reviewPosted, reviewRemoved, reviewUpdated, reviewError, productId]);
 
   const isProductAvailable = product.countInStock > 0;
 
@@ -86,8 +89,25 @@ const ProductPage = () => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
-    const review = { product: productId, rating, title, comment };
-    dispatch(postProductReview(review));
+    const review = { rating, title, comment };
+
+    if (isReviewUpdate) {
+      dispatch(
+        updateProductReview({ ...review, reviewId: reviewToUpdate?._id })
+      );
+    } else {
+      dispatch(postProductReview({ ...review, product: productId }));
+      setReviewToUpdate(null);
+      setReviewUpdate(false);
+    }
+  };
+
+  const handleUpdateProductReview = (review) => {
+    setRating(review?.rating);
+    setTitle(review?.title);
+    setComment(review?.comment);
+    setReviewUpdate(true);
+    setReviewToUpdate(review);
   };
 
   const handleDeleteProductReview = (reviewId) => {
@@ -100,7 +120,7 @@ const ProductPage = () => {
     <div>
       <Link
         to="/"
-        className="inline-flex bg-blue-800 px-4 py-2 rounded shadow text-blue-50"
+        className="inline-flex bg-blue-500 px-4 py-2 rounded shadow text-blue-50"
       >
         <LeftArrowIcon />
         <span className="ml-2">Back to products</span>
@@ -133,7 +153,7 @@ const ProductPage = () => {
           />
           <button
             onClick={handleAddToCart}
-            className="bg-blue-800 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600"
+            className="bg-blue-700 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600"
           >
             Add to cart
           </button>
@@ -145,11 +165,14 @@ const ProductPage = () => {
           productId={productId}
           reviewLoading={reviewLoading}
           reviewsData={reviewsData}
+          handleUpdateProductReview={handleUpdateProductReview}
           handleDeleteProductReview={handleDeleteProductReview}
         />
 
         <div className="w-1/2">
-          <h3 className="text-3xl mb-4">Write a review</h3>
+          <h3 className="text-3xl mb-4">
+            {isReviewUpdate ? 'Edit' : 'Write'} a review
+          </h3>
 
           <form onSubmit={handleReviewSubmit} className="w-100">
             <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
@@ -192,9 +215,26 @@ const ProductPage = () => {
             />
 
             {isLoggedIn ? (
-              <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
-                {reviewLoading ? 'Please wait...' : 'Submit Review'}
-              </button>
+              <>
+                <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
+                  {reviewLoading ? 'Please wait...' : 'Submit Review'}
+                </button>
+
+                {isReviewUpdate && (
+                  <button
+                    onClick={() => {
+                      setReviewUpdate(false);
+                      setReviewToUpdate(null);
+                      setTitle('');
+                      setComment('');
+                      setRating('');
+                    }}
+                    className="mt-4 ml-4 border-2 border-blue-500 py-2 rounded-md text-lg px-8"
+                  >
+                    Cancel
+                  </button>
+                )}
+              </>
             ) : (
               <button
                 onClick={() => history(`/login`)}

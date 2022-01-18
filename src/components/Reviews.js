@@ -2,14 +2,18 @@ import { useEffect } from 'react';
 import { fetchProductReviews } from '../store/slices/reviews';
 import moment from 'moment';
 import StarIcon from '../assets/icons/StarIcon';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaEdit } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const Reviews = ({
   productId,
   reviewsData,
   reviewLoading,
+  handleUpdateProductReview,
   handleDeleteProductReview,
 }) => {
+  const { userData, loading } = useSelector((state) => state.user);
+
   if (reviewLoading) return <p>Loading...</p>;
 
   return (
@@ -35,13 +39,24 @@ const Reviews = ({
             <p className="text-sm">{review?.comment}</p>
             <p className="text-sm">
               Posted at {moment(review?.createdAt).format(`DD-MM-YYYY`)} by{' '}
-              {review?.user?.name}
+              <span className="text-blue-500 font-bold">
+                {review?.user?.name}
+              </span>
             </p>
           </div>
-          <FaTrash
-            className="mr-1 text-lg text-blue-500"
-            onClick={() => handleDeleteProductReview(review._id)}
-          />
+
+          {review?.user?._id === userData?._id && (
+            <div className="flex">
+              <FaEdit
+                onClick={() => handleUpdateProductReview(review)}
+                className="mr-2 text-lg text-blue-500"
+              />
+              <FaTrash
+                className="mr-1 text-lg text-blue-500"
+                onClick={() => handleDeleteProductReview(review._id)}
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>
