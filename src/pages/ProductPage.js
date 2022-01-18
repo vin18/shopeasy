@@ -16,6 +16,7 @@ import {
   fetchProductReviews,
   postProductReview,
   reviewReset,
+  removeProductReview,
 } from '../store/slices/reviews';
 
 const ProductPage = () => {
@@ -35,7 +36,12 @@ const ProductPage = () => {
     reviewsData,
     loading: reviewLoading,
     reviewPosted,
+    reviewRemoved,
+    error: reviewError,
   } = useSelector((state) => state.reviews);
+
+  const { userData } = useSelector((state) => state.user);
+  const isLoggedIn = Boolean(userData?.email);
 
   useEffect(() => {
     dispatch(fetchProduct(productId));
@@ -46,12 +52,22 @@ const ProductPage = () => {
   }, [productId]);
 
   useEffect(() => {
-    if (reviewPosted) {
+    if (reviewError) {
+      dispatch(reviewReset());
+      toast.error(reviewError);
+    } else if (reviewPosted) {
       toast.success(`Review posted!`);
       dispatch(fetchProductReviews(productId));
       dispatch(reviewReset());
+      setRating('');
+      setTitle('');
+      setComment('');
+    } else if (reviewRemoved) {
+      toast.success(`Review removed!`);
+      dispatch(fetchProductReviews(productId));
+      dispatch(reviewReset());
     }
-  }, [reviewPosted]);
+  }, [reviewPosted, reviewRemoved, reviewError]);
 
   const isProductAvailable = product.countInStock > 0;
 
@@ -72,6 +88,10 @@ const ProductPage = () => {
     e.preventDefault();
     const review = { product: productId, rating, title, comment };
     dispatch(postProductReview(review));
+  };
+
+  const handleDeleteProductReview = (reviewId) => {
+    dispatch(removeProductReview(reviewId));
   };
 
   if (loading) return <p>Loading..</p>;
@@ -120,58 +140,71 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <Reviews
-        productId={productId}
-        reviewLoading={reviewLoading}
-        reviewsData={reviewsData}
-      />
+      <div className="mt-16 w-100 flex justify-between">
+        <Reviews
+          productId={productId}
+          reviewLoading={reviewLoading}
+          reviewsData={reviewsData}
+          handleDeleteProductReview={handleDeleteProductReview}
+        />
 
-      <div className="mt-8 w-2/6">
-        <h3 className="text-3xl mb-4">Write a review</h3>
+        <div className="w-1/2">
+          <h3 className="text-3xl mb-4">Write a review</h3>
 
-        <form onSubmit={handleReviewSubmit} className="w-100">
-          <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
-          <div>
-            <select
-              className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2`}
-              aria-label="Select a rating.."
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-            >
-              <option selected>Select a rating..</option>
-              <option value="5">5 - Excellent</option>
-              <option value="4">4 - Very Good</option>
-              <option value="3">3 - Good</option>
-              <option value="2">2 - Fair</option>
-              <option value="1">1 - Poor</option>
-            </select>
-          </div>
+          <form onSubmit={handleReviewSubmit} className="w-100">
+            <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
+            <div>
+              <select
+                className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2`}
+                aria-label="Select a rating.."
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+              >
+                <option selected>Select a rating..</option>
+                <option value="5">5 - Excellent</option>
+                <option value="4">4 - Very Good</option>
+                <option value="3">3 - Good</option>
+                <option value="2">2 - Fair</option>
+                <option value="1">1 - Poor</option>
+              </select>
+            </div>
 
-          <br />
-          <TextInput
-            labelName="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            name="title"
-            type="text"
-            placeholder="Review title"
-          />
+            <br />
 
-          <br />
+            <TextInput
+              labelName="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              type="text"
+              placeholder="Review title"
+            />
 
-          <TextArea
-            labelName="Comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            name="comment"
-            type="text"
-            placeholder="Review comment"
-          />
+            <br />
 
-          <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
-            {reviewLoading ? 'Please wait...' : 'Submit Review'}
-          </button>
-        </form>
+            <TextArea
+              labelName="Comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              name="comment"
+              type="text"
+              placeholder="Review comment"
+            />
+
+            {isLoggedIn ? (
+              <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
+                {reviewLoading ? 'Please wait...' : 'Submit Review'}
+              </button>
+            ) : (
+              <button
+                onClick={() => history(`/login`)}
+                className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8"
+              >
+                Login to review
+              </button>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

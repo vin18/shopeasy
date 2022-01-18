@@ -8,6 +8,7 @@ const slice = createSlice({
     loading: false,
     error: null,
     reviewPosted: false,
+    reviewRemoved: false,
   },
   reducers: {
     reviewsRequest: (state, action) => {
@@ -21,8 +22,13 @@ const slice = createSlice({
       state.loading = false;
       state.reviewPosted = true;
     },
+    reviewRemoveSuccess: (state, action) => {
+      state.loading = false;
+      state.reviewRemoved = true;
+    },
     reviewReset: (state, loading) => {
       state.reviewPosted = false;
+      state.reviewRemoved = false;
     },
     reviewsRequestFail: (state, action) => {
       state.loading = false;
@@ -40,6 +46,7 @@ export const {
   reviewsRequestFail,
   reviewPostSuccess,
   reviewReset,
+  reviewRemoveSuccess,
 } = slice.actions;
 
 export const fetchProductReviews = (productId) => async (dispatch) => {
@@ -75,6 +82,25 @@ export const postProductReview = (review) => async (dispatch) => {
 
     dispatch({
       type: reviewPostSuccess.type,
+    });
+  } catch (error) {
+    dispatch({
+      type: reviewsRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const removeProductReview = (reviewId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: reviewsRequest.type,
+    });
+
+    await axios.delete(`/api/v1/reviews/${reviewId}`);
+
+    dispatch({
+      type: reviewRemoveSuccess.type,
     });
   } catch (error) {
     dispatch({
