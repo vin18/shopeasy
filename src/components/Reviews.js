@@ -1,31 +1,19 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductReviews } from '../store/slices/reviews';
 import moment from 'moment';
 import StarIcon from '../assets/icons/StarIcon';
 
-const Reviews = ({ productId }) => {
-  const { reviewsData, loading } = useSelector((state) => state.reviews);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProductReviews(productId));
-  }, [productId]);
-
-  if (loading) return <p>Loading...</p>;
-
-  console.log('reviewsData', reviewsData);
+const Reviews = ({ productId, reviewsData, reviewLoading }) => {
+  if (reviewLoading) return <p>Loading...</p>;
 
   return (
     <div className="mt-32">
       <h3 className="text-3xl">Reviews</h3>
-
       {reviewsData?.length === 0 && (
         <p className="text-lg">
           There are currently no reviews for this product.
         </p>
       )}
-
       {reviewsData?.map((review) => (
         <div
           className="mt-8 shadow p-5 border border-blue-200"

@@ -10,20 +10,48 @@ import ProductQuantity from '../components/ProductQuantity';
 import { addProductsToCart } from '../store/slices/cart';
 import toast from 'react-hot-toast';
 import Reviews from '../components/Reviews';
+import TextInput from '../components/custom/TextInput';
+import TextArea from '../components/custom/TextArea';
+import {
+  fetchProductReviews,
+  postProductReview,
+  reviewReset,
+} from '../store/slices/reviews';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const { productId } = useParams();
   const dispatch = useDispatch();
   const history = useNavigate();
+  const [rating, setRating] = useState('');
+  const [title, setTitle] = useState('');
+  const [comment, setComment] = useState('');
 
   const { productData: product, loading } = useSelector(
     (state) => state.product
   );
 
+  const {
+    reviewsData,
+    loading: reviewLoading,
+    reviewPosted,
+  } = useSelector((state) => state.reviews);
+
   useEffect(() => {
     dispatch(fetchProduct(productId));
   }, [productId]);
+
+  useEffect(() => {
+    dispatch(fetchProductReviews(productId));
+  }, [productId]);
+
+  useEffect(() => {
+    if (reviewPosted) {
+      toast.success(`Review posted!`);
+      dispatch(fetchProductReviews(productId));
+      dispatch(reviewReset());
+    }
+  }, [reviewPosted]);
 
   const isProductAvailable = product.countInStock > 0;
 
@@ -38,6 +66,12 @@ const ProductPage = () => {
     toast.success(`Item added to the cart!`);
     dispatch(addProductsToCart(productsData));
     history(`/cart`);
+  };
+
+  const handleReviewSubmit = (e) => {
+    e.preventDefault();
+    const review = { product: productId, rating, title, comment };
+    dispatch(postProductReview(review));
   };
 
   if (loading) return <p>Loading..</p>;
@@ -86,7 +120,59 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <Reviews productId={productId} />
+      <Reviews
+        productId={productId}
+        reviewLoading={reviewLoading}
+        reviewsData={reviewsData}
+      />
+
+      <div className="mt-8 w-2/6">
+        <h3 className="text-3xl mb-4">Write a review</h3>
+
+        <form onSubmit={handleReviewSubmit} className="w-100">
+          <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
+          <div>
+            <select
+              className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2`}
+              aria-label="Select a rating.."
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+            >
+              <option selected>Select a rating..</option>
+              <option value="5">5 - Excellent</option>
+              <option value="4">4 - Very Good</option>
+              <option value="3">3 - Good</option>
+              <option value="2">2 - Fair</option>
+              <option value="1">1 - Poor</option>
+            </select>
+          </div>
+
+          <br />
+          <TextInput
+            labelName="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            name="title"
+            type="text"
+            placeholder="Review title"
+          />
+
+          <br />
+
+          <TextArea
+            labelName="Comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            name="comment"
+            type="text"
+            placeholder="Review comment"
+          />
+
+          <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
+            {reviewLoading ? 'Please wait...' : 'Submit Review'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

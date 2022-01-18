@@ -71,7 +71,7 @@ const RegisterPage = () => {
                     value={values.name}
                     onChange={handleChange}
                     name="name"
-                    type="string"
+                    type="text"
                     error={errors.name}
                     placeholder="Your name"
                   />
@@ -81,7 +81,7 @@ const RegisterPage = () => {
                     value={values.email}
                     onChange={handleChange}
                     name="email"
-                    type="string"
+                    type="text"
                     error={errors.email}
                     placeholder="Your email"
                   />
@@ -91,7 +91,7 @@ const RegisterPage = () => {
                     value={values.password}
                     onChange={handleChange}
                     name="password"
-                    type="string"
+                    type="text"
                     error={errors.password}
                     placeholder="Your password"
                   />
