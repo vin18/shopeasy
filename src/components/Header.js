@@ -13,9 +13,10 @@ const Header = () => {
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.user);
   const isLoggedIn = Boolean(userData?.email);
+  const isAdmin = userData?.role === 'admin';
   const history = useNavigate();
   const [open, setOpen] = useState(false);
-  const { isMobile } = useWindowWidth();
+  const { isMobile, isTab } = useWindowWidth();
 
   useEffect(() => {
     dispatch(getMe());
@@ -35,9 +36,9 @@ const Header = () => {
         </Link>
       </div>
 
-      <Search />
+      {!isMobile && <Search />}
 
-      <div onClick={() => setOpen(!open)} className="block ml-4 sm:hidden">
+      <div onClick={() => setOpen(!open)} className="block ml-4 lg:hidden">
         {!open ? (
           <GiHamburgerMenu className="text-2xl" />
         ) : (
@@ -45,10 +46,10 @@ const Header = () => {
         )}
       </div>
 
-      {open && isMobile ? (
-        <nav className="block sm:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-14 left-0">
+      {open && isTab ? (
+        <nav className="block lg:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-16 left-0">
           <ul className="flex flex-col md:space-x-4 cursor-pointer mb-1">
-            <li className="px-4 py-2">
+            <li className="px-4 py-2 ml-4">
               <Link to="/cart">Cart</Link>
             </li>
 
@@ -59,16 +60,38 @@ const Header = () => {
             )}
 
             {isLoggedIn && (
-              <li>
+              <li className="px-4 py-2">
                 <Link to="/profile">Profile</Link>
               </li>
             )}
 
-            {isLoggedIn && <li onClick={handleLogout}>Logout</li>}
+            {isLoggedIn && isAdmin && (
+              <li className="px-4 py-2">
+                <Link to="/admin/products">Products</Link>
+              </li>
+            )}
+
+            {isLoggedIn && isAdmin && (
+              <li className="px-4 py-2">
+                <Link to="/admin/orders">Orders</Link>
+              </li>
+            )}
+
+            {isLoggedIn && isAdmin && (
+              <li className="px-4 py-2">
+                <Link to="/admin/users">Users</Link>
+              </li>
+            )}
+
+            {isLoggedIn && (
+              <li className="px-4 py-2" onClick={handleLogout}>
+                Logout
+              </li>
+            )}
           </ul>
         </nav>
       ) : (
-        <nav className="hidden sm:block">
+        <nav className="hidden lg:block">
           <ul className="flex space-x-4 cursor-pointer">
             <li className="flex">
               <Link to="/cart">Cart</Link>
@@ -83,6 +106,24 @@ const Header = () => {
             {isLoggedIn && (
               <li>
                 <Link to="/profile">Profile</Link>
+              </li>
+            )}
+
+            {isLoggedIn && isAdmin && (
+              <li>
+                <Link to="/admin/products">Products</Link>
+              </li>
+            )}
+
+            {isLoggedIn && isAdmin && (
+              <li>
+                <Link to="/admin/orders">Orders</Link>
+              </li>
+            )}
+
+            {isLoggedIn && isAdmin && (
+              <li>
+                <Link to="/admin/users">Users</Link>
               </li>
             )}
 

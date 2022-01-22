@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../store/slices/products.js';
 import Paginate from '../components/Paginate';
 import Loader from './Loader.js';
+import useWindowWidth from '../hooks/useWindowWidth.js';
+import Search from './Search.js';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ const Home = () => {
     pages,
     page,
   } = useSelector((state) => state.products);
+  const { isMobile } = useWindowWidth();
 
   useEffect(() => {
     dispatch(fetchProducts(keyword, pageNumber));
@@ -25,11 +28,12 @@ const Home = () => {
 
   return (
     <div>
+      {isMobile && <Search />}
       <h1 className="text-3xl text-blue-500 font-bold mb-5">
         Popular Products
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
         {products?.map((product) => (
           <Link key={product?._id} to={`/product/${product?._id}`}>
             <ProductItem product={product} />

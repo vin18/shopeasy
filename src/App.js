@@ -24,7 +24,7 @@ function App() {
     <Router>
       <Header />
       <div
-        className="container mx-auto my-5 px-8 md:px-16 lg:px-32"
+        className="container mx-auto my-5 px-8 md:px-16 lg:px-24"
         style={{ minHeight: '80vh' }}
       >
         <Routes>

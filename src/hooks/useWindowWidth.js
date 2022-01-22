@@ -15,8 +15,9 @@ const useWindowWidth = () => {
   }, []);
 
   const isMobile = width <= 768;
+  const isTab = width <= 968;
 
-  return { isMobile };
+  return { isMobile, isTab };
 };
 
 export default useWindowWidth;

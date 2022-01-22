@@ -15,7 +15,7 @@ const Search = () => {
   };
 
   return (
-    <div className="hidden sm:flex justify-center items-center">
+    <div className="flex justify-center mb-4 md:mb-0 items-center">
       <div className="ml-5 xl:w-96">
         <form
           onSubmit={handleSubmit}
