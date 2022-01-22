@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
 import ProductQuantity from '../components/ProductQuantity';
-import { fetchProductsInCart } from '../store/slices/cart';
+import { addProductsToCart, fetchProductsInCart } from '../store/slices/cart';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
@@ -92,7 +92,44 @@ const CartPage = () => {
                         <div className="text-gray-900">₹{product.price}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <ProductQuantity quantity={product?.quantity} />
+                        <div className="flex">
+                          <button
+                            onClick={() => {
+                              const productsData = {
+                                productId: product?.productId,
+                                quantity: Number(product?.quantity) + 1,
+                                name: product?.name,
+                                price: product?.price,
+                                image: product?.image,
+                              };
+                              dispatch(addProductsToCart(productsData));
+                            }}
+                            className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+                            disabled={
+                              product?.quantity >= product?.countInStock
+                            }
+                          >
+                            <PlusIcon />
+                          </button>
+                          <span className="mx-1">{product?.quantity}</span>
+
+                          <button
+                            onClick={() => {
+                              const productsData = {
+                                productId: product?.productId,
+                                quantity: Number(product?.quantity) - 1,
+                                name: product?.name,
+                                price: product?.price,
+                                image: product?.image,
+                              };
+                              dispatch(addProductsToCart(productsData));
+                            }}
+                            className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+                            disabled={product?.quantity <= 1}
+                          >
+                            <MinusIcon />
+                          </button>
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         ₹{product.price * product?.quantity}

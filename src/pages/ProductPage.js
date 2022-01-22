@@ -19,6 +19,8 @@ import {
   removeProductReview,
   updateProductReview,
 } from '../store/slices/reviews';
+import MinusIcon from '../assets/icons/MinusIcon';
+import PlusIcon from '../assets/icons/PlusIcon';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -114,6 +116,11 @@ const ProductPage = () => {
     dispatch(removeProductReview(reviewId));
   };
 
+  const addQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
+
+  const subtractQuantity = () =>
+    setQuantity((prevQuantity) => prevQuantity - 1);
+
   if (loading) return <p>Loading..</p>;
 
   return (
@@ -145,12 +152,24 @@ const ProductPage = () => {
               {isProductAvailable ? 'Available' : 'Not Available'}
             </p>
           </div>
-          <ProductQuantity
-            quantity={quantity}
-            setQuantity={setQuantity}
-            countInStock={product.countInStock}
-            handleAddToCart={handleAddToCart}
-          />
+          <div className="flex">
+            <button
+              onClick={addQuantity}
+              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+              disabled={quantity >= product?.countInStock}
+            >
+              <PlusIcon />
+            </button>
+            <span className="mx-1">{quantity}</span>
+
+            <button
+              onClick={subtractQuantity}
+              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+              disabled={quantity <= 1}
+            >
+              <MinusIcon />
+            </button>
+          </div>
           <button
             onClick={handleAddToCart}
             className="bg-blue-700 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600"
