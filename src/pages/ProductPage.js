@@ -134,9 +134,9 @@ const ProductPage = () => {
         <span className="ml-2">Back to products</span>
       </Link>
 
-      <div className="mt-16 flex">
-        <div className="flex-1">
-          <img style={{ maxWidth: '450px' }} src={product.image} alt="" />
+      <div className="mt-16 flex flex-col md:flex-row">
+        <div className="flex-1 flex justify-center">
+          <img className="max-w-xs md:max-w-md" src={product.image} alt="" />
         </div>
 
         <div className="flex-1 space-y-2">
@@ -180,7 +180,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className="mt-16 w-100 flex justify-between">
+      <div className="mt-16 w-100 flex flex-col md:flex-row justify-between">
         <Reviews
           productId={productId}
           reviewLoading={reviewLoading}
@@ -189,7 +189,7 @@ const ProductPage = () => {
           handleDeleteProductReview={handleDeleteProductReview}
         />
 
-        <div className="w-1/2">
+        <div className="md:w-1/2 mt-2 md:mt-0">
           <h3 className="text-3xl mb-4">
             {isReviewUpdate ? 'Edit' : 'Write'} a review
           </h3>
