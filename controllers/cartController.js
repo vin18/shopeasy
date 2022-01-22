@@ -91,4 +91,60 @@ const addItemToCart = async (req, res) => {
   }
 };
 
-export { getUserItemsFromCart, addItemToCart };
+/**
+ * @desc    Remove Item from the cart
+ * @route   DELETE /api/v1/cart/:productId
+ * @access  Private
+ */
+const removeItemFromTheCart = async (req, res) => {
+  try {
+    let cart = await Cart.findOne({ userId: req.user._id });
+    let itemIndex = cart.products.findIndex(
+      (p) => p._id === req.params.productId
+    );
+
+    if (itemIndex > -1) {
+      cart.products.splice(itemIndex, 1);
+    }
+
+    cart = await cart.save();
+
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      cart,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * @desc    Clear cart
+ * @route   DELETE /api/v1/cart
+ * @access  Private
+ */
+const clearCart = async (req, res) => {
+  try {
+    await Cart.deleteMany({ userId: req.user._id });
+
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Removed all the products from the cart`,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      error: error.message,
+    });
+  }
+};
+
+export {
+  getUserItemsFromCart,
+  addItemToCart,
+  removeItemFromTheCart,
+  clearCart,
+};
