@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const AdminUsers = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const AdminUsers = () => {
     }
   }, [userDeleted]);
 
-  if (loading) return <p>Loading..</p>;
+  if (loading) return <Loader />;
 
   const handleDeleteUser = (userId) => {
     dispatch(deleteAdminUser(userId));

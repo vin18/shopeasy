@@ -21,6 +21,7 @@ import {
 } from '../store/slices/reviews';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
+import Loader from '../components/Loader';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -121,7 +122,7 @@ const ProductPage = () => {
   const subtractQuantity = () =>
     setQuantity((prevQuantity) => prevQuantity - 1);
 
-  if (loading) return <p>Loading..</p>;
+  if (loading) return <Loader />;
 
   return (
     <div>

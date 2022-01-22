@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllOrders } from '../store/slices/orders';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Orders = () => {
     dispatch(fetchAllOrders());
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col items-center w-full mt-24">

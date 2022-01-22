@@ -10,6 +10,7 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import Loader from '../components/Loader';
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
@@ -20,9 +21,7 @@ const AdminOrders = () => {
     dispatch(getAdminOrders());
   }, []);
 
-  if (loading) return <p>Loading..</p>;
-
-  console.log('adminOrders', adminOrders);
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col mt-5">

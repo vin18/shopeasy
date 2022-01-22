@@ -5,6 +5,7 @@ import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { orderDelivered, orderDeliveredReset } from '../store/slices/orders';
+import Loader from '../components/Loader';
 
 const OrderItemPage = () => {
   const [order, setOrder] = useState();
@@ -32,7 +33,7 @@ const OrderItemPage = () => {
     }
   }, [orderDelivered]);
 
-  if (!order) return <p>Loading..</p>;
+  if (!order) return <Loader />;
 
   const {
     _id: orderID,

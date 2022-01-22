@@ -14,6 +14,7 @@ import {
   adminProductDeleteReset,
 } from '../store/slices/product';
 import Paginate from '../components/Paginate';
+import Loader from '../components/Loader';
 
 const AdminProducts = () => {
   const { pageNumber = 1 } = useParams();
@@ -46,7 +47,7 @@ const AdminProducts = () => {
     return history(`/admin/products/${productId}`);
   };
 
-  if (loading) return <p>Loading..</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col mt-5">

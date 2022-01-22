@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../store/slices/products.js';
 import Paginate from '../components/Paginate';
+import Loader from './Loader.js';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Home = () => {
     dispatch(fetchProducts(keyword, pageNumber));
   }, [keyword, pageNumber]);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loader />;
 
   return (
     <div>
