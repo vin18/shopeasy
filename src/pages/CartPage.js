@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
+import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
 import ProductQuantity from '../components/ProductQuantity';
-import { addProductsToCart, fetchProductsInCart } from '../store/slices/cart';
+import {
+  addProductsToCart,
+  clearCart,
+  fetchProductsInCart,
+  removeProductFromCart,
+} from '../store/slices/cart';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
@@ -34,6 +40,14 @@ const CartPage = () => {
   );
   const shippingPrice = parseFloat(totalPrice) > 500 ? 50 : 0;
   const orderTotal = parseFloat(shippingPrice) + parseFloat(totalPrice);
+
+  const handleRemoveProductFromCart = (productId) => {
+    dispatch(removeProductFromCart(productId));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
 
   return (
     <div className="flex mt-8">
@@ -68,6 +82,10 @@ const CartPage = () => {
                   >
                     Subtotal
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  ></th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -134,6 +152,14 @@ const CartPage = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         ₹{product.price * product?.quantity}
                       </td>
+                      <td>
+                        <FaTrash
+                          className="mr-1 text-lg text-blue-500"
+                          onClick={() =>
+                            handleRemoveProductFromCart(product._id)
+                          }
+                        />
+                      </td>
                     </tr>
                   );
                 })}
@@ -147,7 +173,10 @@ const CartPage = () => {
             >
               Continue Shopping
             </button>
-            <button className="bg-red-500 text-blue-100 py-1 px-4 rounded">
+            <button
+              onClick={handleClearCart}
+              className="bg-red-500 text-blue-100 py-1 px-4 rounded"
+            >
               Clear shopping cart
             </button>
           </div>

@@ -64,3 +64,43 @@ export const addProductsToCart = (productsData) => async (dispatch) => {
     });
   }
 };
+
+export const removeProductFromCart = (productId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: cartRequest.type,
+    });
+
+    const { data } = await axios.delete(`/api/v1/cart/${productId}`);
+
+    dispatch({
+      type: cartRequestSuccess.type,
+      payload: data?.cart,
+    });
+  } catch (error) {
+    dispatch({
+      type: cartRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const clearCart = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: cartRequest.type,
+    });
+
+    const { data } = await axios.delete(`/api/v1/cart`);
+
+    dispatch({
+      type: cartRequestSuccess.type,
+      payload: [],
+    });
+  } catch (error) {
+    dispatch({
+      type: cartRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
