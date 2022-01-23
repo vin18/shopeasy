@@ -14,7 +14,8 @@ const PlaceorderPage = () => {
 
   const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
   const totalProductsPrice = products?.reduce(
-    (acc, product) => acc + product?.price,
+    (acc, product) =>
+      acc + parseFloat(product?.price) * Number(product?.quantity),
     0
   );
   const shippingPrice = parseFloat(totalProductsPrice) > 500 ? 50 : 0;
@@ -113,6 +114,9 @@ const PlaceorderPage = () => {
         <div>
           <h3 className="text-3xl mb-1 uppercase">Order Items</h3>
           {products?.map((product) => {
+            const totalProductPrice =
+              parseFloat(product?.price) * Number(product?.quantity);
+
             return (
               <div
                 key={product?._id}
@@ -121,8 +125,7 @@ const PlaceorderPage = () => {
                 <img className="w-24 mr-8" src={product?.image} alt="" />
                 <h2 className="mr-8">{product?.name}</h2>
                 <p>
-                  {product?.quantity} x ₹{product?.price} = ₹
-                  {totalProductsPrice}
+                  {product?.quantity} x ₹{product?.price} = ₹{totalProductPrice}
                 </p>
               </div>
             );
