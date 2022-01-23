@@ -58,6 +58,7 @@ const createRazorpayPayment = async (req, res) => {
     const {
       amountPaid,
       shippingPrice,
+      orderItems,
       totalPrice,
       shippingAddress,
       paymentInfo,
@@ -68,6 +69,7 @@ const createRazorpayPayment = async (req, res) => {
       amountPaid: parseFloat(amountPaid) / 100,
       shippingPrice,
       totalPrice,
+      orderItems,
       shippingAddress,
       paymentInfo,
       paidAt: Date.now(),
