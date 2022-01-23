@@ -56,7 +56,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full mt-24">
+    <div className="flex justify-center items-center mt-24">
       <Formik
         validationSchema={profileSchema}
         initialValues={initialValues}
