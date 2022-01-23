@@ -10,7 +10,9 @@ import Loader from '../components/Loader';
 const OrderItemPage = () => {
   const [order, setOrder] = useState();
   const { userData } = useSelector((state) => state.user);
-  const { orderDelivered } = useSelector((state) => state.orders);
+  const { orderDelivered: orderDeliveredStatus } = useSelector(
+    (state) => state.orders
+  );
   const { orderId } = useParams();
   const dispatch = useDispatch();
 
@@ -24,14 +26,14 @@ const OrderItemPage = () => {
   }, [orderId]);
 
   useEffect(() => {
-    if (orderDelivered) {
+    if (orderDeliveredStatus) {
       toast.success(`Order delivered!`);
       fetchOrder();
       setTimeout(() => {
         dispatch(orderDeliveredReset());
       }, 2000);
     }
-  }, [orderDelivered]);
+  }, [orderDeliveredStatus]);
 
   if (!order) return <Loader />;
 
@@ -139,12 +141,14 @@ const OrderItemPage = () => {
           )}
         </div>
         {!order.isDelivered && userData?.role === 'admin' && (
-          <button
-            onClick={handleOrderDelivered}
-            className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
-          >
-            Mark as delivered
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleOrderDelivered}
+              className="mt-4 px-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+            >
+              Mark as delivered
+            </button>
+          </div>
         )}
       </div>
     </div>
