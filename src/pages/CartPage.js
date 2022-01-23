@@ -25,9 +25,23 @@ const CartPage = () => {
     dispatch(fetchProductsInCart());
   }, []);
 
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center mt-32">
+        <h2 className="text-4xl mb-4">Please login to continue</h2>
+        <button
+          onClick={() => history(`/login`)}
+          className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+        >
+          Login
+        </button>
+      </div>
+    );
+  }
+
   if (loading) return <Loader />;
 
-  if (!cartData)
+  if (!cartData) {
     return (
       <div className="flex flex-col items-center mt-32">
         <h2 className="text-4xl mb-4">
@@ -41,6 +55,8 @@ const CartPage = () => {
         </button>
       </div>
     );
+  }
+
   const { products } = cartData;
 
   const totalPrice = products?.reduce(
