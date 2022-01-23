@@ -98,8 +98,8 @@ const PlaceorderPage = () => {
   };
 
   return (
-    <div className="flex w-full mt-24">
-      <div className="flex flex-1 flex-col space-y-8 mr-64">
+    <div className="flex flex-col md:flex-row w-full mt-24">
+      <div className="flex flex-1 flex-col space-y-8 md:mr-48">
         <div>
           <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
           <p>Address: {shippingAddress}</p>
@@ -130,7 +130,7 @@ const PlaceorderPage = () => {
         </div>
       </div>
 
-      <div>
+      <div className="mt-16 md:mt-0">
         <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
           <h3 className="text-3xl mb-4 uppercase">Order Summary</h3>
 
