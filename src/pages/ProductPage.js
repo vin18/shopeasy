@@ -85,9 +85,13 @@ const ProductPage = () => {
       price: product?.price,
       image: product?.image,
     };
-    toast.success(`Item added to the cart!`);
-    dispatch(addProductsToCart(productsData));
-    history(`/cart`);
+    if (!isLoggedIn) {
+      history(`/login`);
+    } else {
+      toast.success(`Item added to the cart!`);
+      dispatch(addProductsToCart(productsData));
+      history(`/cart`);
+    }
   };
 
   const handleReviewSubmit = (e) => {
