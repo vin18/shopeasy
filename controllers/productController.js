@@ -1,3 +1,4 @@
+import cloudinary from 'cloudinary';
 import { StatusCodes } from 'http-status-codes';
 import Product from '../models/productModel.js';
 
@@ -74,6 +75,45 @@ const getAdminProduct = async (req, res) => {
 };
 
 /**
+ * @desc    Create  product
+ * @route   GET /api/products/admin
+ * @access  Private (Admin)
+ */
+const createAdminProduct = async (req, res) => {
+  try {
+    const { name, price, image, description, countInStock, category, brand } =
+      req.body;
+
+    const uploadedImage = await cloudinary.v2.uploader.upload(image, {
+      folder: `shopeasy/products`,
+    });
+
+    const newProduct = await Product.create({
+      name,
+      price,
+      description,
+      countInStock,
+      category,
+      brand,
+      image: {
+        public_id: uploadedImage.public_id,
+        url: uploadedImage.secure_url,
+      },
+    });
+
+    res.status(StatusCodes.CREATED).json({
+      status: 'success',
+      product: newProduct,
+    });
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+/**
  * @desc    Update product
  * @route   DELETE /api/products/admin/:productId
  * @access  Private (Admin)
@@ -123,6 +163,7 @@ const deleteAdminProduct = async (req, res) => {
 export {
   getAllProducts,
   getSingleProduct,
+  createAdminProduct,
   deleteAdminProduct,
   updateAdminProduct,
   getAdminProduct,

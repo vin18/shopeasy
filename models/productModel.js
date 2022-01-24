@@ -17,8 +17,14 @@ const productSchema = mongoose.Schema(
       trim: true,
     },
     image: {
-      type: String,
-      required: [true, 'A product must have a image'],
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
     },
     countInStock: {
       type: Number,
