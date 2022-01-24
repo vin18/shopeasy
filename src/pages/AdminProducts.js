@@ -44,7 +44,7 @@ const AdminProducts = () => {
   };
 
   const handleUpdateProduct = (productId) => {
-    return history(`/admin/products/${productId}`);
+    return history(`/admin/products/edit/${productId}`);
   };
 
   if (loading) return <Loader />;

@@ -17,6 +17,7 @@ import {
   updateAdminProduct,
 } from '../store/slices/product';
 import TextArea from '../components/custom/TextArea';
+import { getBase64FromUrl } from '../utils/getBase64FromUrl';
 
 const AdminProductEdit = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,21 @@ const AdminProductEdit = () => {
   } = useSelector((state) => state.product);
   const history = useNavigate();
   const { productId } = useParams();
+  const [productImage, setProductImage] = useState();
+  const [productImagePreview, setProductImagePreview] = useState();
+
+  const handleImageChange = (event) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setProductImage(reader.result);
+        setProductImagePreview(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+  };
 
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -43,11 +59,18 @@ const AdminProductEdit = () => {
   }, [productId]);
 
   useEffect(() => {
-    if (product) {
-      setInitialValues({
-        ...product,
-      });
+    async function hydrateProductData() {
+      if (product) {
+        const image = await getBase64FromUrl(product.image.url);
+        setProductImage(image);
+        setProductImagePreview(image);
+        setInitialValues({
+          ...product,
+        });
+      }
     }
+
+    hydrateProductData();
   }, [product]);
 
   useEffect(() => {
@@ -66,7 +89,6 @@ const AdminProductEdit = () => {
       .required('Name is required')
       .defined(),
     price: yup.string().trim().required('Price is required').defined(),
-    image: yup.string().trim().required('Image is required').defined(),
     brand: yup.string().trim().required('Brand is required').defined(),
     countInStock: yup
       .string()
@@ -82,7 +104,16 @@ const AdminProductEdit = () => {
   });
 
   const handleSubmit = (values) => {
-    dispatch(updateAdminProduct(values));
+    if (!productImage) {
+      return toast.error(`Please select an image`);
+    }
+
+    dispatch(
+      updateAdminProduct({
+        productImage,
+        ...values,
+      })
+    );
   };
 
   return (
@@ -96,7 +127,7 @@ const AdminProductEdit = () => {
         {({ handleSubmit, handleChange, values, errors, setFieldValue }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-sm border-2 border-blue-100">
+              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-md border-2 border-blue-100">
                 <div className="space-y-4">
                   <h1 className="text-center text-2xl font-semibold text-gray-600">
                     Edit Product
@@ -161,8 +192,31 @@ const AdminProductEdit = () => {
                     error={errors.description}
                     placeholder="Product description"
                   />
-                </div>
 
+                  <div>
+                    <label
+                      htmlFor="productImage"
+                      className="block mb-1 text-gray-600 font-semibold"
+                    >
+                      Product Image
+                    </label>
+                    <img
+                      className="w-100 mb-2"
+                      src={
+                        productImagePreview
+                          ? productImagePreview
+                          : 'https://via.placeholder.com/360'
+                      }
+                      alt="Product image"
+                    />
+
+                    <input
+                      type="productImage"
+                      type="file"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </div>
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
                   {!loading ? 'Update' : 'Please wait..'}
                 </button>

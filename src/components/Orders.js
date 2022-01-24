@@ -17,6 +17,12 @@ const Orders = () => {
 
   if (loading) return <Loader />;
 
+  if (allOrders?.length === 0) {
+    return (
+      <h2 className="mx-auto text-2xl mt-64">There are currently no orders!</h2>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center lg:ml-8 mt-24 overflow-auto">
       <h2 className="text-center text-2xl font-semibold text-gray-600 mb-4">

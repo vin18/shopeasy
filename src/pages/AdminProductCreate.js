@@ -49,7 +49,7 @@ const AdminProductCreate = () => {
     }
   }, [productCreated]);
 
-  const adminProducCreateSchema = yup.object().shape({
+  const adminProductCreateSchema = yup.object().shape({
     name: yup
       .string()
       .min(3, 'Name must be atleast 3 characters')
@@ -88,7 +88,7 @@ const AdminProductCreate = () => {
   return (
     <div className="flex justify-center items-center w-full mt-8">
       <Formik
-        validationSchema={adminProducCreateSchema}
+        validationSchema={adminProductCreateSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
         enableReinitialize

@@ -53,7 +53,7 @@ function App() {
             element={<AdminProducts />}
           />
           <Route
-            path="/admin/products/:productId"
+            path="/admin/products/edit/:productId"
             element={<AdminProductEdit />}
           />
           <Route
