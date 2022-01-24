@@ -17,7 +17,10 @@ const TextInput = (props) => {
   return (
     <>
       <div>
-        <label for={name} className="block mb-1 text-gray-600 font-semibold">
+        <label
+          htmlFor={name}
+          className="block mb-1 text-gray-600 font-semibold"
+        >
           {labelName}
         </label>
         <input

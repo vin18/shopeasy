@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllOrders } from '../store/slices/orders';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -14,15 +15,21 @@ const Orders = () => {
     dispatch(fetchAllOrders());
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
+
+  if (allOrders?.length === 0) {
+    return (
+      <h2 className="mx-auto text-2xl mt-64">There are currently no orders!</h2>
+    );
+  }
 
   return (
-    <div className="flex flex-col items-center w-full mt-24">
+    <div className="flex flex-col items-center lg:ml-8 mt-24 overflow-auto">
       <h2 className="text-center text-2xl font-semibold text-gray-600 mb-4">
         My Orders
       </h2>
 
-      <table className="min-w-full border shadow-lg">
+      <table className="border shadow-lg">
         <thead className="bg-white border-b">
           <tr>
             <th
@@ -81,7 +88,7 @@ const Orders = () => {
               </td>
               <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button
-                  className="w-full bg-blue-500 text-indigo-100 py-2 px-4 rounded-md tracking-wide"
+                  className="bg-blue-500 text-indigo-100 py-2 px-4 rounded-md tracking-wide"
                   onClick={() => history(`/orders/${order?._id}`)}
                 >
                   Details

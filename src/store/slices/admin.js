@@ -157,7 +157,7 @@ export const getAdminOrders = () => async (dispatch) => {
       type: adminOrdersRequest.type,
     });
 
-    const { data } = await axios.get(`/api/v1/orders/admin`);
+    const { data } = await axios.get(`/api/v1/orders/admin/get-orders`);
 
     dispatch({
       type: adminOrdersRequestSuccess.type,

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
+import Loader from '../components/Loader';
 import ProductQuantity from '../components/ProductQuantity';
 import {
   addProductsToCart,
@@ -24,14 +25,38 @@ const CartPage = () => {
     dispatch(fetchProductsInCart());
   }, []);
 
-  if (loading) return <p>loading</p>;
-
-  if (!cartData)
+  if (!isLoggedIn) {
     return (
-      <h2 className="text-4xl text-center mt-32">
-        There are currently no items in your cart!
-      </h2>
+      <div className="flex flex-col items-center mt-32">
+        <h2 className="text-4xl mb-4">Please login to continue</h2>
+        <button
+          onClick={() => history(`/login`)}
+          className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+        >
+          Login
+        </button>
+      </div>
     );
+  }
+
+  if (loading) return <Loader />;
+
+  if (!cartData) {
+    return (
+      <div className="flex flex-col items-center mt-32">
+        <h2 className="text-4xl mb-4">
+          There are currently no items in your cart!
+        </h2>
+        <button
+          onClick={() => history(`/`)}
+          className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+        >
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
+
   const { products } = cartData;
 
   const totalPrice = products?.reduce(
@@ -50,10 +75,10 @@ const CartPage = () => {
   };
 
   return (
-    <div className="flex mt-8">
+    <div className="flex flex-col mt-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 flex-1">
         <h1 className="mb-2 text-4xl">Your cart</h1>
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="py-2 mb-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -183,42 +208,46 @@ const CartPage = () => {
         </div>
       </div>
 
-      <div className="mx-32 p-4 w-1/4 border-2 border-blue-100 ml-8 mt-24 shadow rounded">
-        <div className="flex justify-between mb-1">
-          <p>Subtotal</p>
-          <p>₹{totalPrice}</p>
-        </div>
+      {products?.length !== 0 && (
+        <div className="flex justify-center sm:justify-end mt-24">
+          <div className="w-64 p-4 border-2 border-blue-100 shadow rounded">
+            <div className="flex justify-between mb-1">
+              <p>Subtotal</p>
+              <p>₹{totalPrice}</p>
+            </div>
 
-        <div className="flex justify-between mb-3">
-          <p>Shipping Fee</p>
-          <p>₹{shippingPrice}</p>
-        </div>
+            <div className="flex justify-between mb-3">
+              <p>Shipping Fee</p>
+              <p>₹{shippingPrice}</p>
+            </div>
 
-        <div className="flex justify-between text-xl font-bold">
-          <p>Order Total</p>
-          <p>₹{orderTotal}</p>
-        </div>
+            <div className="flex justify-between text-xl font-bold">
+              <p>Order Total</p>
+              <p>₹{orderTotal}</p>
+            </div>
 
-        <div className="border-b border-blue-100 my-2"></div>
+            <div className="border-b border-blue-100 my-2"></div>
 
-        <div className="mt-5 flex justify-center">
-          {isLoggedIn ? (
-            <button
-              onClick={() => history(`/shipping`)}
-              className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
-            >
-              Proceed to checkout
-            </button>
-          ) : (
-            <button
-              onClick={() => history(`/login?redirect=shipping`)}
-              className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
-            >
-              Login
-            </button>
-          )}
+            <div className="mt-5 flex justify-center">
+              {isLoggedIn ? (
+                <button
+                  onClick={() => history(`/shipping`)}
+                  className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+                >
+                  Proceed to checkout
+                </button>
+              ) : (
+                <button
+                  onClick={() => history(`/login?redirect=shipping`)}
+                  className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+                >
+                  Login
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

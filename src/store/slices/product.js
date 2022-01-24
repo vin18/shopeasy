@@ -7,6 +7,7 @@ const slice = createSlice({
     productData: [],
     productDeleted: false,
     productUpdated: false,
+    productCreated: false,
     productAdminData: null,
     loading: false,
     error: null,
@@ -32,6 +33,14 @@ const slice = createSlice({
       state.loading = false;
       state.productAdminData = action.payload;
     },
+    productAdminCreateSuccess: (state, action) => {
+      state.loading = false;
+      state.productCreated = true;
+    },
+    adminProductCreateReset: (state, action) => {
+      state.loading = false;
+      state.productCreated = false;
+    },
     adminProductUpdateReset: (state, action) => {
       state.loading = false;
       state.productUpdated = false;
@@ -55,7 +64,9 @@ export const {
   productRequestSuccess,
   productRequestFail,
   productAdminDeleteRequestSuccess,
+  productAdminCreateSuccess,
   adminProductDeleteReset,
+  adminProductCreateReset,
   productAdminUpdateSuccess,
   productAdminRequestSuccess,
   adminProductUpdateReset,
@@ -88,6 +99,25 @@ export const fetchAdminProduct = (productId) => async (dispatch) => {
 
     dispatch({
       type: productAdminRequestSuccess.type,
+      payload: data?.product,
+    });
+  } catch (error) {
+    dispatch({
+      type: productRequestFail.type,
+      payload: error.message,
+    });
+  }
+};
+
+export const createAdminProduct = (product) => async (dispatch) => {
+  try {
+    dispatch({
+      type: productRequest.type,
+    });
+    const { data } = await axios.post(`/api/v1/products/admin`, product);
+
+    dispatch({
+      type: productAdminCreateSuccess.type,
       payload: data?.product,
     });
   } catch (error) {

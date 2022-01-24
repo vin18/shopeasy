@@ -14,7 +14,8 @@ const PlaceorderPage = () => {
 
   const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
   const totalProductsPrice = products?.reduce(
-    (acc, product) => acc + product?.price,
+    (acc, product) =>
+      acc + parseFloat(product?.price) * Number(product?.quantity),
     0
   );
   const shippingPrice = parseFloat(totalProductsPrice) > 500 ? 50 : 0;
@@ -98,8 +99,8 @@ const PlaceorderPage = () => {
   };
 
   return (
-    <div className="flex w-full mt-24">
-      <div className="flex flex-1 flex-col space-y-8 mr-64">
+    <div className="flex flex-col md:flex-row w-full mt-24">
+      <div className="flex flex-1 flex-col space-y-8 md:mr-48">
         <div>
           <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
           <p>Address: {shippingAddress}</p>
@@ -113,6 +114,9 @@ const PlaceorderPage = () => {
         <div>
           <h3 className="text-3xl mb-1 uppercase">Order Items</h3>
           {products?.map((product) => {
+            const totalProductPrice =
+              parseFloat(product?.price) * Number(product?.quantity);
+
             return (
               <div
                 key={product?._id}
@@ -121,8 +125,7 @@ const PlaceorderPage = () => {
                 <img className="w-24 mr-8" src={product?.image} alt="" />
                 <h2 className="mr-8">{product?.name}</h2>
                 <p>
-                  {product?.quantity} x ₹{product?.price} = ₹
-                  {totalProductsPrice}
+                  {product?.quantity} x ₹{product?.price} = ₹{totalProductPrice}
                 </p>
               </div>
             );
@@ -130,7 +133,7 @@ const PlaceorderPage = () => {
         </div>
       </div>
 
-      <div>
+      <div className="mt-16 md:mt-0">
         <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
           <h3 className="text-3xl mb-4 uppercase">Order Summary</h3>
 

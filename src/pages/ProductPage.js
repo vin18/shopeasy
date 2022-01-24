@@ -21,6 +21,7 @@ import {
 } from '../store/slices/reviews';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
+import Loader from '../components/Loader';
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -84,9 +85,13 @@ const ProductPage = () => {
       price: product?.price,
       image: product?.image,
     };
-    toast.success(`Item added to the cart!`);
-    dispatch(addProductsToCart(productsData));
-    history(`/cart`);
+    if (!isLoggedIn) {
+      history(`/login`);
+    } else {
+      toast.success(`Item added to the cart!`);
+      dispatch(addProductsToCart(productsData));
+      history(`/cart`);
+    }
   };
 
   const handleReviewSubmit = (e) => {
@@ -121,7 +126,7 @@ const ProductPage = () => {
   const subtractQuantity = () =>
     setQuantity((prevQuantity) => prevQuantity - 1);
 
-  if (loading) return <p>Loading..</p>;
+  if (loading) return <Loader />;
 
   return (
     <div>
@@ -133,15 +138,19 @@ const ProductPage = () => {
         <span className="ml-2">Back to products</span>
       </Link>
 
-      <div className="mt-16 flex">
-        <div className="flex-1">
-          <img style={{ maxWidth: '450px' }} src={product.image} alt="" />
+      <div className="mt-16 flex flex-col md:flex-row">
+        <div className="flex-1 flex justify-center">
+          <img
+            className="max-w-xs md:max-w-md"
+            src={product?.image?.url}
+            alt=""
+          />
         </div>
 
         <div className="flex-1 space-y-2">
           <h3 className="text-3xl">{product.name}</h3>
           <p>Description: {product.description}</p>
-          <Review product={product} /> ({product.numReviews} reviews)
+          <Review product={product} /> ({product.numOfReviews} reviews)
           <div>Category: {capitalizeFirstLetter(product.category)}</div>
           <div>Price: ₹{product.price}</div>
           <div className="flex">
@@ -179,7 +188,7 @@ const ProductPage = () => {
         </div>
       </div>
 
-      <div className="mt-16 w-100 flex justify-between">
+      <div className="mt-16 w-100 flex flex-col md:flex-row justify-between">
         <Reviews
           productId={productId}
           reviewLoading={reviewLoading}
@@ -188,7 +197,7 @@ const ProductPage = () => {
           handleDeleteProductReview={handleDeleteProductReview}
         />
 
-        <div className="w-1/2">
+        <div className="md:w-1/2 mt-2 md:mt-0">
           <h3 className="text-3xl mb-4">
             {isReviewUpdate ? 'Edit' : 'Write'} a review
           </h3>

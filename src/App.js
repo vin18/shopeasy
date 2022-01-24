@@ -18,13 +18,14 @@ import AdminUserEdit from './pages/AdminUserEdit';
 import AdminOrders from './pages/AdminOrders';
 import AdminProducts from './pages/AdminProducts';
 import AdminProductEdit from './pages/AdminProductEdit';
+import AdminProductCreate from './pages/AdminProductCreate';
 
 function App() {
   return (
     <Router>
       <Header />
       <div
-        className="container mx-auto my-5 px-32"
+        className="container mx-auto my-5 px-8 md:px-12 lg:px-18"
         style={{ minHeight: '80vh' }}
       >
         <Routes>
@@ -52,8 +53,12 @@ function App() {
             element={<AdminProducts />}
           />
           <Route
-            path="/admin/products/:productId"
+            path="/admin/products/edit/:productId"
             element={<AdminProductEdit />}
+          />
+          <Route
+            path="/admin/products/create"
+            element={<AdminProductCreate />}
           />
         </Routes>
       </div>

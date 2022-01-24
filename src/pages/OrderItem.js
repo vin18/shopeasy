@@ -5,11 +5,14 @@ import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { orderDelivered, orderDeliveredReset } from '../store/slices/orders';
+import Loader from '../components/Loader';
 
 const OrderItemPage = () => {
   const [order, setOrder] = useState();
   const { userData } = useSelector((state) => state.user);
-  const { orderDelivered } = useSelector((state) => state.orders);
+  const { orderDelivered: orderDeliveredStatus } = useSelector(
+    (state) => state.orders
+  );
   const { orderId } = useParams();
   const dispatch = useDispatch();
 
@@ -23,16 +26,16 @@ const OrderItemPage = () => {
   }, [orderId]);
 
   useEffect(() => {
-    if (orderDelivered) {
+    if (orderDeliveredStatus) {
       toast.success(`Order delivered!`);
       fetchOrder();
       setTimeout(() => {
         dispatch(orderDeliveredReset());
       }, 2000);
     }
-  }, [orderDelivered]);
+  }, [orderDeliveredStatus]);
 
-  if (!order) return <p>Loading..</p>;
+  if (!order) return <Loader />;
 
   const {
     _id: orderID,
@@ -53,10 +56,10 @@ const OrderItemPage = () => {
   };
 
   return (
-    <div className="flex w-full mt-24">
-      <div className="flex flex-1 flex-col space-y-8 mr-64">
+    <div className="flex flex-col lg:flex-row mt-24">
+      <div className="flex flex-1 flex-col space-y-8">
         <div>
-          <h3 className="text-3xl mb-1 uppercase">OrderID</h3>
+          <h3 className="text-3xl mb-1 uppercase">Order ID</h3>
           <p>{orderID}</p>
         </div>
 
@@ -104,7 +107,7 @@ const OrderItemPage = () => {
         </div>
       </div>
 
-      <div>
+      <div className="mt-8 lg:mt-0">
         <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
           <h3 className="text-3xl mb-4 uppercase">Order Summary</h3>
 
@@ -138,12 +141,14 @@ const OrderItemPage = () => {
           )}
         </div>
         {!order.isDelivered && userData?.role === 'admin' && (
-          <button
-            onClick={handleOrderDelivered}
-            className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
-          >
-            Mark as delivered
-          </button>
+          <div className="flex justify-center">
+            <button
+              onClick={handleOrderDelivered}
+              className="mt-4 px-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+            >
+              Mark as delivered
+            </button>
+          </div>
         )}
       </div>
     </div>

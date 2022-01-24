@@ -4,32 +4,21 @@ import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import Checkbox from '../components/custom/Checkbox';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  adminUserUpdateReset,
-  getAdminUser,
-  updateAdminUser,
-} from '../store/slices/admin';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  adminProductUpdateReset,
-  fetchAdminProduct,
-  updateAdminProduct,
+  createAdminProduct,
+  adminProductCreateReset,
 } from '../store/slices/product';
 import TextArea from '../components/custom/TextArea';
-import { getBase64FromUrl } from '../utils/getBase64FromUrl';
 
-const AdminProductEdit = () => {
-  const dispatch = useDispatch();
-  const {
-    productAdminData: product,
-    productUpdated,
-    loading,
-  } = useSelector((state) => state.product);
-  const history = useNavigate();
-  const { productId } = useParams();
+const AdminProductCreate = () => {
   const [productImage, setProductImage] = useState();
   const [productImagePreview, setProductImagePreview] = useState();
+  const dispatch = useDispatch();
+  const { productCreated, loading } = useSelector((state) => state.product);
+  const history = useNavigate();
+  const { productId } = useParams();
 
   const handleImageChange = (event) => {
     const reader = new FileReader();
@@ -47,7 +36,6 @@ const AdminProductEdit = () => {
   const [initialValues, setInitialValues] = useState({
     name: '',
     price: '',
-    image: '',
     brand: '',
     countInStock: '',
     category: '',
@@ -55,32 +43,13 @@ const AdminProductEdit = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchAdminProduct(productId));
-  }, [productId]);
-
-  useEffect(() => {
-    async function hydrateProductData() {
-      if (product) {
-        const image = await getBase64FromUrl(product.image.url);
-        setProductImage(image);
-        setProductImagePreview(image);
-        setInitialValues({
-          ...product,
-        });
-      }
+    if (productCreated) {
+      toast.success(`Product created!`);
+      history(`/admin/products`);
     }
+  }, [productCreated]);
 
-    hydrateProductData();
-  }, [product]);
-
-  useEffect(() => {
-    if (productUpdated) {
-      toast.success(`Product updated!`);
-      dispatch(adminProductUpdateReset());
-    }
-  }, [productUpdated]);
-
-  const adminProductEditSchema = yup.object().shape({
+  const adminProductCreateSchema = yup.object().shape({
     name: yup
       .string()
       .min(3, 'Name must be atleast 3 characters')
@@ -109,8 +78,8 @@ const AdminProductEdit = () => {
     }
 
     dispatch(
-      updateAdminProduct({
-        productImage,
+      createAdminProduct({
+        image: productImage,
         ...values,
       })
     );
@@ -119,7 +88,7 @@ const AdminProductEdit = () => {
   return (
     <div className="flex justify-center items-center w-full mt-8">
       <Formik
-        validationSchema={adminProductEditSchema}
+        validationSchema={adminProductCreateSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
         enableReinitialize
@@ -130,7 +99,7 @@ const AdminProductEdit = () => {
               <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-md border-2 border-blue-100">
                 <div className="space-y-4">
                   <h1 className="text-center text-2xl font-semibold text-gray-600">
-                    Edit Product
+                    Create Product
                   </h1>
 
                   <TextInput
@@ -217,8 +186,9 @@ const AdminProductEdit = () => {
                     />
                   </div>
                 </div>
+
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
-                  {!loading ? 'Update' : 'Please wait..'}
+                  {!loading ? 'Create' : 'Please wait..'}
                 </button>
               </div>
             </Form>
@@ -229,4 +199,4 @@ const AdminProductEdit = () => {
   );
 };
 
-export default AdminProductEdit;
+export default AdminProductCreate;

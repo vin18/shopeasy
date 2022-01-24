@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../store/slices/user';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
@@ -95,6 +95,12 @@ const RegisterPage = () => {
                     error={errors.password}
                     placeholder="Your password"
                   />
+                </div>
+
+                <div className="flex mt-4">
+                  <p className="block text-gray-600 font-semibold mr-2">
+                    Already a user? <Link to="/login">Login here</Link>
+                  </p>
                 </div>
 
                 <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
