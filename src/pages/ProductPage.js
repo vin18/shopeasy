@@ -138,13 +138,9 @@ const ProductPage = () => {
         <span className="ml-2">Back to products</span>
       </Link>
 
-      <div className="mt-16 flex flex-col md:flex-row">
+      <div className="mt-2 flex items-center flex-col md:flex-row">
         <div className="flex-1 flex justify-center">
-          <img
-            className="max-w-xs md:max-w-md"
-            src={product?.image?.url}
-            alt=""
-          />
+          <img className="w-100" src={product?.image?.url} alt="" />
         </div>
 
         <div className="flex-1 space-y-2">

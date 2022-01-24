@@ -4,7 +4,7 @@ import Review from './Review';
 const ProductItem = ({ product }) => {
   return (
     <div className="p-5 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-blue-500 ">
-      <div className="w-64 mx-auto">
+      <div className="w-92 mx-auto">
         <img className="w-100 h-100" src={product?.image?.url}></img>
       </div>
 
