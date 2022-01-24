@@ -120,6 +120,18 @@ const createAdminProduct = async (req, res) => {
  */
 const updateAdminProduct = async (req, res) => {
   try {
+    const { image, productImage } = req.body;
+
+    await cloudinary.v2.uploader.destroy(image.public_id);
+    const uploadedImage = await cloudinary.v2.uploader.upload(productImage, {
+      folder: 'bookeasy/rooms',
+    });
+
+    req.body.image = {
+      public_id: uploadedImage.public_id,
+      url: uploadedImage.secure_url,
+    };
+
     const product = await Product.findByIdAndUpdate(
       req.params.productId,
       req.body,
