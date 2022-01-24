@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import cookieParser from 'cookie-parser';
 import connectDb from './config/connectDb.js';
+import cloudinary from 'cloudinary';
 
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -12,6 +13,12 @@ import reviewRoutes from './routes/reviewRoutes.js';
 
 dotenv.config();
 const app = express();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 connectDb();
 app.use(cookieParser());
