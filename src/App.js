@@ -18,6 +18,7 @@ import AdminUserEdit from './pages/AdminUserEdit';
 import AdminOrders from './pages/AdminOrders';
 import AdminProducts from './pages/AdminProducts';
 import AdminProductEdit from './pages/AdminProductEdit';
+import AdminProductCreate from './pages/AdminProductCreate';
 
 function App() {
   return (
@@ -54,6 +55,10 @@ function App() {
           <Route
             path="/admin/products/:productId"
             element={<AdminProductEdit />}
+          />
+          <Route
+            path="/admin/products/create"
+            element={<AdminProductCreate />}
           />
         </Routes>
       </div>

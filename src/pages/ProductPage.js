@@ -140,13 +140,17 @@ const ProductPage = () => {
 
       <div className="mt-16 flex flex-col md:flex-row">
         <div className="flex-1 flex justify-center">
-          <img className="max-w-xs md:max-w-md" src={product.image} alt="" />
+          <img
+            className="max-w-xs md:max-w-md"
+            src={product.image.url}
+            alt=""
+          />
         </div>
 
         <div className="flex-1 space-y-2">
           <h3 className="text-3xl">{product.name}</h3>
           <p>Description: {product.description}</p>
-          <Review product={product} /> ({product.numReviews} reviews)
+          <Review product={product} /> ({product.numOfReviews} reviews)
           <div>Category: {capitalizeFirstLetter(product.category)}</div>
           <div>Price: ₹{product.price}</div>
           <div className="flex">
