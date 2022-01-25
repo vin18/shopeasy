@@ -1,18 +1,16 @@
-import { useState, useEffect } from 'react';
+import {  useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
 import Loader from '../components/Loader';
-import ProductQuantity from '../components/ProductQuantity';
 import {
   addProductsToCart,
   clearCart,
   fetchProductsInCart,
   removeProductFromCart,
 } from '../store/slices/cart';
-import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 
 const CartPage = () => {
   const { cartData, loading } = useSelector((state) => state.cart);
@@ -23,7 +21,7 @@ const CartPage = () => {
 
   useEffect(() => {
     dispatch(fetchProductsInCart());
-  }, []);
+  }, [dispatch]);
 
   if (!isLoggedIn) {
     return (

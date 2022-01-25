@@ -91,7 +91,7 @@ export const clearCart = () => async (dispatch) => {
       type: cartRequest.type,
     });
 
-    const { data } = await axios.delete(`/api/v1/cart`);
+    await axios.delete(`/api/v1/cart`);
 
     dispatch({
       type: cartRequestSuccess.type,

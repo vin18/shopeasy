@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import LeftArrowIcon from '../assets/icons/LeftArrowIcon';
 import Review from '../components/Review';
 import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct } from '../store/slices/product';
-import ProductQuantity from '../components/ProductQuantity';
 import { addProductsToCart } from '../store/slices/cart';
 import toast from 'react-hot-toast';
 import Reviews from '../components/Reviews';
@@ -52,7 +50,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     dispatch(fetchProduct(productId));
-  }, [productId]);
+  }, [productId, dispatch]);
 
   useEffect(() => {
     dispatch(reviewReset());
@@ -73,7 +71,7 @@ const ProductPage = () => {
     setComment('');
     setReviewUpdate(false);
     setReviewUpdate(null);
-  }, [reviewPosted, reviewRemoved, reviewUpdated, reviewError, productId]);
+  }, [reviewPosted, reviewRemoved, reviewUpdated, reviewError, productId, dispatch]);
 
   const isProductAvailable = product.countInStock > 0;
 

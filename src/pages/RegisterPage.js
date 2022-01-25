@@ -22,7 +22,7 @@ const RegisterPage = () => {
       toast.success(`Registered successfully!`);
       return history(`/`);
     }
-  }, [userData]);
+  }, [userData, history]);
 
   const registerSchema = yup.object().shape({
     name: yup

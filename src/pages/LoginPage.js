@@ -21,7 +21,7 @@ const LoginPage = () => {
       toast.success(`Logged in!`);
       return history(`/`);
     }
-  }, [userData]);
+  }, [userData, history]);
 
   const loginSchema = yup.object().shape({
     email: yup
