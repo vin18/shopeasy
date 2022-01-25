@@ -112,7 +112,7 @@ const PlaceorderPage = () => {
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Order Items</h3>
+          <h3 className="text-3xl mb-4 uppercase">Order Items</h3>
           {products?.map((product) => {
             const totalProductPrice =
               parseFloat(product?.price) * Number(product?.quantity);
@@ -120,7 +120,7 @@ const PlaceorderPage = () => {
             return (
               <div
                 key={product?._id}
-                className="flex items-center border-b border-gray-300"
+                className="flex items-center pb-2 border-b border-gray-300"
               >
                 <img className="w-24 mr-8" src={product?.image} alt="" />
                 <h2 className="mr-8">{product?.name}</h2>

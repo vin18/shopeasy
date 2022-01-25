@@ -91,7 +91,7 @@ const RegisterPage = () => {
                     value={values.password}
                     onChange={handleChange}
                     name="password"
-                    type="text"
+                    type="password"
                     error={errors.password}
                     placeholder="Your password"
                   />

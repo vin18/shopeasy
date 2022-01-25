@@ -15,7 +15,6 @@ const Orders = () => {
     dispatch(fetchAllOrders());
   }, []);
 
-  if (loading) return <Loader />;
 
   if (allOrders?.length === 0) {
     return (

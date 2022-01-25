@@ -41,7 +41,9 @@ const CartPage = () => {
 
   if (loading) return <Loader />;
 
-  if (!cartData) {
+  console.log(cartData);
+
+  if (cartData.length === 0) {
     return (
       <div className="flex flex-col items-center mt-32">
         <h2 className="text-4xl mb-4">
@@ -73,6 +75,8 @@ const CartPage = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
+
+  console.log(products);
 
   return (
     <div className="flex flex-col mt-8">
@@ -119,7 +123,7 @@ const CartPage = () => {
                     <tr key={product?.productId}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 h-32 w-32">
+                          <div className="flex items-center h-32 w-32">
                             <img
                               className="rounded"
                               src={product?.image}
@@ -143,7 +147,7 @@ const CartPage = () => {
                                 quantity: Number(product?.quantity) + 1,
                                 name: product?.name,
                                 price: product?.price,
-                                image: product?.image,
+                                image: product?.image?.url,
                               };
                               dispatch(addProductsToCart(productsData));
                             }}
@@ -163,7 +167,7 @@ const CartPage = () => {
                                 quantity: Number(product?.quantity) - 1,
                                 name: product?.name,
                                 price: product?.price,
-                                image: product?.image,
+                                image: product?.image?.url,
                               };
                               dispatch(addProductsToCart(productsData));
                             }}

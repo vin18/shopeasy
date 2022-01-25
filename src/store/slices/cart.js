@@ -36,7 +36,7 @@ export const fetchProductsInCart = () => async (dispatch) => {
 
     dispatch({
       type: cartRequestSuccess.type,
-      payload: data?.cart,
+      payload: data?.cart || [],
     });
   } catch (error) {
     dispatch({
