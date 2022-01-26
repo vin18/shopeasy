@@ -4,6 +4,9 @@ import colors from 'colors';
 import cookieParser from 'cookie-parser';
 import connectDb from './config/connectDb.js';
 import cloudinary from 'cloudinary';
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+import path from 'path'
 
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';

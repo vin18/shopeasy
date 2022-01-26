@@ -5,7 +5,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "build-client": "cd client && npm run build",
+    "client": "cd client && npm run start",
+    "server": "nodemon server --ignore client",
+    "start": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
     "dev": "NODE_ENV=development nodemon server.js",
     "prod": "NODE_ENV=production nodemon server.js",
     "import:data": "node seeder -i",
@@ -26,6 +29,7 @@
     "razorpay": "^2.8.0"
   },
   "devDependencies": {
+    "concurrently": "^7.0.0",
     "nodemon": "^2.0.15"
   },
   "engines": {
