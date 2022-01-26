@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from '../../utils/axios.js';
+import axios from 'axios';
 
 const slice = createSlice({
   name: 'products',
