@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <h3 align="center">Shop for your favorite products with ShopEasy</h3>
+  <h3 align="center">Shop your favorite products with ShopEasy</h3>
 
   <p align="center">
     <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/vinitraut18?style=social" />
@@ -11,7 +11,7 @@
   </p>
 </p>
 
-<p align="center">ShopEasy - an ecommerce store built using React and Node.js (MERN stack) that allows to buy various products</p>
+<p align="center">ShopEasy - an eCommerce store built using React and Node.js (MERN stack)</p>
 
 ## ✨ Features
 
