@@ -7,6 +7,8 @@ export const sendResponse = (user, res) => {
   const cookieOptions = {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * oneDay),
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    signed: true,
   };
 
   user.password = undefined;

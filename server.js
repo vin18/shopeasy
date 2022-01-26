@@ -22,7 +22,7 @@ cloudinary.config({
 
 connectDb();
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json(process.env.JWT_SECRET));
 
 app.use(`/api/v1/products`, productRoutes);
 app.use(`/api/v1/users`, userRoutes);
