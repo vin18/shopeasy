@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import axios from '../utils/axios.js';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';

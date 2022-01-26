@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import axios from '../utils/axios.js';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import Loader from "../components/Loader";
+import Loader from '../components/Loader';
 
 const PlaceorderPage = () => {
   const [loading, setLoading] = useState(false);
@@ -99,7 +99,7 @@ const PlaceorderPage = () => {
     document.body.appendChild(script);
   };
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col md:flex-row w-full mt-24">
