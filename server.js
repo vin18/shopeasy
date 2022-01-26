@@ -29,7 +29,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 app.use(express.static(path.resolve(__dirname, './client/build')))
 app.use(express.json());
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(cookieParser());
 
 app.use(`/api/v1/products`, productRoutes);
 app.use(`/api/v1/users`, userRoutes);
