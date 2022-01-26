@@ -25,22 +25,21 @@ cloudinary.config({
 
 connectDb();
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(express.static(path.resolve(__dirname, './client/build')))
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use(`/api/v1/products`, productRoutes);
 app.use(`/api/v1/users`, userRoutes);
 app.use(`/api/v1/cart`, cartRoutes);
 app.use(`/api/v1/orders`, orderRoutes);
 app.use(`/api/v1/reviews`, reviewRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
