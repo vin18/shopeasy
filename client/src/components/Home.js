@@ -26,6 +26,17 @@ const Home = () => {
 
   if (loading) return <Loader />;
 
+  if (products?.length <= 0) {
+    return (
+      <div className="flex flex-col justify-center items-center mt-32">
+        <h3 className="text-3xl text-center mb-2">No products found!</h3>
+        <Link className="bg-blue-500 text-blue-50 py-2 px-4 rounded" to="/">
+          Back to Home page
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div>
       {isMobile && <Search />}
@@ -33,7 +44,7 @@ const Home = () => {
         Popular Products
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 min-h-screen sm:grid-cols-2 xl:grid-cols-3 gap-8">
         {products?.map((product) => (
           <Link key={product?._id} to={`/product/${product?._id}`}>
             <ProductItem product={product} />

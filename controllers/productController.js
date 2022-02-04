@@ -9,29 +9,26 @@ import Product from '../models/productModel.js';
  */
 const getAllProducts = async (req, res) => {
   const { keyword, pageNumber: page = 1 } = req.query;
+  const queryObject = {};
   const pageSize = 6;
 
-  const searchQuery = keyword
-    ? { name: { $regex: keyword, $options: 'i' } }
-    : {};
-
-  try {
-    const count = await Product.countDocuments({ ...searchQuery });
-    const products = await Product.find({ ...searchQuery })
-      .limit(pageSize)
-      .skip(pageSize * (Number(page) - 1));
-
-    res.status(StatusCodes.OK).json({
-      products,
-      page,
-      pages: Math.ceil(count / pageSize),
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  if (keyword) {
+    queryObject.name = { $regex: keyword, $options: 'i' };
   }
+
+  let results = Product.find(queryObject)
+    .limit(pageSize)
+    .skip(pageSize * (Number(page) - 1));
+  const products = await results;
+  const count = await Product.countDocuments();
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    count,
+    products,
+    page,
+    pages: Math.ceil(count / pageSize),
+  });
 };
 
 /**

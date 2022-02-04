@@ -47,7 +47,7 @@ const Header = () => {
       </div>
 
       {open && isTab ? (
-        <nav className="block lg:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-14 left-0">
+        <nav className="block z-10 lg:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-14 left-0">
           <ul className="flex flex-col cursor-pointer mb-1">
             <li className="px-4 py-2">
               <Link to="/cart">Cart</Link>

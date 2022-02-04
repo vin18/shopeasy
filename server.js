@@ -7,7 +7,7 @@ import cloudinary from 'cloudinary';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
-
+import 'express-async-errors';
 // routers
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
