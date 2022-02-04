@@ -39,8 +39,6 @@ const CartPage = () => {
 
   if (loading) return <Loader />;
 
-  console.log(cartData);
-
   if (cartData.length === 0) {
     return (
       <div className="flex flex-col items-center mt-32">
@@ -73,9 +71,7 @@ const CartPage = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
-
-  console.log(products);
-
+  
   return (
     <div className="flex flex-col mt-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 flex-1">

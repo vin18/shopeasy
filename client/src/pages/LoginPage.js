@@ -14,7 +14,7 @@ const LoginPage = () => {
   };
   const history = useNavigate();
   const dispatch = useDispatch();
-  const { userData, loading } = useSelector((state) => state.user);
+  const { userData, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (userData?.email) {
@@ -22,6 +22,12 @@ const LoginPage = () => {
       return history(`/`);
     }
   }, [userData, history]);
+
+  useEffect(() => {
+    if (error) {
+      return toast.error(error)
+    }
+  }, [error])
 
   const loginSchema = yup.object().shape({
     email: yup

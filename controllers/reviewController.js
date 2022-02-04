@@ -150,7 +150,7 @@ const deleteReview = async (req, res) => {
     if (!review) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
-        error: `No review found with id: $${req.params.reviewId}`,
+        error: `No review found with id: ${req.params.reviewId}`,
       });
     }
 

@@ -1,24 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-
-import HomePage from './pages/HomePage';
-import ProductPage from './pages/ProductPage';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import {
+  HomePage,
+  ProductPage,
+  CartPage,
+  RegisterPage,
+  LoginPage,
+  ProfilePage,
+  ShippingPage,
+  PlaceorderPage,
+  OrderItemPage,
+  AdminUsersPage,
+  AdminProductEditPage,
+  AdminOrdersPage,
+  AdminProductsPage,
+  AdminUserEditPage,
+  AdminProductCreatePage,
+} from './pages';
 import './App.css';
-import CartPage from './pages/CartPage';
-import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
-import ShippingPage from './pages/ShippingPage';
-import PlaceorderPage from './pages/PlaceorderPage';
-import OrderItemPage from './pages/OrderItem';
-import AdminUsers from './pages/AdminUsers';
-import AdminUserEdit from './pages/AdminUserEdit';
-import AdminOrders from './pages/AdminOrders';
-import AdminProducts from './pages/AdminProducts';
-import AdminProductEdit from './pages/AdminProductEdit';
-import AdminProductCreate from './pages/AdminProductCreate';
 
 function App() {
   return (
@@ -44,21 +45,21 @@ function App() {
           <Route path="/shipping" element={<ShippingPage />} />
           <Route path="/placeorder" element={<PlaceorderPage />} />
           <Route path="/orders/:orderId" element={<OrderItemPage />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/users/:userId" element={<AdminUserEdit />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/users/:userId" element={<AdminUserEditPage />} />
+          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route path="/admin/products" element={<AdminProductsPage />} />
           <Route
             path="/admin/products/:pageNumber"
-            element={<AdminProducts />}
+            element={<AdminProductsPage />}
           />
           <Route
             path="/admin/products/edit/:productId"
-            element={<AdminProductEdit />}
+            element={<AdminProductEditPage />}
           />
           <Route
             path="/admin/products/create"
-            element={<AdminProductCreate />}
+            element={<AdminProductCreatePage />}
           />
         </Routes>
       </div>

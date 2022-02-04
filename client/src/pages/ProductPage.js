@@ -156,21 +156,22 @@ const ProductPage = () => {
             </p>
           </div>
           <div className="flex">
+          <button
+              onClick={subtractQuantity}
+              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+              disabled={quantity <= 1}
+            >
+              <MinusIcon />
+            </button>
+            
+            <span className="mx-1">{quantity}</span>
+
             <button
               onClick={addQuantity}
               className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
               disabled={quantity >= product?.countInStock}
             >
               <PlusIcon />
-            </button>
-            <span className="mx-1">{quantity}</span>
-
-            <button
-              onClick={subtractQuantity}
-              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
-              disabled={quantity <= 1}
-            >
-              <MinusIcon />
             </button>
           </div>
           <button
