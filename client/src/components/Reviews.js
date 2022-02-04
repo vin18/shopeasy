@@ -17,7 +17,7 @@ const Reviews = ({
   if (reviewLoading) return <p>Loading...</p>;
 
   return (
-    <div className="w-1/2 mr-16">
+    <div className="md:w-1/2 md:mr-16">
       <h3 className="text-3xl">Reviews</h3>
       {reviewsData?.length === 0 && (
         <p className="text-lg">

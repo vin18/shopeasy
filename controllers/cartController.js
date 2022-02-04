@@ -7,20 +7,13 @@ import Cart from '../models/cartModel.js';
  * @access  Private
  */
 const getUserItemsFromCart = async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const cart = await Cart.findOne({ userId });
+  const userId = req.user._id;
+  const cart = await Cart.findOne({ userId });
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      cart,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.OK).json({
+    success: true,
+    cart,
+  });
 };
 
 /**
@@ -32,61 +25,54 @@ const addItemToCart = async (req, res) => {
   const { productId, quantity, name, price, image } = req.body;
   const userId = req.user._id;
 
-  try {
-    let cart = await Cart.findOne({ userId });
+  let cart = await Cart.findOne({ userId });
 
-    if (cart) {
-      // cart exists for user
-      let itemIndex = cart.products.findIndex((p) => p.productId === productId);
+  if (cart) {
+    // cart exists for user
+    let itemIndex = cart.products.findIndex((p) => p.productId === productId);
 
-      if (itemIndex > -1) {
-        // product exists in the cart, update the quantity
-        let productItem = cart.products[itemIndex];
-        productItem.quantity = quantity;
-        cart.products[itemIndex] = productItem;
+    if (itemIndex > -1) {
+      // product exists in the cart, update the quantity
+      let productItem = cart.products[itemIndex];
+      productItem.quantity = quantity;
+      cart.products[itemIndex] = productItem;
 
-        cart = await cart.save();
-      } else {
-        // product does not exists in cart, add new item
-        cart.products.push({
+      cart = await cart.save();
+    } else {
+      // product does not exists in cart, add new item
+      cart.products.push({
+        productId,
+        quantity,
+        name,
+        price,
+        image,
+      });
+
+      cart = await cart.save();
+    }
+
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+      cart,
+    });
+  } else {
+    // no cart for user, create new cart
+    const newCart = await Cart.create({
+      userId,
+      products: [
+        {
           productId,
           quantity,
           name,
           price,
           image,
-        });
+        },
+      ],
+    });
 
-        cart = await cart.save();
-      }
-
-      return res.status(StatusCodes.CREATED).json({
-        success: true,
-        cart,
-      });
-    } else {
-      // no cart for user, create new cart
-      const newCart = await Cart.create({
-        userId,
-        products: [
-          {
-            productId,
-            quantity,
-            name,
-            price,
-            image,
-          },
-        ],
-      });
-
-      return res.status(StatusCodes.CREATED).json({
-        success: true,
-        cart: newCart,
-      });
-    }
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+      cart: newCart,
     });
   }
 };
@@ -97,28 +83,24 @@ const addItemToCart = async (req, res) => {
  * @access  Private
  */
 const removeItemFromTheCart = async (req, res) => {
-  try {
-    let cart = await Cart.findOne({ userId: req.user._id });
-    let itemIndex = cart.products.findIndex(
-      (p) => p._id === req.params.productId
-    );
+  let cart = await Cart.findOne({ userId: req.user._id });
 
-    if (itemIndex > -1) {
-      cart.products.splice(itemIndex, 1);
-    }
+  let itemIndex = cart.products.findIndex(
+    (p) => p.productId === req.params.productId
+  );
 
-    cart = await cart.save();
+  console.log('Cart', cart);
 
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      cart,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  if (itemIndex > -1) {
+    cart.products.splice(itemIndex, 1);
   }
+
+  cart = await cart.save();
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    cart,
+  });
 };
 
 /**
@@ -127,19 +109,12 @@ const removeItemFromTheCart = async (req, res) => {
  * @access  Private
  */
 const clearCart = async (req, res) => {
-  try {
-    await Cart.deleteMany({ userId: req.user._id });
+  await Cart.deleteMany({ userId: req.user._id });
 
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      message: `Removed all the products from the cart`,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: `Removed all the products from the cart`,
+  });
 };
 
 export {

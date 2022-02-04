@@ -1,5 +1,6 @@
 import cloudinary from 'cloudinary';
 import { StatusCodes } from 'http-status-codes';
+import { NotFoundError } from '../errors/index.js';
 import Product from '../models/productModel.js';
 
 /**
@@ -37,18 +38,17 @@ const getAllProducts = async (req, res) => {
  * @access  Public
  */
 const getSingleProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id).populate('reviews');
+  const productId = req.params.id;
+  const product = await Product.findById(productId).populate('reviews');
 
-    res.status(StatusCodes.OK).json({
-      product,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  if (!product) {
+    throw new NotFoundError(`No product with id: ${productId}`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    product,
+  });
 };
 
 /**
