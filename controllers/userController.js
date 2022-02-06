@@ -8,29 +8,22 @@ import { sendResponse } from '../utils/sendResponse.js';
  * @access  Public
  */
 const register = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-    const emailExists = await User.findOne({ email });
-    if (emailExists) {
-      return res
-        .status(400)
-        .json({ success: false, message: `Email already exists!` });
-    }
-
-    const user = await User.create({
-      name,
-      email,
-      password,
-    });
-
-    sendResponse(user, res);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const emailExists = await User.findOne({ email });
+  if (emailExists) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ success: false, message: `Email already exists!` });
   }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+
+  sendResponse(user, res, StatusCodes.CREATED);
 };
 
 /**
@@ -39,30 +32,23 @@ const register = async (req, res) => {
  * @access  Public
  */
 const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: `Invalid credentials!` });
-    }
-
-    const isPasswordCorrect = await user.comparePassword(password);
-    if (!isPasswordCorrect) {
-      return res
-        .status(400)
-        .json({ success: false, message: `Invalid credentials!` });
-    }
-
-    sendResponse(user, res);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const user = await User.findOne({ email }).select('+password');
+  if (!user) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ success: false, message: `Invalid credentials!` });
   }
+
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ success: false, message: `Invalid credentials!` });
+  }
+
+  sendResponse(user, res, StatusCodes.OK);
 };
 
 /**
@@ -127,7 +113,7 @@ const updateProfile = async (req, res) => {
     if (country) user.country = country;
 
     await user.save();
-    sendResponse(user, res);
+    sendResponse(user, res, StatusCodes.OK);
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',

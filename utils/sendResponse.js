@@ -1,6 +1,4 @@
-import { StatusCodes } from 'http-status-codes';
-
-export const sendResponse = (user, res) => {
+export const sendResponse = (user, res, statusCode) => {
   const token = user.createJWT();
 
   const oneDay = 1000 * 60 * 60 * 24;
@@ -13,7 +11,7 @@ export const sendResponse = (user, res) => {
   user.password = undefined;
   res.cookie('token', token, cookieOptions);
 
-  res.status(StatusCodes.OK).json({
+  res.status(statusCode).json({
     success: true,
     user,
   });
