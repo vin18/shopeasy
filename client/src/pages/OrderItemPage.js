@@ -148,7 +148,7 @@ const OrderItemPage = () => {
 
           <div className="flex justify-between">
             <p>Payment</p>
-            <p className={`text-${paymentSuccessful ? 'green' : 'red'}-600`}>
+            <p className={`text-${paymentSuccessful ? 'green' : 'red'}-500 fo`}>
               {paymentSuccessful ? 'Successful' : 'Fail'}
             </p>
           </div>

@@ -114,20 +114,13 @@ const getAllOrders = async (req, res) => {
  * @access  Private (Admin)
  */
 const getAllAdminOrders = async (req, res) => {
-  try {
-    const orders = await Order.find().populate('user', 'id name');
+  const orders = await Order.find().populate('user', 'id name');
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      count: orders.length,
-      orders,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.OK).json({
+    success: true,
+    count: orders.length,
+    orders,
+  });
 };
 
 /**
@@ -136,29 +129,19 @@ const getAllAdminOrders = async (req, res) => {
  * @access  Private (Admin)
  */
 const updateOrderDelivered = async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.orderId);
-    if (!order) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        success: false,
-        error: `No order found with id: ${orderId}`,
-      });
-    }
-
-    order.isDelivered = true;
-    order.deliveredAt = Date.now();
-    await order.save();
-
-    res.status(StatusCodes.OK).json({
-      success: true,
-      order,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
+  const order = await Order.findById(req.params.orderId);
+  if (!order) {
+    throw new NotFoundError(`No order found with id: ${orderId}`);
   }
+
+  order.isDelivered = true;
+  order.deliveredAt = Date.now();
+  await order.save();
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    order,
+  });
 };
 
 export {

@@ -70,7 +70,7 @@ export const fetchProductReviews = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: reviewsRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -93,7 +93,7 @@ export const postProductReview = (review) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: reviewsRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -119,7 +119,7 @@ export const updateProductReview = (review) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: reviewsRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -138,7 +138,7 @@ export const removeProductReview = (reviewId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: reviewsRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };

@@ -61,7 +61,7 @@ export const fetchProducts =
     } catch (error) {
       dispatch({
         type: productsRequestFail.type,
-        payload: error.message,
+        payload: error.response.data.msg,
       });
     }
   };

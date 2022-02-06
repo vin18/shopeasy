@@ -65,7 +65,7 @@ export const fetchAllOrders = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ordersRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -84,7 +84,7 @@ export const orderDelivered = (orderId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ordersRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };

@@ -88,7 +88,7 @@ export const getAdminUsers = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminUserRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -108,7 +108,7 @@ export const getAdminUser = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminUserRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -127,7 +127,7 @@ export const updateAdminUser = (user) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminUserRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -146,7 +146,7 @@ export const deleteAdminUser = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminUserRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -166,7 +166,7 @@ export const getAdminOrders = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: adminOrdersRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };

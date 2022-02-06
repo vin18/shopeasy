@@ -85,7 +85,7 @@ export const fetchProduct = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: productRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -104,7 +104,7 @@ export const fetchAdminProduct = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: productRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -123,7 +123,7 @@ export const createAdminProduct = (product) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: productRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -145,7 +145,7 @@ export const updateAdminProduct = (product) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: productRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -163,7 +163,7 @@ export const deleteAdminProduct = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: productRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
