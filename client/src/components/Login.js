@@ -50,6 +50,13 @@ const Login = () => {
     dispatch(login(values));
   };
 
+  const handleGuestLogin = () => {
+    handleSubmit({
+      email: 'test@example.com',
+      password: '123456',
+    });
+  };
+
   return (
     <div className="flex justify-center items-center w-full mt-24">
       <Formik
@@ -109,6 +116,16 @@ const Login = () => {
                     </Link>
                   </p>
                 </div>
+
+                <button
+                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
+                    loading && 'opacity-70 cursor-not-allowed'
+                  }`}
+                  onClick={handleGuestLogin}
+                  disabled={loading}
+                >
+                  {!loading ? 'Login as guest' : 'Please wait..'}
+                </button>
 
                 <button
                   className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
