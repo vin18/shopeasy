@@ -1,7 +1,7 @@
 import { useField } from 'formik';
 import React from 'react';
-import EyeIcon from '../icons/EyeIcon';
-import EyeOffIcon from '../icons/EyeOffIcon';
+import EyeIcon from '../../assets/icons/EyeIcon';
+import EyeOffIcon from '../../assets/icons/EyeOffIcon';
 
 const TextInput = (props) => {
   const {

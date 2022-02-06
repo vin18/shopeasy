@@ -20,7 +20,7 @@ const Login = () => {
   useEffect(() => {
     if (userData?.email) {
       toast.success(`Logged in!`);
-      return history(`/`);
+      return history(`/products`);
     }
   }, [userData, history]);
 

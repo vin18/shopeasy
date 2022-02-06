@@ -8,14 +8,14 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
 
   const prevLink = !isAdmin
     ? keyword
-      ? `/search/${keyword}/page/${currentPage - 1}`
-      : `/page/${currentPage - 1}`
+      ? `/products/search/${keyword}/page/${currentPage - 1}`
+      : `/products/page/${currentPage - 1}`
     : `/admin/products/${currentPage - 1}`;
 
   const nextLink = !isAdmin
     ? keyword
-      ? `/search/${keyword}/page/${currentPage + 1}`
-      : `/page/${currentPage + 1}`
+      ? `/products/search/${keyword}/products//${currentPage + 1}`
+      : `/products/page/${currentPage + 1}`
     : `/admin/products/${currentPage + 1}`;
 
   if (pages <= 1) return null;
@@ -39,8 +39,8 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
         {[...Array(pages).keys()].map((page) => {
           const link = !isAdmin
             ? keyword
-              ? `/search/${keyword}/page/${page + 1}`
-              : `/page/${page + 1}`
+              ? `/products/search/${keyword}/page/${page + 1}`
+              : `/products/page/${page + 1}`
             : `/admin/products/${page + 1}`;
           const activePage = currentPage === page + 1;
 

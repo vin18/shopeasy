@@ -21,7 +21,7 @@ const Register = () => {
   useEffect(() => {
     if (userData?.email) {
       toast.success(`Registered successfully!`);
-      return history(`/`);
+      return history(`/products`);
     }
   }, [userData, history]);
 

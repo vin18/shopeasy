@@ -10,7 +10,7 @@ const Search = () => {
     if (searchText.trim()) {
       history(`/search/${searchText?.toLowerCase()}`);
     } else {
-      history(`/`);
+      history(`/products`);
     }
   };
 

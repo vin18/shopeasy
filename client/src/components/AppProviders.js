@@ -20,6 +20,7 @@ import {
   AdminProductCreatePage,
 } from '../pages';
 import ProtectedRoute from './ProtectedRoute';
+import StartPage from '../pages/StartPage';
 
 function AppProviders() {
   return (
@@ -30,11 +31,12 @@ function AppProviders() {
         style={{ minHeight: '80vh' }}
       >
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search/:keyword" element={<HomePage />} />
-          <Route path="/page/:pageNumber" element={<HomePage />} />
+          <Route path="/" element={<StartPage />} />
+          <Route path="/products" element={<HomePage />} />
+          <Route path="/products/search/:keyword" element={<HomePage />} />
+          <Route path="/products/page/:pageNumber" element={<HomePage />} />
           <Route
-            path="/search/:keyword/page/:pageNumber"
+            path="/products/search/:keyword/page/:pageNumber"
             element={<HomePage />}
           />
           <Route path="/product/:productId" element={<ProductPage />} />

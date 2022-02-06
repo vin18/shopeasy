@@ -8,9 +8,9 @@ import Search from './Search';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaTimes } from 'react-icons/fa';
 import useWindowWidth from '../hooks/useWindowWidth';
-import CartIcon from './icons/CartIcon';
-import UserIcon from './icons/UserIcon';
-import LogoutIcon from './icons/LogoutIcon';
+import CartIcon from '../assets/icons/CartIcon';
+import UserIcon from '../assets/icons/UserIcon';
+import LogoutIcon from '../assets/icons/LogoutIcon';
 import { fetchProductsInCart } from '../store/slices/cart';
 
 const Header = () => {
@@ -32,7 +32,7 @@ const Header = () => {
   const handleLogout = () => {
     toast.success(`Logged out!`);
     dispatch(logout());
-    history(`/`);
+    history(`/products`);
   };
 
   return (

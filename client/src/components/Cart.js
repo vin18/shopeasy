@@ -46,7 +46,7 @@ const Cart = () => {
           There are currently no items in your cart!
         </h2>
         <button
-          onClick={() => history(`/`)}
+          onClick={() => history(`/products`)}
           className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
         >
           Continue Shopping
@@ -198,7 +198,7 @@ const Cart = () => {
           </div>
           <div className="flex justify-between mt-3">
             <button
-              onClick={() => history(`/`)}
+              onClick={() => history(`/products`)}
               className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
             >
               Continue Shopping
