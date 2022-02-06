@@ -56,25 +56,33 @@ const OrderItemPage = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row mt-24">
+    <div className="flex flex-col lg:flex-row mt-18">
       <div className="flex flex-1 flex-col space-y-8">
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Order ID</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Order ID
+          </h3>
           <p>{orderID}</p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Shipping
+          </h3>
           <p>Address: {addressStr}</p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Payment Method</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Payment Method
+          </h3>
           <p>Razorpay</p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Paid At</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Paid At
+          </h3>
           <p>
             {order.paidAt
               ? moment(order.paidAt).format(`DD-MM-YYYY, HH:mm`)
@@ -83,23 +91,33 @@ const OrderItemPage = () => {
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Delivered At</h3>
-          <p>{order.isDelivered ? 'Delivered' : 'Not Delivered'}</p>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Delivered
+          </h3>
+          <p className={!order.isDelivered ? 'text-red-500' : 'text-green-500'}>
+            {order.isDelivered ? 'Delivered' : 'Not Delivered'}
+          </p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Order Items</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Order Items
+          </h3>
           {orderItems?.map((product) => {
             return (
               <div
                 key={product?._id}
-                className="flex items-center border-b border-gray-300"
+                className="flex justify-between items-center border-b border-gray-300 max-w-lg py-4"
               >
-                <img className="w-24 mr-8" src={product?.image} alt="" />
-                <h2 className="mr-8">{product?.name}</h2>
+                <img
+                  className="w-32 "
+                  src={product?.image}
+                  alt="product image"
+                />
+                <h2>{product?.name}</h2>
                 <p>
                   {product?.quantity} x ₹{product?.price} = ₹
-                  {totalProductsPrice}
+                  {parseFloat(product?.quantity) * parseFloat(product?.price)}
                 </p>
               </div>
             );
@@ -109,24 +127,26 @@ const OrderItemPage = () => {
 
       <div className="mt-8 lg:mt-0">
         <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
-          <h3 className="text-3xl mb-4 uppercase">Order Summary</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-4 uppercase">
+            Order Summary
+          </h3>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p className="">Items</p>
             <p>₹{totalProductsPrice}</p>
           </div>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p>Shipping</p>
             <p>₹{shippingPrice}</p>
           </div>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p>Total</p>
             <p>₹{orderTotal}</p>
           </div>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p>Payment</p>
             <p className={`text-${paymentSuccessful ? 'green' : 'red'}-600`}>
               {paymentSuccessful ? 'Successful' : 'Fail'}
@@ -134,7 +154,7 @@ const OrderItemPage = () => {
           </div>
 
           {paymentSuccessful && (
-            <div className="flex justify-between text-xl">
+            <div className="flex justify-between">
               <p>Paid At</p>
               <p>{moment(paidAt).format(`DD/MM/YYYY HH:MM`)}</p>
             </div>

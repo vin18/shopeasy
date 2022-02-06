@@ -1,5 +1,6 @@
-import { StatusCodes } from 'http-status-codes';
 import Razorpay from 'razorpay';
+import { StatusCodes } from 'http-status-codes';
+import { BadRequestError, NotFoundError } from '../errors/index.js';
 import Order from '../models/orderModel.js';
 
 /**
@@ -17,35 +18,27 @@ const getRazorpayKey = (req, res) => {
  * @access  Private
  */
 const createRazorpayOrder = async (req, res) => {
-  try {
-    const razorpay = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID,
-      key_secret: process.env.RAZORPAY_KEY_SECRET,
-    });
+  const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
 
-    const options = {
-      amount: req.body.amount,
-      currency: 'INR',
-    };
+  const options = {
+    amount: req.body.amount,
+    currency: 'INR',
+  };
 
-    const order = await razorpay.orders.create(options);
-    if (!order) {
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        success: false,
-        error: `Some error occurred while creating a razorpay order`,
-      });
-    }
-
-    res.status(StatusCodes.CREATED).json({
-      success: true,
-      order,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
+  const order = await razorpay.orders.create(options);
+  if (!order) {
+    throw new BadRequestError(
+      `Some error occurred while creating a razorpay order`
+    );
   }
+
+  res.status(StatusCodes.CREATED).json({
+    success: true,
+    order,
+  });
 };
 
 /**
@@ -54,37 +47,30 @@ const createRazorpayOrder = async (req, res) => {
  * @access  Private
  */
 const createRazorpayPayment = async (req, res) => {
-  try {
-    const {
-      amountPaid,
-      shippingPrice,
-      orderItems,
-      totalPrice,
-      shippingAddress,
-      paymentInfo,
-    } = req.body;
+  const {
+    amountPaid,
+    shippingPrice,
+    orderItems,
+    totalPrice,
+    shippingAddress,
+    paymentInfo,
+  } = req.body;
 
-    const order = await Order.create({
-      user: req.user._id,
-      amountPaid: parseFloat(amountPaid) / 100,
-      shippingPrice,
-      totalPrice,
-      orderItems,
-      shippingAddress,
-      paymentInfo,
-      paidAt: Date.now(),
-    });
+  const order = await Order.create({
+    user: req.user._id,
+    amountPaid: parseFloat(amountPaid) / 100,
+    shippingPrice,
+    totalPrice,
+    orderItems,
+    shippingAddress,
+    paymentInfo,
+    paidAt: Date.now(),
+  });
 
-    res.status(StatusCodes.CREATED).json({
-      success: true,
-      order,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.CREATED).json({
+    success: true,
+    order,
+  });
 };
 
 /**
@@ -94,26 +80,17 @@ const createRazorpayPayment = async (req, res) => {
  */
 const getSingleOrder = async (req, res) => {
   const { orderId } = req.params;
-  try {
-    const order = await Order.findById(orderId);
 
-    if (!order) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        success: false,
-        error: `No order found with id: ${orderId}`,
-      });
-    }
+  const order = await Order.findById(orderId);
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      order,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
+  if (!order) {
+    throw new NotFoundError(`No order found with id: ${orderId}`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    order,
+  });
 };
 
 /**
@@ -122,20 +99,13 @@ const getSingleOrder = async (req, res) => {
  * @access  Private
  */
 const getAllOrders = async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.user._id });
+  const orders = await Order.find({ user: req.user._id });
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      count: orders.length,
-      orders,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.OK).json({
+    success: true,
+    count: orders.length,
+    orders,
+  });
 };
 
 /**

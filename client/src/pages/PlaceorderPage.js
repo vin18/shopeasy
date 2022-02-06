@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import Loader from "../components/Loader";
+import Loader from '../components/Loader';
 
 const PlaceorderPage = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const PlaceorderPage = () => {
       acc + parseFloat(product?.price) * Number(product?.quantity),
     0
   );
-  const shippingPrice = parseFloat(totalProductsPrice) > 500 ? 50 : 0;
+  const shippingPrice = parseFloat(totalProductsPrice) < 500 ? 50 : 0;
   const orderTotal = parseFloat(totalProductsPrice) + parseFloat(shippingPrice);
 
   const loadRazorpay = () => {
@@ -99,23 +99,29 @@ const PlaceorderPage = () => {
     document.body.appendChild(script);
   };
 
-  if (loading) return <Loader />
+  if (loading) return <Loader />;
 
   return (
     <div className="flex flex-col md:flex-row w-full mt-24">
       <div className="flex flex-1 flex-col space-y-8 md:mr-48">
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Shipping</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Shipping
+          </h3>
           <p>Address: {shippingAddress}</p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-1 uppercase">Payment Method</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+            Payment Method
+          </h3>
           <p>Razorpay</p>
         </div>
 
         <div>
-          <h3 className="text-3xl mb-4 uppercase">Order Items</h3>
+          <h3 className="text-2xl text-blue-500 font-bold mb-4 uppercase">
+            Order Items
+          </h3>
           {products?.map((product) => {
             const totalProductPrice =
               parseFloat(product?.price) * Number(product?.quantity);
@@ -123,10 +129,10 @@ const PlaceorderPage = () => {
             return (
               <div
                 key={product?._id}
-                className="flex items-center pb-2 border-b border-gray-300"
+                className="flex justify-between items-center py-2 border-b border-gray-300 max-w-lg"
               >
-                <img className="w-24 mr-8" src={product?.image} alt="" />
-                <h2 className="mr-8">{product?.name}</h2>
+                <img className="w-32" src={product?.image} alt="" />
+                <h2 className="">{product?.name}</h2>
                 <p>
                   {product?.quantity} x ₹{product?.price} = ₹{totalProductPrice}
                 </p>
@@ -137,20 +143,22 @@ const PlaceorderPage = () => {
       </div>
 
       <div className="mt-16 md:mt-0">
-        <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
-          <h3 className="text-3xl mb-4 uppercase">Order Summary</h3>
+        <div className="border border-gray-300 px-8 py-4 rounded shadow-mds space-y-2">
+          <h3 className="text-2xl text-blue-500 font-bold mb-4 uppercase">
+            Order Summary
+          </h3>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p className="">Items</p>
             <p>₹{totalProductsPrice}</p>
           </div>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p>Shipping</p>
             <p>₹{shippingPrice}</p>
           </div>
 
-          <div className="flex justify-between text-xl">
+          <div className="flex justify-between">
             <p>Total</p>
             <p>₹{orderTotal}</p>
           </div>
