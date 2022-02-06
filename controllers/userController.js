@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import { BadRequestError, UnAuthenticatedError } from '../errors/index.js';
 import User from '../models/userModel.js';
 import { sendResponse } from '../utils/sendResponse.js';
 
@@ -12,9 +13,7 @@ const register = async (req, res) => {
 
   const emailExists = await User.findOne({ email });
   if (emailExists) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ success: false, message: `Email already exists!` });
+    throw new BadRequestError(`Email already exists!`);
   }
 
   const user = await User.create({
@@ -36,16 +35,12 @@ const login = async (req, res) => {
 
   const user = await User.findOne({ email }).select('+password');
   if (!user) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ success: false, message: `Invalid credentials!` });
+    throw new UnAuthenticatedError(`Invalid credentials!`);
   }
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ success: false, message: `Invalid credentials!` });
+    throw new UnAuthenticatedError(`Invalid credentials!`);
   }
 
   sendResponse(user, res, StatusCodes.OK);

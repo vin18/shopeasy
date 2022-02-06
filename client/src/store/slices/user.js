@@ -20,13 +20,17 @@ const slice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearError: (state, action) => {
+      state.error = null;
+    },
   },
 });
 
 export default slice.reducer;
 
 // Actions
-const { userRequest, userRequestSuccess, userRequestFail } = slice.actions;
+export const { userRequest, userRequestSuccess, userRequestFail, clearError } =
+  slice.actions;
 
 export const register = (userData) => async (dispatch) => {
   try {
@@ -43,7 +47,7 @@ export const register = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: userRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -63,7 +67,7 @@ export const login = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: userRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -83,7 +87,7 @@ export const logout = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: userRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -103,7 +107,7 @@ export const getMe = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: userRequestFail.type,
-      payload: error.message,
+      payload: null,
     });
   }
 };
@@ -123,7 +127,7 @@ export const updateProfile = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: userRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };

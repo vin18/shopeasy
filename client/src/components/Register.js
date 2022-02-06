@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../store/slices/user';
+import { clearError, register } from '../store/slices/user';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -15,7 +15,7 @@ const Register = () => {
   };
   const history = useNavigate();
   const dispatch = useDispatch();
-  const { userData, loading } = useSelector((state) => state.user);
+  const { userData, loading, error } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -24,6 +24,13 @@ const Register = () => {
       return history(`/`);
     }
   }, [userData, history]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearError());
+    }
+  }, [error]);
 
   const registerSchema = yup.object().shape({
     name: yup
@@ -122,10 +129,11 @@ const Register = () => {
                 </div>
 
                 <button
-                  disabled={!isValid || !loading || !dirty}
                   className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
-                    (!isValid || !dirty) && 'opacity-70 cursor-not-allowed'
+                    (loading || !isValid || !dirty) &&
+                    'opacity-70 cursor-not-allowed'
                   }`}
+                  disabled={loading || !isValid || !dirty}
                 >
                   {!loading ? 'Register' : 'Please wait..'}
                 </button>

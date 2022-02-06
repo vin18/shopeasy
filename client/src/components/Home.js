@@ -44,7 +44,10 @@ const Home = () => {
         Popular Products
       </h1>
 
-      <div className="grid grid-cols-1 min-h-screen sm:grid-cols-2 xl:grid-cols-3 gap-8">
+      <div
+        style={{ minHeight: '70vh' }}
+        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8"
+      >
         {products?.map((product) => (
           <Link key={product?._id} to={`/product/${product?._id}`}>
             <ProductItem product={product} />

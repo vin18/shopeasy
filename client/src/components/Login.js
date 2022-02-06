@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/slices/user';
+import { clearError, login } from '../store/slices/user';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -23,6 +23,13 @@ const Login = () => {
       return history(`/`);
     }
   }, [userData, history]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearError());
+    }
+  }, [error]);
 
   const loginSchema = yup.object().shape({
     email: yup
@@ -105,9 +112,10 @@ const Login = () => {
 
                 <button
                   className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
-                    (!isValid || !dirty) && 'opacity-70 cursor-not-allowed'
+                    (loading || !isValid || !dirty) &&
+                    'opacity-70 cursor-not-allowed'
                   }`}
-                  disabled={!loading || !isValid || !dirty}
+                  disabled={loading || !isValid || !dirty}
                 >
                   {!loading ? 'Login' : 'Please wait..'}
                 </button>

@@ -23,10 +23,7 @@ const protect = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+    throw error;
   }
 };
 
