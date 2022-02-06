@@ -8,11 +8,17 @@ import Search from './Search';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaTimes } from 'react-icons/fa';
 import useWindowWidth from '../hooks/useWindowWidth';
+import CartIcon from './icons/CartIcon';
+import UserIcon from './icons/UserIcon';
+import LogoutIcon from './icons/LogoutIcon';
+import { fetchProductsInCart } from '../store/slices/cart';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.user);
+  const { cartData } = useSelector((state) => state.cart);
   const isLoggedIn = Boolean(userData?.email);
+  const itemsInTheCart = isLoggedIn ? cartData?.products?.length : 0;
   const isAdmin = userData?.role === 'admin';
   const history = useNavigate();
   const [open, setOpen] = useState(false);
@@ -20,7 +26,8 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(getMe());
-  }, []);
+    dispatch(fetchProductsInCart());
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     toast.success(`Logged out!`);
@@ -50,7 +57,9 @@ const Header = () => {
         <nav className="block z-10 lg:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-14 left-0">
           <ul className="flex flex-col cursor-pointer mb-1">
             <li className="px-4 py-2">
-              <Link to="/cart">Cart</Link>
+              <Link title="cart" to="/cart">
+                <CartIcon />
+              </Link>
             </li>
 
             {!isLoggedIn && (
@@ -61,7 +70,9 @@ const Header = () => {
 
             {isLoggedIn && (
               <li className="px-4 py-2">
-                <Link to="/profile">Profile</Link>
+                <Link title="profile" to="/profile">
+                  <UserIcon />
+                </Link>
               </li>
             )}
 
@@ -85,16 +96,23 @@ const Header = () => {
 
             {isLoggedIn && (
               <li className="px-4 py-2" onClick={handleLogout}>
-                Logout
+                <LogoutIcon />
               </li>
             )}
           </ul>
         </nav>
       ) : (
         <nav className="hidden lg:block">
-          <ul className="flex space-x-4 cursor-pointer">
-            <li className="flex">
-              <Link to="/cart">Cart</Link>
+          <ul className="flex items-center space-x-6 cursor-pointer">
+            <li className="flex relative">
+              <Link title="cart" to="/cart">
+                <CartIcon />
+              </Link>
+              {itemsInTheCart >= 1 && (
+                <span className="absolute -top-1 -right-2 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
+                  {itemsInTheCart}
+                </span>
+              )}
             </li>
 
             {!isLoggedIn && (
@@ -105,7 +123,9 @@ const Header = () => {
 
             {isLoggedIn && (
               <li>
-                <Link to="/profile">Profile</Link>
+                <Link title="profile" to="/profile">
+                  <UserIcon />
+                </Link>
               </li>
             )}
 
@@ -127,7 +147,11 @@ const Header = () => {
               </li>
             )}
 
-            {isLoggedIn && <li onClick={handleLogout}>Logout</li>}
+            {isLoggedIn && (
+              <li onClick={handleLogout}>
+                <LogoutIcon />
+              </li>
+            )}
           </ul>
         </nav>
       )}

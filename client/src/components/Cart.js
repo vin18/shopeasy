@@ -39,7 +39,7 @@ const Cart = () => {
 
   if (loading) return <Loader />;
 
-  if (cartData?.products?.length === 0) {
+  if (cartData?.length === 0 || cartData?.products?.length === 0) {
     return (
       <div className="flex flex-col items-center mt-32">
         <h2 className="text-4xl mb-4">
@@ -145,13 +145,17 @@ const Cart = () => {
                               };
                               dispatch(addProductsToCart(productsData));
                             }}
-                            className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+                            className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                              product?.quantity >= product?.countInStock &&
+                              'opacity-80 cursor-not-allowed'
+                            }`}
                             disabled={
                               product?.quantity >= product?.countInStock
                             }
                           >
                             <PlusIcon />
                           </button>
+
                           <span className="mx-1">{product?.quantity}</span>
 
                           <button
@@ -165,7 +169,10 @@ const Cart = () => {
                               };
                               dispatch(addProductsToCart(productsData));
                             }}
-                            className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+                            className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                              product?.quantity <= 1 &&
+                              'opacity-80 cursor-not-allowed'
+                            }`}
                             disabled={product?.quantity <= 1}
                           >
                             <MinusIcon />
@@ -207,7 +214,7 @@ const Cart = () => {
       </div>
 
       {products?.length !== 0 && (
-        <div className="md:mx-8 mt-5 lg:mt-0 flex justify-center items-center sm:justify-end">
+        <div className="md:mx-8 mt-5 lg:mt-12 flex justify-center items-start sm:justify-end">
           <div className="p-6 border-2 border-blue-100 shadow rounded">
             <div className="flex justify-between mb-1">
               <p>Subtotal</p>

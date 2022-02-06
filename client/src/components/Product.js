@@ -164,7 +164,10 @@ const Product = () => {
           <div className="flex">
             <button
               onClick={addQuantity}
-              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+              className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                quantity >= product?.countInStock &&
+                'opacity-80 cursor-not-allowed'
+              }`}
               disabled={quantity >= product?.countInStock}
             >
               <PlusIcon />
@@ -174,7 +177,9 @@ const Product = () => {
 
             <button
               onClick={subtractQuantity}
-              className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+              className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                quantity <= 1 && 'opacity-80 cursor-not-allowed'
+              }`}
               disabled={quantity <= 1}
             >
               <MinusIcon />
@@ -183,7 +188,7 @@ const Product = () => {
           {isLoggedIn ? (
             <button
               onClick={handleAddToCart}
-              className="bg-blue-700 text-blue-100 py-2 px-6 rounded transition ease-out hover:bg-blue-600"
+              className="bg-blue-500 text-blue-100 py-2 px-6 rounded"
             >
               Add to cart
             </button>
