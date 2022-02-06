@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from '../components/custom/TextInput';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, login } from '../store/slices/user';
+import { userReset, login } from '../store/slices/user';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -27,7 +27,7 @@ const Login = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(clearError());
+      dispatch(userReset());
     }
   }, [error]);
 

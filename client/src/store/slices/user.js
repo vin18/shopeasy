@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'user',
   initialState: {
     userData: [],
+    isUserUpdated: false,
     loading: false,
     error: null,
   },
@@ -16,12 +17,16 @@ const slice = createSlice({
       state.loading = false;
       state.userData = action.payload;
     },
+    userUpdateSuccess: (state, action) => {
+      state.isUserUpdated = true;
+    },
     userRequestFail: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
-    clearError: (state, action) => {
+    userReset: (state, action) => {
       state.error = null;
+      state.isUserUpdated = false;
     },
   },
 });
@@ -29,8 +34,13 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-export const { userRequest, userRequestSuccess, userRequestFail, clearError } =
-  slice.actions;
+export const {
+  userRequest,
+  userRequestSuccess,
+  userUpdateSuccess,
+  userRequestFail,
+  userReset,
+} = slice.actions;
 
 export const register = (userData) => async (dispatch) => {
   try {
@@ -124,6 +134,8 @@ export const updateProfile = (userData) => async (dispatch) => {
       type: userRequestSuccess.type,
       payload: data?.user,
     });
+
+    dispatch({ type: userUpdateSuccess.type });
   } catch (error) {
     dispatch({
       type: userRequestFail.type,

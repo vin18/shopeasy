@@ -3,10 +3,13 @@ import { Form, Formik } from 'formik';
 import * as yup from 'yup';
 import TextInput from './custom/TextInput';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile } from '../store/slices/user';
+import { updateProfile, userReset } from '../store/slices/user';
+import toast from 'react-hot-toast';
 
 const ProfileForm = () => {
-  const { userData, loading } = useSelector((state) => state.user);
+  const { userData, loading, isUserUpdated } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
 
   const [initialValues, setInitialValues] = useState({
@@ -31,34 +34,20 @@ const ProfileForm = () => {
     }
   }, [userData?.email]);
 
-  const profileSchema = yup.object().shape({
-    name: yup
-      .string()
-      .min(3, 'Name must be atleast 3 characters')
-      .max(30, 'Name must not exceed 30 characters')
-      .trim()
-      .required('Name is required')
-      .defined(),
-    email: yup
-      .string()
-      .email('Email must be a valid email')
-      .lowercase()
-      .required('Email is required')
-      .defined(),
-    address: yup.string().trim().defined(),
-    city: yup.string().trim().defined(),
-    postalCode: yup.string().trim().defined(),
-    country: yup.string().trim().defined(),
-  });
+  useEffect(() => {
+    if (isUserUpdated) {
+      toast.success(`User profile updated!`);
+      dispatch(userReset());
+    }
+  }, [isUserUpdated]);
 
   const handleSubmit = (values) => {
     dispatch(updateProfile(values));
   };
 
   return (
-    <div className="flex justify-center items-center mt-24">
+    <div className="flex justify-center items-center">
       <Formik
-        validationSchema={profileSchema}
         initialValues={initialValues}
         onSubmit={handleSubmit}
         enableReinitialize
@@ -66,9 +55,9 @@ const ProfileForm = () => {
         {({ handleSubmit, handleChange, values, errors, setFieldValue }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-sm border-2 border-blue-100">
+              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-blue-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-gray-600">
+                  <h1 className="text-center text-2xl font-semibold text-blue-500">
                     Update Profile
                   </h1>
 

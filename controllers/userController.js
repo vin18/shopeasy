@@ -69,19 +69,16 @@ const logout = async (req, res) => {
  * @access  Private
  */
 const getMe = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id);
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      user,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  if (!user) {
+    throw new NotFoundError(`User not found`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user,
+  });
 };
 
 /**
@@ -92,29 +89,19 @@ const getMe = async (req, res) => {
 const updateProfile = async (req, res) => {
   const { name, email, address, city, postalCode, country } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        status: 'error',
-        error: `User not found`,
-      });
-    }
-
-    if (name) user.name = name;
-    if (address) user.address = address;
-    if (city) user.city = city;
-    if (postalCode) user.postalCode = postalCode;
-    if (country) user.country = country;
-
-    await user.save();
-    sendResponse(user, res, StatusCodes.OK);
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new NotFoundError(`User not found`);
   }
+
+  if (name) user.name = name;
+  if (address) user.address = address;
+  if (city) user.city = city;
+  if (postalCode) user.postalCode = postalCode;
+  if (country) user.country = country;
+
+  await user.save();
+  sendResponse(user, res, StatusCodes.OK);
 };
 
 /**
@@ -123,18 +110,12 @@ const updateProfile = async (req, res) => {
  * @access  Private (Admin)
  */
 const getUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(StatusCodes.OK).json({
-      success: true,
-      users,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
-  }
+  const users = await User.find();
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    users,
+  });
 };
 
 /**
@@ -143,18 +124,16 @@ const getUsers = async (req, res) => {
  * @access  Private (Admin)
  */
 const getSingleUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    res.status(StatusCodes.OK).json({
-      success: true,
-      user,
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const user = await User.findById(req.params.userId);
+
+  if (!user) {
+    throw new NotFoundError(`User not found`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user,
+  });
 };
 
 /**
@@ -163,21 +142,19 @@ const getSingleUser = async (req, res) => {
  * @access  Private (Admin)
  */
 const updateUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.body._id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(StatusCodes.OK).json({
-      success: true,
-      user: {},
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const user = await User.findByIdAndUpdate(req.body._id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!user) {
+    throw new BadRequestError(`Invalid user`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user,
+  });
 };
 
 /**
@@ -186,18 +163,15 @@ const updateUser = async (req, res) => {
  * @access  Private (Admin)
  */
 const deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.userId);
-    res.status(StatusCodes.OK).json({
-      success: true,
-      msg: 'User deleted',
-    });
-  } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      error: error.message,
-    });
+  const user = await User.findByIdAndDelete(req.params.userId);
+  if (!user) {
+    throw new BadRequestError(`Invalid user`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    msg: 'User deleted',
+  });
 };
 
 export {
