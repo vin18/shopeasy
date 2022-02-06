@@ -124,12 +124,19 @@ const AdminProductEdit = () => {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ handleSubmit, handleChange, values, errors, setFieldValue }) => {
+        {({
+          handleSubmit,
+          handleChange,
+          values,
+          errors,
+          setFieldValue,
+          isValid,
+        }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
               <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-md max-w-md border-2 border-blue-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-gray-600">
+                  <h1 className="text-center text-2xl font-bold text-blue-500">
                     Edit Product
                   </h1>
 
@@ -217,7 +224,13 @@ const AdminProductEdit = () => {
                     />
                   </div>
                 </div>
-                <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
+
+                <button
+                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
+                    (loading || !isValid) && 'opacity-70 cursor-not-allowed'
+                  }`}
+                  disabled={loading || !isValid}
+                >
                   {!loading ? 'Update' : 'Please wait..'}
                 </button>
               </div>

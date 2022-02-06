@@ -57,18 +57,16 @@ const getSingleProduct = async (req, res) => {
  * @access  Private (Admin)
  */
 const getAdminProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.productId);
-    res.status(StatusCodes.OK).json({
-      success: true,
-      product,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
+  const product = await Product.findById(req.params.productId);
+
+  if (!product) {
+    throw new NotFoundError(`No product with id: ${productId}`);
   }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    product,
+  });
 };
 
 /**
@@ -77,37 +75,30 @@ const getAdminProduct = async (req, res) => {
  * @access  Private (Admin)
  */
 const createAdminProduct = async (req, res) => {
-  try {
-    const { name, price, image, description, countInStock, category, brand } =
-      req.body;
+  const { name, price, image, description, countInStock, category, brand } =
+    req.body;
 
-    const uploadedImage = await cloudinary.v2.uploader.upload(image, {
-      folder: `shopeasy/products`,
-    });
+  const uploadedImage = await cloudinary.v2.uploader.upload(image, {
+    folder: `shopeasy/products`,
+  });
 
-    const newProduct = await Product.create({
-      name,
-      price,
-      description,
-      countInStock,
-      category,
-      brand,
-      image: {
-        public_id: uploadedImage.public_id,
-        url: uploadedImage.secure_url,
-      },
-    });
+  const newProduct = await Product.create({
+    name,
+    price,
+    description,
+    countInStock,
+    category,
+    brand,
+    image: {
+      public_id: uploadedImage.public_id,
+      url: uploadedImage.secure_url,
+    },
+  });
 
-    res.status(StatusCodes.CREATED).json({
-      status: 'success',
-      product: newProduct,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  res.status(StatusCodes.CREATED).json({
+    status: 'success',
+    product: newProduct,
+  });
 };
 
 /**
@@ -116,37 +107,31 @@ const createAdminProduct = async (req, res) => {
  * @access  Private (Admin)
  */
 const updateAdminProduct = async (req, res) => {
-  try {
-    const { image, productImage } = req.body;
+  const { image, productImage } = req.body;
 
-    await cloudinary.v2.uploader.destroy(image.public_id);
-    const uploadedImage = await cloudinary.v2.uploader.upload(productImage, {
-      folder: 'bookeasy/rooms',
-    });
+  await cloudinary.v2.uploader.destroy(image.public_id);
+  const uploadedImage = await cloudinary.v2.uploader.upload(productImage, {
+    folder: 'bookeasy/rooms',
+  });
 
-    req.body.image = {
-      public_id: uploadedImage.public_id,
-      url: uploadedImage.secure_url,
-    };
+  req.body.image = {
+    public_id: uploadedImage.public_id,
+    url: uploadedImage.secure_url,
+  };
 
-    const product = await Product.findByIdAndUpdate(
-      req.params.productId,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    res.status(StatusCodes.OK).json({
-      success: true,
-      product,
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  const product = await Product.findByIdAndUpdate(
+    req.params.productId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    product,
+  });
 };
 
 /**
@@ -155,18 +140,12 @@ const updateAdminProduct = async (req, res) => {
  * @access  Private (Admin)
  */
 const deleteAdminProduct = async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.productId);
-    res.status(StatusCodes.OK).json({
-      success: true,
-      message: 'Product deleted!',
-    });
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message,
-    });
-  }
+  const product = await Product.findByIdAndDelete(req.params.productId);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Product deleted!',
+  });
 };
 
 export {
