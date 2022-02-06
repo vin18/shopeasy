@@ -21,15 +21,13 @@ const Orders = () => {
     );
   }
 
-  if (loading) return <Loader />;
-
   return (
-    <div className="flex flex-col items-center lg:ml-8 overflow-auto">
-      <h2 className="text-center text-2xl font-semibold text-gray-600 mb-4">
+    <div className="flex flex-col items-center mt-12 lg:ml-16 overflow-auto">
+      <h2 className="text-center text-2xl font-bold text-blue-500 mb-4">
         My Orders
       </h2>
 
-      <table className="border shadow-lg">
+      <table className="border shadow-md">
         <thead className="bg-white border-b">
           <tr>
             <th
@@ -40,7 +38,7 @@ const Orders = () => {
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-blue-600 px-6 py-4 text-center"
             >
               Date
             </th>
@@ -78,13 +76,21 @@ const Orders = () => {
                 {moment(order?.paidAt).format(`DD-MM-YYYY, HH:mm`)}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {order?.amountPaid}
+                ₹{order?.amountPaid}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {order?.paidAt ? <FaCheck /> : <FaTimes />}
+                {order?.paidAt ? (
+                  <FaCheck className="ml-2" />
+                ) : (
+                  <FaTimes className="ml-2" />
+                )}
               </td>
               <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                {order?.isDelivered ? <FaCheck /> : <FaTimes />}
+                {order?.isDelivered ? (
+                  <FaCheck className="ml-4" />
+                ) : (
+                  <FaTimes className="ml-4" />
+                )}
               </td>
               <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
+import { clearCart } from '../store/slices/cart';
 
 const PlaceorderPage = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +12,7 @@ const PlaceorderPage = () => {
   const { address, city, country, postalCode } = userData;
   const { cartData } = useSelector((state) => state.cart);
   const { products } = cartData;
+  const dispatch = useDispatch();
   const history = useNavigate();
 
   const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
@@ -76,6 +78,7 @@ const PlaceorderPage = () => {
             );
 
             toast.success(`Payment successfull!`);
+            dispatch(clearCart());
             history(`/orders/${data?.order?._id}`);
           },
           prefill: {

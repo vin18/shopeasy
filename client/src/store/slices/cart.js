@@ -41,7 +41,7 @@ export const fetchProductsInCart = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: cartRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -60,7 +60,7 @@ export const addProductsToCart = (productsData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: cartRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -80,7 +80,7 @@ export const removeProductFromCart = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: cartRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
@@ -100,7 +100,7 @@ export const clearCart = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: cartRequestFail.type,
-      payload: error.message,
+      payload: error.response.data.msg,
     });
   }
 };
