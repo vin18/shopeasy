@@ -19,6 +19,8 @@ import {
   AdminProductsPage,
   AdminUserEditPage,
   AdminProductCreatePage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 } from '../pages';
 import ProtectedRoute from './ProtectedRoute';
 import StartPage from '../pages/StartPage';
@@ -44,6 +46,11 @@ function AppProviders() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route
+            path="/api/v1/users/reset-password/:resetPasswordToken"
+            element={<ResetPasswordPage />}
+          />
           <Route
             path="/wishlists"
             element={

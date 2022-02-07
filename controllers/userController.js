@@ -135,7 +135,10 @@ const resetPassword = async (req, res) => {
   user.passwordResetTokenExpirationDate = undefined;
   await user.save();
 
-  sendResponse(user, res, StatusCodes.OK);
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: `Password updated!`,
+  });
 };
 
 /**
