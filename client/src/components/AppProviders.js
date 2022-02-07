@@ -11,6 +11,7 @@ import {
   ProfilePage,
   ShippingPage,
   PlaceorderPage,
+  BookmarksPage,
   OrderItemPage,
   AdminUsersPage,
   AdminProductEditPage,
@@ -43,6 +44,14 @@ function AppProviders() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/wishlists"
+            element={
+              <ProtectedRoute>
+                <BookmarksPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={

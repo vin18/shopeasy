@@ -12,13 +12,16 @@ import CartIcon from '../assets/icons/CartIcon';
 import UserIcon from '../assets/icons/UserIcon';
 import LogoutIcon from '../assets/icons/LogoutIcon';
 import { fetchProductsInCart } from '../store/slices/cart';
+import BookmarkIcon from './icons/BookmarkIcon';
 
 const Header = () => {
   const dispatch = useDispatch();
   const { userData, loading } = useSelector((state) => state.user);
   const { cartData } = useSelector((state) => state.cart);
+  const { wishlistsData } = useSelector((state) => state.wishlists);
   const isLoggedIn = Boolean(userData?.email);
   const itemsInTheCart = isLoggedIn ? cartData?.products?.length : 0;
+  const itemsInTheWishlists = isLoggedIn ? wishlistsData?.length : 0;
   const isAdmin = userData?.role === 'admin';
   const history = useNavigate();
   const [open, setOpen] = useState(false);
@@ -99,6 +102,19 @@ const Header = () => {
                 <LogoutIcon />
               </li>
             )}
+
+            {isLoggedIn && (
+              <li className="flex relative">
+                {itemsInTheWishlists >= 1 && (
+                  <span className="absolute -top-1 -right-2 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
+                    {itemsInTheWishlists}
+                  </span>
+                )}
+                <Link title="wishlisted products" to="/wishlists">
+                  <BookmarkIcon />{' '}
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       ) : (
@@ -150,6 +166,19 @@ const Header = () => {
             {isLoggedIn && (
               <li onClick={handleLogout}>
                 <LogoutIcon />
+              </li>
+            )}
+
+            {isLoggedIn && (
+              <li className="flex relative">
+                {itemsInTheWishlists >= 1 && (
+                  <span className="absolute -top-1 -right-2 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
+                    {itemsInTheWishlists}
+                  </span>
+                )}
+                <Link title="wishlisted products" to="/wishlists">
+                  <BookmarkIcon />{' '}
+                </Link>
               </li>
             )}
           </ul>

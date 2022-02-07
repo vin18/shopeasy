@@ -4,6 +4,7 @@ import CartPage from './CartPage';
 import RegisterPage from './RegisterPage';
 import LoginPage from './LoginPage';
 import ProfilePage from './ProfilePage';
+import BookmarksPage from './BookmarksPage';
 import ShippingPage from './ShippingPage';
 import PlaceorderPage from './PlaceorderPage';
 import OrderItemPage from './OrderItemPage';
@@ -30,4 +31,5 @@ export {
   AdminProductsPage,
   AdminUserEditPage,
   AdminProductCreatePage,
+  BookmarksPage,
 };

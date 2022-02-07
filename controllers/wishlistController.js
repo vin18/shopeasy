@@ -32,8 +32,8 @@ const createUpdateBookmark = async (req, res) => {
 
   if (wishlist) {
     if (wishlist.isLiked) {
-      wishlist.isLiked = false;
-      wishlist = await wishlist.save();
+      await wishlist.remove();
+      wishlist = null;
     } else {
       wishlist.isLiked = true;
       wishlist = await wishlist.save();
