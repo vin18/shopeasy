@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -43,6 +44,8 @@ const userSchema = new mongoose.Schema(
       enum: ['admin', 'user'],
       default: 'user',
     },
+    passwordResetToken: String,
+    passwordResetTokenExpirationDate: Date,
   },
   {
     timestamps: true,
@@ -65,6 +68,19 @@ userSchema.methods.createJWT = function () {
 userSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  const oneHour = 1000 * 60 * 60;
+  this.passwordResetTokenExpirationDate = Date.now() + oneHour;
+  return resetToken;
 };
 
 const User = mongoose.model('User', userSchema);
