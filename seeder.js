@@ -9,6 +9,7 @@ import User from './models/userModel.js';
 import Order from './models/orderModel.js';
 import Review from './models/reviewModel.js';
 import Cart from './models/cartModel.js';
+import Wishlist from './models/wishlistModel.js';
 
 dotenv.config();
 connectDb();
@@ -20,6 +21,7 @@ const importData = async () => {
     await Order.deleteMany();
     await Review.deleteMany();
     await Cart.deleteMany();
+    await Wishlist.deleteMany();
 
     const users = await User.insertMany(usersData);
     const adminUser = users[0]._id;
@@ -44,6 +46,7 @@ const deleteData = async () => {
     await Order.deleteMany();
     await Review.deleteMany();
     await Cart.deleteMany();
+    await Wishlist.deleteMany();
 
     console.log(`Data Deleted`.red.inverse);
     process.exit();

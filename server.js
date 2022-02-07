@@ -15,6 +15,7 @@ import userRoutes from './routes/userRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
+import bookmarkRoutes from './routes/wishlistRoutes.js';
 
 // middleware
 import errorHandlerMiddleware from './middlewares/errorHandler.js';
@@ -41,6 +42,7 @@ app.use(`/api/v1/users`, userRoutes);
 app.use(`/api/v1/cart`, cartRoutes);
 app.use(`/api/v1/orders`, orderRoutes);
 app.use(`/api/v1/reviews`, reviewRoutes);
+app.use(`/api/v1/bookmarks`, bookmarkRoutes);
 
 app.use(errorHandlerMiddleware);
 

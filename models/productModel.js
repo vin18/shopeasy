@@ -59,11 +59,18 @@ productSchema.virtual('reviews', {
   localField: '_id',
   foreignField: 'product',
   justOne: false,
-  // match: { rating: 5 },
+});
+
+productSchema.virtual('wishlist', {
+  ref: 'Wishlist',
+  localField: '_id',
+  foreignField: 'product',
+  justOne: false,
 });
 
 productSchema.pre('remove', async function (next) {
   await this.model('Review').deleteMany({ product: this._id });
+  await this.model('Wishlist').deleteMany({ product: this._id });
 });
 
 const Product = mongoose.model('Product', productSchema);
