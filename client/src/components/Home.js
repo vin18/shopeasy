@@ -60,10 +60,7 @@ const Home = () => {
         Popular Products
       </h1>
 
-      <div
-        style={{ minHeight: '70vh' }}
-        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
         {products?.map((product) => {
           const isProductBookmarked =
             wishlistsData?.find((w) => w.product === product?.id) || false;

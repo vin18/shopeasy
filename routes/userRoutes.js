@@ -3,6 +3,8 @@ import {
   login,
   register,
   logout,
+  forgotPassword,
+  resetPassword,
   getMe,
   updateProfile,
   getUsers,
@@ -17,6 +19,8 @@ const router = express.Router();
 router.route('/register').post(register);
 router.route('/login').post(login);
 router.route('/logout').get(protect, logout);
+router.post('/forgot-password', forgotPassword);
+router.patch('/reset-password/:resetPasswordToken', resetPassword);
 router.route('/me').get(protect, getMe);
 router.route('/profile').patch(protect, updateProfile);
 router.route(`/admin`).get(protect, authorizeRoles('admin'), getUsers);

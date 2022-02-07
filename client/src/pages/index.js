@@ -14,6 +14,8 @@ import AdminOrdersPage from './AdminOrdersPage';
 import AdminProductsPage from './AdminProductsPage';
 import AdminProductEditPage from './AdminProductEditPage';
 import AdminProductCreatePage from './AdminProductCreatePage';
+import ForgotPasswordPage from './ForgotPasswordPage';
+import ResetPasswordPage from './ResetPasswordPage';
 
 export {
   HomePage,
@@ -32,4 +34,6 @@ export {
   AdminUserEditPage,
   AdminProductCreatePage,
   BookmarksPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
 };

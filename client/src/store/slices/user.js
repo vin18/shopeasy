@@ -8,6 +8,8 @@ const slice = createSlice({
     isUserUpdated: false,
     loading: false,
     error: null,
+    passwordForgotRequestSuccess: null,
+    passwordResetRequestSuccess: null,
   },
   reducers: {
     userRequest: (state, action) => {
@@ -28,6 +30,18 @@ const slice = createSlice({
       state.error = null;
       state.isUserUpdated = false;
     },
+    userPassworForgotReceived: (state, action) => {
+      state.loading = false;
+      state.passwordForgotRequestSuccess = action.payload;
+    },
+    userPasswordResetReceived: (state, action) => {
+      state.loading = false;
+      state.passwordResetRequestSuccess = action.payload;
+    },
+    userPasswordRequestReset: (state, action) => {
+      state.passwordForgotRequestSuccess = null;
+      state.passwordResetRequestSuccess = null;
+    },
   },
 });
 
@@ -40,6 +54,9 @@ export const {
   userUpdateSuccess,
   userRequestFail,
   userReset,
+  userPassworForgotReceived,
+  userPasswordResetReceived,
+  userPasswordRequestReset,
 } = slice.actions;
 
 export const register = (userData) => async (dispatch) => {
@@ -101,6 +118,53 @@ export const logout = () => async (dispatch) => {
     });
   }
 };
+
+export const forgotPassword = (userData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: userRequest.type,
+    });
+
+    const { data } = await axios.post(
+      `/api/v1/users/forgot-password`,
+      userData
+    );
+
+    dispatch({
+      type: userPassworForgotReceived.type,
+      payload: data?.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: userRequestFail.type,
+      payload: error.response.data.msg,
+    });
+  }
+};
+
+export const resetPassword =
+  (resetPasswordToken, userData) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: userRequest.type,
+      });
+
+      const { data } = await axios.patch(
+        `/api/v1/users/reset-password/${resetPasswordToken}`,
+        userData
+      );
+
+      dispatch({
+        type: userPasswordResetReceived.type,
+        payload: data?.message,
+      });
+    } catch (error) {
+      dispatch({
+        type: userRequestFail.type,
+        payload: error.response.data.msg,
+      });
+    }
+  };
 
 export const getMe = () => async (dispatch) => {
   try {

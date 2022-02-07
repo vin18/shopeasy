@@ -30,6 +30,7 @@
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.5",
+    "nodemailer": "^6.7.2",
     "razorpay": "^2.8.0"
   },
   "devDependencies": {

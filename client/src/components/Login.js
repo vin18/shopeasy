@@ -50,7 +50,9 @@ const Login = () => {
     dispatch(login(values));
   };
 
-  const handleGuestLogin = () => {
+  const handleGuestLogin = (event) => {
+    event.preventDefault();
+
     handleSubmit({
       email: 'test@example.com',
       password: '123456',
@@ -117,15 +119,14 @@ const Login = () => {
                   </p>
                 </div>
 
-                <button
-                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
-                    loading && 'opacity-70 cursor-not-allowed'
-                  }`}
-                  onClick={handleGuestLogin}
-                  disabled={loading}
-                >
-                  {!loading ? 'Login as guest' : 'Please wait..'}
-                </button>
+                <div className="block text-gray-600 font-semibold mr-2">
+                  <Link
+                    className="hover:underline hover:text-blue-500"
+                    to="/forgot-password"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
 
                 <button
                   className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
@@ -135,6 +136,14 @@ const Login = () => {
                   disabled={loading || !isValid || !dirty}
                 >
                   {!loading ? 'Login' : 'Please wait..'}
+                </button>
+
+                <button
+                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide `}
+                  onClick={handleGuestLogin}
+                  disabled={loading}
+                >
+                  Login as guest
                 </button>
               </div>
             </Form>

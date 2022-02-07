@@ -1,6 +1,8 @@
+import crypto from 'crypto';
 import { StatusCodes } from 'http-status-codes';
 import { BadRequestError, UnAuthenticatedError } from '../errors/index.js';
 import User from '../models/userModel.js';
+import sendEmail from '../utils/sendEmail.js';
 import { sendResponse } from '../utils/sendResponse.js';
 
 /**
@@ -60,6 +62,82 @@ const logout = async (req, res) => {
   res.status(StatusCodes.OK).json({
     status: 'success',
     message: 'User logged out',
+  });
+};
+
+/**
+ * @desc    Forgot Password
+ * @route   POST /api/users/forgot-password
+ * @access  Public
+ */
+const forgotPassword = async (req, res) => {
+  let user;
+  try {
+    const { email } = req.body;
+    user = await User.findOne({ email });
+    if (!user) {
+      throw new NotFoundError(`User not found`);
+    }
+
+    const resetPasswordToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    const resetURL = `${req.protocol}://${req.get(
+      'host'
+    )}/api/users/reset-password/${resetPasswordToken}`;
+    const message = `Forgot your password? Use this url ${resetURL} to reset your password`;
+
+    await sendEmail({
+      email: user.email,
+      subject: `Your password reset token (valid for 10 mins)`,
+      message,
+    });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Please check your email for reset password link`,
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpirationDate = undefined;
+    await user.save({ validationBeforeSave: false });
+
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      msg: error.message,
+    });
+  }
+};
+
+/**
+ * @desc    Reset Password
+ * @route   PATCH /api/users/reset-password/:resetPasswordToken
+ * @access  Private
+ */
+const resetPassword = async (req, res) => {
+  const { resetPasswordToken } = req.params;
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(resetPasswordToken)
+    .digest('hash');
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    passwordResetTokenExpirationDate: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new UnAuthenticatedError(`Token is invalid or has expired`);
+  }
+
+  user.password = req.body.password;
+  user.passwordResetToken = undefined;
+  user.passwordResetTokenExpirationDate = undefined;
+  await user.save();
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: `Password updated!`,
   });
 };
 
@@ -178,6 +256,8 @@ export {
   register,
   login,
   logout,
+  forgotPassword,
+  resetPassword,
   getMe,
   updateProfile,
   getUsers,
