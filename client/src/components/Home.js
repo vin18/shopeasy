@@ -12,9 +12,13 @@ import Paginate from '../components/Paginate';
 import Loader from './Loader.js';
 import useWindowWidth from '../hooks/useWindowWidth.js';
 import Search from './Search.js';
+import Checkbox from './custom/Checkbox.js';
+import StarIcon from '../assets/icons/StarIcon.js';
 
 const Home = () => {
+  const priceRange = [500, 1000, 1500, 2000, 2500];
   const dispatch = useDispatch();
+  const [sort, setSort] = useState('');
   const { keyword = '', pageNumber = 1 } = useParams();
   const {
     productsData: products,
@@ -30,8 +34,8 @@ const Home = () => {
   const isLoggedIn = userData?.email;
 
   useEffect(() => {
-    dispatch(fetchProducts(keyword, pageNumber));
-  }, [keyword, pageNumber]);
+    dispatch(fetchProducts(keyword, pageNumber, sort));
+  }, [keyword, pageNumber, sort]);
 
   useEffect(() => {
     if (isLoggedIn || isBookmarkUpdated) {
@@ -56,23 +60,56 @@ const Home = () => {
   return (
     <div>
       {isMobile && <Search />}
-      <h1 className="text-3xl text-blue-500 font-bold mb-5">
-        Popular Products
-      </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-        {products?.map((product) => {
-          const isProductBookmarked =
-            wishlistsData?.find((w) => w.product === product?.id) || false;
+      <div className="flex max-w-7xl mx-auto">
+        <div className="flex flex-col">
+          <div className="flex mb-4">
+            <span className="text-gray-900 font-bold mr-16">Sort by</span>
+            <ul className="flex font-semibold space-x-6 cursor-pointer text-gray-700">
+              <li
+                className={
+                  sort === 'newest' &&
+                  'text-blue-500 font-semibold border-b border-blue-500'
+                }
+                onClick={() => setSort('newest')}
+              >
+                Newest First
+              </li>
+              <li
+                className={
+                  sort === 'high-to-low' &&
+                  'text-blue-500 font-semibold border-b border-blue-500'
+                }
+                onClick={() => setSort('high-to-low')}
+              >
+                Price - High to Low
+              </li>
+              <li
+                className={
+                  sort === 'low-to-high' &&
+                  'text-blue-500 font-semibold border-b border-blue-500'
+                }
+                onClick={() => setSort('low-to-high')}
+              >
+                Price - Low to High
+              </li>
+            </ul>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products?.map((product) => {
+              const isProductBookmarked =
+                wishlistsData?.find((w) => w.product === product?.id) || false;
 
-          return (
-            <ProductItem
-              isLoggedIn={isLoggedIn}
-              product={product}
-              isProductBookmarked={isProductBookmarked}
-            />
-          );
-        })}
+              return (
+                <ProductItem
+                  isLoggedIn={isLoggedIn}
+                  product={product}
+                  isProductBookmarked={isProductBookmarked}
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <Paginate pages={pages} page={page} keyword={keyword} />

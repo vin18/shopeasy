@@ -29,13 +29,15 @@ const ProductItem = ({
           <img className="w-100 h-100" src={product?.image?.url}></img>
         </div>
 
-        <h3 className="text-xl text-center pt-5">{product.name}</h3>
-      </Link>
+        <h3 className="text-xl text-gray-800 text-center pt-5">
+          {product.name}
+        </h3>
 
-      <div className="flex justify-between mt-4">
-        <Review product={product} />
-        <p className="text-lg text-gray-800 mt-1">₹{product.price}</p>
-      </div>
+        <div className="flex justify-between mt-4">
+          <Review product={product} />
+          <p className="text-lg text-gray-800 mt-1">₹{product.price}</p>
+        </div>
+      </Link>
     </div>
   );
 };

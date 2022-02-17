@@ -44,14 +44,14 @@ export const {
   productsAdminRequestSuccess,
 } = slice.actions;
 export const fetchProducts =
-  (keyword = '', pageNumber = '') =>
+  (keyword = '', pageNumber = '', sort, rating) =>
   async (dispatch) => {
     try {
       dispatch({
         type: productsRequest.type,
       });
       const { data } = await axios.get(
-        `/api/v1/products?keyword=${keyword}&pageNumber=${pageNumber}`
+        `/api/v1/products?keyword=${keyword}&pageNumber=${pageNumber}&sort=${sort}&rating=${rating}`
       );
 
       dispatch({

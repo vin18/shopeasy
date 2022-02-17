@@ -9,26 +9,43 @@ import Product from '../models/productModel.js';
  * @access  Public
  */
 const getAllProducts = async (req, res) => {
-  const { keyword, pageNumber: page = 1 } = req.query;
+  const { keyword, pageNumber: page = 1, sort } = req.query;
   const queryObject = {};
   const pageSize = 6;
 
+  // search
   if (keyword) {
     queryObject.name = { $regex: keyword, $options: 'i' };
   }
 
-  let results = Product.find(queryObject)
-    .limit(pageSize)
-    .skip(pageSize * (Number(page) - 1));
+  let results = Product.find(queryObject);
+
+  // sort
+  if (sort === 'latest') {
+    results = results.sort('-createdAt');
+  }
+
+  if (sort === 'low-to-high') {
+    results = results.sort('price');
+  }
+
+  if (sort === 'high-to-low') {
+    results = results.sort('-price');
+  }
+
+  // pagination
+  results = results.limit(pageSize).skip(pageSize * (Number(page) - 1));
+
   const products = await results;
-  const count = await Product.countDocuments();
+  const totalProducts = await Product.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalProducts / pageSize);
 
   res.status(StatusCodes.OK).json({
     success: true,
-    count,
+    count: totalProducts,
     products,
     page,
-    pages: Math.ceil(count / pageSize),
+    pages: numOfPages,
   });
 };
 
@@ -111,7 +128,7 @@ const updateAdminProduct = async (req, res) => {
 
   await cloudinary.v2.uploader.destroy(image.public_id);
   const uploadedImage = await cloudinary.v2.uploader.upload(productImage, {
-    folder: 'bookeasy/rooms',
+    folder: 'shopeasy/products',
   });
 
   req.body.image = {
