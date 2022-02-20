@@ -89,8 +89,6 @@ const removeItemFromTheCart = async (req, res) => {
     (p) => p.productId === req.params.productId
   );
 
-  console.log('Cart', cart);
-
   if (itemIndex > -1) {
     cart.products.splice(itemIndex, 1);
   }

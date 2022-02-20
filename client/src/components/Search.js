@@ -8,7 +8,7 @@ const Search = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchText.trim()) {
-      history(`/search/${searchText?.toLowerCase()}`);
+      history(`/products/search/${searchText?.toLowerCase()}`);
     } else {
       history(`/products`);
     }
