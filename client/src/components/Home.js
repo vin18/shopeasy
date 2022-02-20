@@ -63,13 +63,13 @@ const Home = () => {
 
       <div className="flex max-w-7xl mx-auto">
         <div className="flex flex-col">
-          <div className="flex mb-4">
+          <div className="flex flex-col md:flex-row mb-4">
             <span className="text-gray-900 font-bold mr-16">Sort by</span>
-            <ul className="flex font-semibold space-x-6 cursor-pointer text-gray-700">
+            <ul className="flex flex-col md:flex-row font-semibold md:space-x-6 cursor-pointer text-gray-700">
               <li
                 className={
                   sort === 'newest' &&
-                  'text-blue-500 font-semibold border-b border-blue-500'
+                  'text-blue-500 font-semibold md:border-b border-blue-500'
                 }
                 onClick={() => setSort('newest')}
               >
@@ -78,7 +78,7 @@ const Home = () => {
               <li
                 className={
                   sort === 'high-to-low' &&
-                  'text-blue-500 font-semibold border-b border-blue-500'
+                  'text-blue-500 font-semibold md:border-b border-blue-500'
                 }
                 onClick={() => setSort('high-to-low')}
               >
@@ -87,7 +87,7 @@ const Home = () => {
               <li
                 className={
                   sort === 'low-to-high' &&
-                  'text-blue-500 font-semibold border-b border-blue-500'
+                  'text-blue-500 font-semibold md:border-b border-blue-500'
                 }
                 onClick={() => setSort('low-to-high')}
               >

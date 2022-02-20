@@ -42,12 +42,12 @@ const AdminUsers = () => {
   };
 
   return (
-    <div className="flex items-center flex-col mt-8">
+    <div className="flex items-center flex-col mt-8 overflow-auto">
       <h2 className="text-3xl mb-4 text-blue-500 font-bold">Admin Users</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block min-w-lg sm:px-6 lg:px-8">
           <div className="overflow-hidden shadow-md">
-            <table className="min-w-full border shadow">
+            <table className="border shadow">
               <thead className="bg-white border-b">
                 <tr>
                   <th

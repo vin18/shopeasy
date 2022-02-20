@@ -51,7 +51,7 @@ const Shipping = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full mt-20">
+    <div className="flex justify-center items-center mt-20">
       <Formik
         validationSchema={shippingSchema}
         initialValues={initialValues}

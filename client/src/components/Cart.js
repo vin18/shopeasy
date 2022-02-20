@@ -196,10 +196,10 @@ const Cart = () => {
               </tbody>
             </table>
           </div>
-          <div className="flex justify-between mt-3">
+          <div className="flex flex-col sm:flex-row justify-between mt-3">
             <button
               onClick={() => history(`/products`)}
-              className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+              className="bg-blue-500 text-blue-100 py-1 px-4 rounded mb-2"
             >
               Continue Shopping
             </button>

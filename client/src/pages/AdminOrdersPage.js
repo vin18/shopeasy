@@ -24,10 +24,10 @@ const AdminOrders = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="flex justify-center items-center flex-col mt-5">
+    <div className="flex justify-center items-center flex-col mt-5 overflow-auto">
       <h2 className="text-3xl mb-4 font-bold text-blue-500">Admin Orders</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div className="py-2 inline-block sm:px-6 lg:px-8">
           <div className="overflow-hidden shadow-md">
             <table className="border">
               <thead className="bg-white border-b">

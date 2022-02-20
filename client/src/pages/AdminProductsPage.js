@@ -50,10 +50,10 @@ const AdminProducts = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="flex items-center flex-col mt-5">
+    <div className="flex items-center flex-col mt-5 overflow-auto">
       <h2 className="text-3xl mb-4 font-bold text-blue-500">Admin Products</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 inline-block  sm:px-6 lg:px-8">
+        <div className="py-2 inline-block sm:px-6 lg:px-8">
           <div className="flex justify-end mb-8">
             <button
               onClick={() => history(`/admin/products/create`)}
@@ -62,8 +62,8 @@ const AdminProducts = () => {
               Create Product
             </button>
           </div>
-          <div className="overflow-hidden">
-            <table className="min-w-full border shadow-md">
+          <div className="overflow-auto">
+            <table className="border shadow-md">
               <thead className="bg-white border-b">
                 <tr>
                   <th

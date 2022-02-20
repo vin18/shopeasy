@@ -43,7 +43,7 @@ const Bookmarks = () => {
 
       {wishlistsData?.length === 0 && (
         <div className="flex flex-col items-center mt-32">
-          <h2 className="text-4xl mb-4">
+          <h2 className="text-4xl text-center mb-4">
             There are currently no items in your wihslist!
           </h2>
           <button

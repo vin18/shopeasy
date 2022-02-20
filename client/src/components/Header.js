@@ -72,7 +72,7 @@ const Header = () => {
             )}
 
             {isLoggedIn && (
-              <li>
+              <li className="px-4 py-2">
                 <Link title="profile" to="/profile">
                   <UserIcon />
                 </Link>
@@ -98,21 +98,21 @@ const Header = () => {
             )}
 
             {isLoggedIn && (
-              <li className="px-4 py-2" onClick={handleLogout}>
-                <LogoutIcon />
-              </li>
-            )}
-
-            {isLoggedIn && (
-              <li className="flex relative">
+              <li className="flex relative px-4 py-2">
                 {itemsInTheWishlists >= 1 && (
-                  <span className="absolute -top-1 -right-2 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
+                  <span className="absolute sm:-top-1 sm:-right-2 left-6 sm:left-0 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
                     {itemsInTheWishlists}
                   </span>
                 )}
                 <Link title="wishlisted products" to="/wishlists">
                   <BookmarkIcon />{' '}
                 </Link>
+              </li>
+            )}
+
+            {isLoggedIn && (
+              <li className="px-4 py-2" onClick={handleLogout}>
+                <LogoutIcon />
               </li>
             )}
           </ul>
@@ -168,12 +168,6 @@ const Header = () => {
             )}
 
             {isLoggedIn && (
-              <li onClick={handleLogout}>
-                <LogoutIcon />
-              </li>
-            )}
-
-            {isLoggedIn && (
               <li className="flex relative">
                 {itemsInTheWishlists >= 1 && (
                   <span className="absolute -top-1 -right-2 text-sm flex justify-center items-center bg-red-500 h-4 w-4 rounded-full">
@@ -183,6 +177,12 @@ const Header = () => {
                 <Link title="wishlisted products" to="/wishlists">
                   <BookmarkIcon />{' '}
                 </Link>
+              </li>
+            )}
+
+            {isLoggedIn && (
+              <li onClick={handleLogout}>
+                <LogoutIcon />
               </li>
             )}
           </ul>

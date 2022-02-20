@@ -31,7 +31,7 @@ function AppProviders() {
       <Header />
       <div
         className="container mx-auto my-5  px-8 md:px-12 lg:px-18"
-        style={{ minHeight: '80vh' }}
+        style={{ minHeight: '78vh' }}
       >
         <Routes>
           <Route path="/" element={<StartPage />} />
