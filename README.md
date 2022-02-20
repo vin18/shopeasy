@@ -15,18 +15,21 @@
 
 ## ✨ Features
 
+- Products listing
 - Shopping cart
 - Product reviews and ratings
+- Authentication and Authorization
 - Product pagination
 - Product search 
 - Checkout process (shipping, payment method, etc)
 - User profile with orders
 - Admin product management
 - Admin user management
-- Admin order details page
+- Admin order management
 - Razorpay integration for payments
+- Wishlist
 
-## Tech Stack
+## ⚒️ Tech Stack
 
 |  Stack   |   |   |   |   |
 |----------|---|---|---|---|
