@@ -13,7 +13,7 @@ const ProductItem = ({
   const dispatch = useDispatch();
 
   return (
-    <div className="p-5 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-blue-500 ">
+    <div className="p-5 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-indigo-500 ">
       {isLoggedIn && (
         <div className="flex justify-end">
           <FaHeart
@@ -29,13 +29,15 @@ const ProductItem = ({
           <img className="w-100 h-100" src={product?.image?.url}></img>
         </div>
 
-        <h3 className="text-xl text-gray-800 text-center pt-5">
+        <h3 className="text-xl text-gray-800 font-semibold text-center pt-5">
           {product.name}
         </h3>
 
         <div className="flex justify-between mt-4">
           <Review product={product} />
-          <p className="text-lg text-gray-800 mt-1">₹{product.price}</p>
+          <p className="text-lg text-gray-700 font-semibold mt-1">
+            ₹{product.price}
+          </p>
         </div>
       </Link>
     </div>

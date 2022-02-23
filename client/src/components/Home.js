@@ -50,7 +50,7 @@ const Home = () => {
     return (
       <div className="flex flex-col justify-center items-center mt-32">
         <h3 className="text-3xl text-center mb-2">No products found!</h3>
-        <Link className="bg-blue-500 text-blue-50 py-2 px-4 rounded" to="/">
+        <Link className="bg-indigo-500 text-indigo-50 py-2 px-4 rounded" to="/">
           Back to Home page
         </Link>
       </div>
@@ -69,7 +69,7 @@ const Home = () => {
               <li
                 className={
                   sort === 'newest' &&
-                  'text-blue-500 font-semibold md:border-b border-blue-500'
+                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
                 }
                 onClick={() => setSort('newest')}
               >
@@ -78,7 +78,7 @@ const Home = () => {
               <li
                 className={
                   sort === 'high-to-low' &&
-                  'text-blue-500 font-semibold md:border-b border-blue-500'
+                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
                 }
                 onClick={() => setSort('high-to-low')}
               >
@@ -87,7 +87,7 @@ const Home = () => {
               <li
                 className={
                   sort === 'low-to-high' &&
-                  'text-blue-500 font-semibold md:border-b border-blue-500'
+                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
                 }
                 onClick={() => setSort('low-to-high')}
               >

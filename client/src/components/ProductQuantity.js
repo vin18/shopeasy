@@ -18,7 +18,7 @@ const ProductQuantity = ({
     <div className="flex">
       <button
         onClick={addQuantity}
-        className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+        className="inline-flex leading-5 font-semibold rounded-full text-indigo-800"
         disabled={quantity >= countInStock}
       >
         <PlusIcon />
@@ -27,7 +27,7 @@ const ProductQuantity = ({
 
       <button
         onClick={subtractQuantity}
-        className="inline-flex leading-5 font-semibold rounded-full text-blue-800"
+        className="inline-flex leading-5 font-semibold rounded-full text-indigo-800"
         disabled={quantity <= 1}
       >
         <MinusIcon />

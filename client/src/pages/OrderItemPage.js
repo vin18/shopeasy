@@ -59,28 +59,28 @@ const OrderItemPage = () => {
     <div className="flex flex-col lg:flex-row mt-18">
       <div className="flex flex-1 flex-col space-y-8">
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Order ID
           </h3>
           <p>{orderID}</p>
         </div>
 
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Shipping
           </h3>
           <p>Address: {addressStr}</p>
         </div>
 
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Payment Method
           </h3>
           <p>Razorpay</p>
         </div>
 
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Paid At
           </h3>
           <p>
@@ -91,7 +91,7 @@ const OrderItemPage = () => {
         </div>
 
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Delivered
           </h3>
           <p className={!order.isDelivered ? 'text-red-500' : 'text-green-500'}>
@@ -100,7 +100,7 @@ const OrderItemPage = () => {
         </div>
 
         <div>
-          <h3 className="text-2xl text-blue-500 font-bold mb-1 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-1 uppercase">
             Order Items
           </h3>
           {orderItems?.map((product) => {
@@ -127,7 +127,7 @@ const OrderItemPage = () => {
 
       <div className="mt-8 lg:mt-0">
         <div className="border border-gray-300 px-8 py-4 rounded shadow space-y-2">
-          <h3 className="text-2xl text-blue-500 font-bold mb-4 uppercase">
+          <h3 className="text-2xl text-indigo-500 font-bold mb-4 uppercase">
             Order Summary
           </h3>
 
@@ -164,7 +164,7 @@ const OrderItemPage = () => {
           <div className="flex justify-center">
             <button
               onClick={handleOrderDelivered}
-              className="mt-4 px-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+              className="mt-4 px-4 bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
             >
               Mark as delivered
             </button>

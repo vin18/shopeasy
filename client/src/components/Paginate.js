@@ -27,7 +27,7 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
           <Link to={prevLink}>
             <button
               disabled={currentPage <= 1}
-              className={`h-10 px-5 text-blue-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-blue-100 ${
+              className={`h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100 ${
                 currentPage <= 1 && 'cursor-not-allowed'
               }`}
             >
@@ -49,9 +49,9 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
               <Link to={link}>
                 <button
                   className={`h-10 px-5 rounded ${
-                    activePage ? 'text-white' : 'text-blue'
+                    activePage ? 'text-white' : 'text-indigo'
                   } transition-colors duration-150 ${
-                    activePage && 'bg-blue-600'
+                    activePage && 'bg-indigo-600'
                   } focus:shadow-outline`}
                 >
                   {page + 1}
@@ -65,7 +65,7 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
           <Link to={nextLink}>
             <button
               disabled={currentPage >= pages}
-              className={`h-10 px-5 text-blue-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-blue-100 ${
+              className={`h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-r-lg focus:shadow-outline hover:bg-indigo-100 ${
                 currentPage >= pages && 'cursor-not-allowed'
               } `}
             >

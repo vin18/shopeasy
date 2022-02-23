@@ -39,10 +39,13 @@ const Header = () => {
   };
 
   return (
-    <header className="relative bg-blue-500 text-blue-50 flex justify-between items-center py-4 px-8">
+    <header className="relative bg-indigo-500 text-indigo-50 flex justify-between items-center py-4 px-8">
       <div>
         <Link to="/">
-          <h1 className="text-xl font-bold">ShopEasy</h1>
+          <h1 className="flex items-center text-xl font-bold">
+            <CartIcon />
+            <span className="ml-1">ShopEasy</span>
+          </h1>
         </Link>
       </div>
 
@@ -57,7 +60,7 @@ const Header = () => {
       </div>
 
       {open && isTab ? (
-        <nav className="block z-10 lg:hidden absolute bg-blue-500 w-full border-t border-t-blue-200 top-14 left-0">
+        <nav className="block z-10 lg:hidden absolute bg-indigo-500 w-full border-t border-t-indigo-200 top-14 left-0">
           <ul className="flex flex-col cursor-pointer mb-1">
             <li className="px-4 py-2">
               <Link title="cart" to="/cart">

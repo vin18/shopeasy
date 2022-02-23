@@ -26,12 +26,12 @@ const Reviews = ({
       )}
       {reviewsData?.map((review) => (
         <div
-          className="mt-7 flex justify-between items-center shadow p-5 border border-blue-200"
+          className="mt-7 flex justify-between items-center shadow p-5 border border-indigo-200"
           key={review._id}
         >
           <div>
             <div className="flex items-center mb-2">
-              <div className="inline-flex items-center bg-blue-600 text-blue-100 p-1 rounded mr-2 text-sm">
+              <div className="inline-flex items-center bg-indigo-600 text-indigo-100 p-1 rounded mr-2 text-sm">
                 <span>{review?.rating}</span> <StarIcon />
               </div>
               <p>{review?.title}</p>
@@ -39,7 +39,7 @@ const Reviews = ({
             <p className="text-sm">{review?.comment}</p>
             <p className="text-sm">
               Posted at {moment(review?.createdAt).format(`DD-MM-YYYY`)} by{' '}
-              <span className="text-blue-500 font-bold">
+              <span className="text-indigo-500 font-bold">
                 {review?.user?.name}
               </span>
             </p>
@@ -49,10 +49,10 @@ const Reviews = ({
             <div className="flex">
               <FaEdit
                 onClick={() => handleUpdateProductReview(review)}
-                className="mr-2 text-lg text-blue-500"
+                className="mr-2 text-lg text-indigo-500"
               />
               <FaTrash
-                className="mr-1 text-lg text-blue-500"
+                className="mr-1 text-lg text-indigo-500"
                 onClick={() => handleDeleteProductReview(review._id)}
               />
             </div>

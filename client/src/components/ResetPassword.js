@@ -64,7 +64,12 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full mt-24">
+    <div className="flex flex-col justify-center items-center w-full mt-24">
+      <div className="mb-2">
+        <h1 className="text-center text-4xl font-semibold text-indigo-500 mb-2">
+          Reset Password
+        </h1>
+      </div>
       <Formik
         validationSchema={resetPasswordSchema}
         initialValues={initialValues}
@@ -80,12 +85,8 @@ const ResetPassword = () => {
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-blue-100">
+              <div className="bg-white p-5 rounded-xl w-screen shadow-lg max-w-mds border-2 border-indigo-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-blue-500">
-                    Reset Password
-                  </h1>
-
                   <TextInput
                     labelName="Password"
                     value={values.password}
@@ -114,7 +115,7 @@ const ResetPassword = () => {
                 </div>
 
                 <button
-                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
+                  className={`mt-4 w-full bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
                     (loading || !isValid) && 'opacity-70 cursor-not-allowed'
                   }`}
                   disabled={loading || !isValid}

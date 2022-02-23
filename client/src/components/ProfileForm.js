@@ -55,9 +55,9 @@ const ProfileForm = () => {
         {({ handleSubmit, handleChange, values, errors, setFieldValue }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-blue-100">
+              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-indigo-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-blue-500">
+                  <h1 className="text-center text-2xl font-semibold text-indigo-500">
                     Update Profile
                   </h1>
 
@@ -123,7 +123,7 @@ const ProfileForm = () => {
                   />
                 </div>
 
-                <button className="mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
+                <button className="mt-4 w-full bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
                   {!loading ? 'Update profile' : 'Please wait..'}
                 </button>
               </div>

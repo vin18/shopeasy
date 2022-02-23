@@ -25,7 +25,7 @@ const AdminOrders = () => {
 
   return (
     <div className="flex justify-center items-center flex-col mt-5 overflow-auto">
-      <h2 className="text-3xl mb-4 font-bold text-blue-500">Admin Orders</h2>
+      <h2 className="text-3xl mb-4 font-bold text-indigo-500">Admin Orders</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block sm:px-6 lg:px-8">
           <div className="overflow-hidden shadow-md">
@@ -34,43 +34,43 @@ const AdminOrders = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Order ID
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     User
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-center"
+                    className="font-medium text-indigo-600 px-6 py-4 text-center"
                   >
                     Date
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Total
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Paid
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Delivered
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   ></th>
                 </tr>
               </thead>
@@ -112,7 +112,7 @@ const AdminOrders = () => {
                     <td className="flex text-gray-700 font-light px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => history(`/orders/${order._id}`)}
-                        className=" bg-blue-500 text-indigo-100 p-2 rounded-md tracking-wide"
+                        className=" bg-indigo-500 text-indigo-100 p-2 rounded-md tracking-wide"
                       >
                         Details
                       </button>

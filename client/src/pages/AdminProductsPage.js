@@ -51,13 +51,13 @@ const AdminProducts = () => {
 
   return (
     <div className="flex items-center flex-col mt-5 overflow-auto">
-      <h2 className="text-3xl mb-4 font-bold text-blue-500">Admin Products</h2>
+      <h2 className="text-3xl mb-4 font-bold text-indigo-500">Admin Products</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block sm:px-6 lg:px-8">
           <div className="flex justify-end mb-8">
             <button
               onClick={() => history(`/admin/products/create`)}
-              className="mt-4 px-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
+              className="mt-4 px-4 bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide"
             >
               Create Product
             </button>
@@ -68,37 +68,37 @@ const AdminProducts = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Product ID
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Name
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Category
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Brand
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   ></th>
                 </tr>
               </thead>
@@ -123,10 +123,10 @@ const AdminProducts = () => {
                     <td className="flex text-gray-700 font-light px-6 py-4 whitespace-nowrap">
                       <FaEdit
                         onClick={() => handleUpdateProduct(product._id)}
-                        className="mr-2 text-lg text-blue-500"
+                        className="mr-2 text-lg text-indigo-500"
                       />
                       <FaTrash
-                        className="mr-2 text-lg text-blue-500"
+                        className="mr-2 text-lg text-indigo-500"
                         onClick={() => handleDeleteProduct(product._id)}
                       />
                     </td>

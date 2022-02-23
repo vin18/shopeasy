@@ -37,7 +37,7 @@ const Bookmarks = () => {
 
   return (
     <div>
-      <h1 className="text-3xl text-blue-500 font-bold mb-5">
+      <h1 className="text-3xl text-indigo-500 font-bold mb-5">
         Bookmarked Products
       </h1>
 
@@ -48,7 +48,7 @@ const Bookmarks = () => {
           </h2>
           <button
             onClick={() => history(`/products`)}
-            className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+            className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded"
           >
             Continue Shopping
           </button>

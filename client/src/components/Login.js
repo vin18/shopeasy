@@ -60,7 +60,13 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full mt-24">
+    <div className="flex flex-col justify-center items-center w-full mt-24">
+      <div className="mb-2">
+        <h1 className="text-center text-4xl font-semibold text-indigo-500 mb-2">
+          Login
+        </h1>
+        <p className="text-gray-600">Welcome back, Login to your account</p>
+      </div>
       <Formik
         validationSchema={loginSchema}
         initialValues={initialValues}
@@ -77,12 +83,8 @@ const Login = () => {
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-blue-100">
+              <div className="bg-white p-5 rounded-xl w-screen shadow-lg max-w-md border-2 border-indigo-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-blue-500">
-                    Login
-                  </h1>
-
                   <TextInput
                     labelName="Email"
                     value={values.email}
@@ -108,20 +110,17 @@ const Login = () => {
                 </div>
 
                 <div className="flex mt-4">
-                  <p className="block text-gray-600 font-semibold mr-2">
+                  <p className="block text-gray-700 font-semibold mr-2">
                     New user?{' '}
-                    <Link
-                      className="hover:underline hover:text-blue-500"
-                      to="/register"
-                    >
-                      Register here
+                    <Link className="underline text-indigo-500" to="/register">
+                      Register
                     </Link>
                   </p>
                 </div>
 
                 <div className="block text-gray-600 font-semibold mr-2">
                   <Link
-                    className="hover:underline hover:text-blue-500"
+                    className="underline text-indigo-500"
                     to="/forgot-password"
                   >
                     Forgot password?
@@ -129,7 +128,7 @@ const Login = () => {
                 </div>
 
                 <button
-                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
+                  className={`mt-4 w-full bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide ${
                     (loading || !isValid || !dirty) &&
                     'opacity-70 cursor-not-allowed'
                   }`}
@@ -139,7 +138,7 @@ const Login = () => {
                 </button>
 
                 <button
-                  className={`mt-4 w-full bg-blue-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide `}
+                  className={`mt-4 w-full bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg tracking-wide `}
                   onClick={handleGuestLogin}
                   disabled={loading}
                 >

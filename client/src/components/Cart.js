@@ -29,7 +29,7 @@ const Cart = () => {
         <h2 className="text-4xl mb-4">Please login to continue</h2>
         <button
           onClick={() => history(`/login`)}
-          className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+          className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded"
         >
           Login
         </button>
@@ -47,7 +47,7 @@ const Cart = () => {
         </h2>
         <button
           onClick={() => history(`/products`)}
-          className="bg-blue-500 text-blue-100 py-1 px-4 rounded"
+          className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded"
         >
           Continue Shopping
         </button>
@@ -145,7 +145,7 @@ const Cart = () => {
                               };
                               dispatch(addProductsToCart(productsData));
                             }}
-                            className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                            className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                               product?.quantity >= product?.countInStock &&
                               'opacity-80 cursor-not-allowed'
                             }`}
@@ -169,7 +169,7 @@ const Cart = () => {
                               };
                               dispatch(addProductsToCart(productsData));
                             }}
-                            className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+                            className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                               product?.quantity <= 1 &&
                               'opacity-80 cursor-not-allowed'
                             }`}
@@ -184,7 +184,7 @@ const Cart = () => {
                       </td>
                       <td>
                         <FaTrash
-                          className="mr-1 text-lg text-blue-500"
+                          className="mr-1 text-lg text-indigo-500"
                           onClick={() =>
                             handleRemoveProductFromCart(product.productId)
                           }
@@ -199,13 +199,13 @@ const Cart = () => {
           <div className="flex flex-col sm:flex-row justify-between mt-3">
             <button
               onClick={() => history(`/products`)}
-              className="bg-blue-500 text-blue-100 py-1 px-4 rounded mb-2"
+              className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded mb-2"
             >
               Continue Shopping
             </button>
             <button
               onClick={handleClearCart}
-              className="bg-red-500 text-blue-100 py-1 px-4 rounded"
+              className="bg-red-500 text-indigo-100 py-1 px-4 rounded"
             >
               Clear shopping cart
             </button>
@@ -215,7 +215,7 @@ const Cart = () => {
 
       {products?.length !== 0 && (
         <div className="md:mx-8 mt-5 lg:mt-12 flex justify-center items-start sm:justify-end">
-          <div className="p-6 border-2 border-blue-100 shadow rounded">
+          <div className="p-6 border-2 border-indigo-100 shadow rounded">
             <div className="flex justify-between mb-1">
               <p>Subtotal</p>
               <p>₹{totalPrice}</p>
@@ -231,20 +231,20 @@ const Cart = () => {
               <p>₹{orderTotal}</p>
             </div>
 
-            <div className="border-b border-blue-100 my-2"></div>
+            <div className="border-b border-indigo-100 my-2"></div>
 
             <div className="mt-5 flex justify-center">
               {isLoggedIn ? (
                 <button
                   onClick={() => history(`/shipping`)}
-                  className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+                  className="bg-indigo-500 text-indigo-100 px-4 rounded py-1 "
                 >
                   Proceed to checkout
                 </button>
               ) : (
                 <button
                   onClick={() => history(`/login?redirect=shipping`)}
-                  className="bg-blue-500 text-blue-100 px-4 rounded py-1 "
+                  className="bg-indigo-500 text-indigo-100 px-4 rounded py-1 "
                 >
                   Login
                 </button>

@@ -43,7 +43,7 @@ const AdminUsers = () => {
 
   return (
     <div className="flex items-center flex-col mt-8 overflow-auto">
-      <h2 className="text-3xl mb-4 text-blue-500 font-bold">Admin Users</h2>
+      <h2 className="text-3xl mb-4 text-indigo-500 font-bold">Admin Users</h2>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 inline-block min-w-lg sm:px-6 lg:px-8">
           <div className="overflow-hidden shadow-md">
@@ -52,25 +52,25 @@ const AdminUsers = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Name
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Email
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   >
                     Role
                   </th>
                   <th
                     scope="col"
-                    className="font-medium text-blue-600 px-6 py-4 text-left"
+                    className="font-medium text-indigo-600 px-6 py-4 text-left"
                   ></th>
                 </tr>
               </thead>
@@ -89,10 +89,10 @@ const AdminUsers = () => {
                     <td className="flex text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       <FaEdit
                         onClick={() => handleUpdateUser(user._id)}
-                        className="mr-1 text-lg text-blue-500"
+                        className="mr-1 text-lg text-indigo-500"
                       />
                       <FaTrash
-                        className="mr-1 text-lg text-blue-500"
+                        className="mr-1 text-lg text-indigo-500"
                         onClick={() => handleDeleteUser(user._id)}
                       />
                     </td>

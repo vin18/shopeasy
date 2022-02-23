@@ -20,6 +20,9 @@ import {
 import MinusIcon from '../assets/icons/MinusIcon';
 import PlusIcon from '../assets/icons/PlusIcon';
 import Loader from '../components/Loader';
+import CartIcon from '../assets/icons/CartIcon';
+import { FaHeart } from 'react-icons/fa';
+import { createUpdateWishlist } from '../store/slices/wishlists';
 
 const Product = () => {
   const [quantity, setQuantity] = useState(1);
@@ -83,6 +86,9 @@ const Product = () => {
   const isProductAvailable = product.countInStock > 0;
 
   const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      return toast.error(`Login to add item in the cart`);
+    }
     const productsData = {
       productId,
       quantity,
@@ -136,25 +142,44 @@ const Product = () => {
     <div>
       <Link
         to="/"
-        className="inline-flex bg-blue-500 px-4 py-2 rounded shadow text-blue-50"
+        className="inline-flex px-4 py-2 rounded shadow border border-gray-400 text-gray-800"
       >
         <LeftArrowIcon />
         <span className="ml-2">Back to products</span>
       </Link>
 
       <div className="mt-2 flex items-center flex-col md:flex-row">
-        <div className="flex-1 my-16 flex justify-center">
+        <div className="flex-1 flex justify-center">
           <img className="w-100" src={product?.image?.url} alt="" />
         </div>
 
-        <div className="flex-1 space-y-2">
-          <h3 className="text-3xl">{product.name}</h3>
-          <p>Description: {product.description}</p>
+        <div className="flex-1 space-y-3">
+          <div className="flex justify-between items-center mr-10">
+            <div className="w-full">
+              <span className="bg-indigo-600 text-indigo-100 rounded-md py-1 px-3 mb-1 text-sm inline-block">
+                {capitalizeFirstLetter(product.category)}
+              </span>
+              <div className="flex justify-between items-center">
+                <h3 className="text-3xl font-semibold">{product.name}</h3>
+                {isLoggedIn && (
+                  <div className="p-2 mr-2 rounded-full border-2 border-indigo-600 bg-indigo-50 transition-all hover:scale-110 cursor-pointer">
+                    <FaHeart
+                      onClick={() =>
+                        dispatch(createUpdateWishlist(product._id))
+                      }
+                      className={`text-xl ${
+                        false ? 'text-red-500' : 'text-gray-400'
+                      } `}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <p>{product.description}</p>
           <Review product={product} /> ({product.numOfReviews} reviews)
-          <div>Category: {capitalizeFirstLetter(product.category)}</div>
-          <div>Price: ₹{product.price}</div>
+          <p className="text-2xl font-semibold">₹{product.price}</p>
           <div className="flex">
-            Status: &nbsp;
             <p
               className={isProductAvailable ? 'text-green-600' : 'text-red-600'}
             >
@@ -164,7 +189,7 @@ const Product = () => {
           <div className="flex">
             <button
               onClick={addQuantity}
-              className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+              className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                 quantity >= product?.countInStock &&
                 'opacity-80 cursor-not-allowed'
               }`}
@@ -177,7 +202,7 @@ const Product = () => {
 
             <button
               onClick={subtractQuantity}
-              className={`inline-flex leading-5 font-semibold rounded-full text-blue-800 ${
+              className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                 quantity <= 1 && 'opacity-80 cursor-not-allowed'
               }`}
               disabled={quantity <= 1}
@@ -185,21 +210,12 @@ const Product = () => {
               <MinusIcon />
             </button>
           </div>
-          {isLoggedIn ? (
-            <button
-              onClick={handleAddToCart}
-              className="bg-blue-500 text-blue-100 py-2 px-6 rounded"
-            >
-              Add to cart
-            </button>
-          ) : (
-            <button
-              onClick={() => history(`/login`)}
-              className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8"
-            >
-              Login to add item in the cart
-            </button>
-          )}
+          <button
+            onClick={handleAddToCart}
+            className="bg-indigo-500 text-indigo-100 py-3 px-6 rounded-md flex items-center"
+          >
+            <CartIcon /> <span className="ml-2">Add to cart</span>
+          </button>
         </div>
       </div>
 
@@ -213,56 +229,50 @@ const Product = () => {
         />
 
         <div className="md:w-1/2 mt-2 md:mt-0">
-          <h3 className="text-3xl mb-4">
-            {isReviewUpdate ? 'Edit' : 'Write'} a review
-          </h3>
+          {isLoggedIn && (
+            <>
+              <h3 className="text-3xl mb-4">
+                {isReviewUpdate ? 'Edit' : 'Write'} a review
+              </h3>
 
-          <form onSubmit={handleReviewSubmit} className="w-100">
-            <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
-            <div>
-              <select
-                className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2`}
-                aria-label="Select a rating.."
-                value={rating}
-                onChange={(e) => setRating(e.target.value)}
-              >
-                <option defaultValue>Select a rating..</option>
-                <option value="5">5 - Excellent</option>
-                <option value="4">4 - Very Good</option>
-                <option value="3">3 - Good</option>
-                <option value="2">2 - Fair</option>
-                <option value="1">1 - Poor</option>
-              </select>
-            </div>
-
-            <br />
-
-            <TextInput
-              labelName="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              name="title"
-              type="text"
-              placeholder="Review title"
-            />
-
-            <br />
-
-            <TextArea
-              labelName="Comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              name="comment"
-              type="text"
-              placeholder="Review comment"
-            />
-
-            {isLoggedIn ? (
-              <>
-                <button className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8">
+              <form onSubmit={handleReviewSubmit} className="w-100">
+                <p className="block mb-2 text-gray-600 font-semibold">Rating</p>
+                <div>
+                  <select
+                    className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2`}
+                    aria-label="Select a rating.."
+                    value={rating}
+                    onChange={(e) => setRating(e.target.value)}
+                  >
+                    <option defaultValue>Select a rating..</option>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                  </select>
+                </div>
+                <br />
+                <TextInput
+                  labelName="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  name="title"
+                  type="text"
+                  placeholder="Review title"
+                />
+                <br />
+                <TextArea
+                  labelName="Comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  name="comment"
+                  type="text"
+                  placeholder="Review comment"
+                />
+                <button className="mt-4 bg-indigo-500 text-indigo-100 py-2 rounded-md text-lg px-8">
                   {reviewLoading ? 'Please wait...' : 'Submit Review'}
                 </button>
-
                 {isReviewUpdate && (
                   <button
                     onClick={() => {
@@ -272,21 +282,14 @@ const Product = () => {
                       setComment('');
                       setRating('');
                     }}
-                    className="mt-4 ml-4 border-2 border-blue-500 py-2 rounded-md text-lg px-8"
+                    className="mt-4 ml-4 border-2 border-indigo-500 py-2 rounded-md text-lg px-8"
                   >
                     Cancel
                   </button>
                 )}
-              </>
-            ) : (
-              <button
-                onClick={() => history(`/login`)}
-                className="mt-4 bg-blue-500 text-indigo-100 py-2 rounded-md text-lg px-8"
-              >
-                Login to review
-              </button>
-            )}
-          </form>
+              </form>
+            </>
+          )}
         </div>
       </div>
     </div>

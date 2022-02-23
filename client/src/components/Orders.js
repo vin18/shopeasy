@@ -23,7 +23,7 @@ const Orders = () => {
 
   return (
     <div className="flex flex-col items-center mt-12 lg:ml-16 overflow-auto">
-      <h2 className="text-center text-2xl font-bold text-blue-500 mb-4">
+      <h2 className="text-center text-2xl font-bold text-indigo-500 mb-4">
         My Orders
       </h2>
 
@@ -32,37 +32,37 @@ const Orders = () => {
           <tr>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-left"
             >
               Order ID
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-center"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-center"
             >
               Date
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-left"
             >
               Total
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-left"
             >
               Paid
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-left"
             >
               Delivered
             </th>
             <th
               scope="col"
-              className="text-sm font-medium text-blue-600 px-6 py-4 text-left"
+              className="text-sm font-medium text-indigo-600 px-6 py-4 text-left"
             ></th>
           </tr>
         </thead>
@@ -94,7 +94,7 @@ const Orders = () => {
               </td>
               <td className="flex text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <button
-                  className="bg-blue-500 text-indigo-100 py-2 px-4 rounded-md tracking-wide"
+                  className="bg-indigo-500 text-indigo-100 py-2 px-4 rounded-md tracking-wide"
                   onClick={() => history(`/orders/${order?._id}`)}
                 >
                   Details
