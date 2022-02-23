@@ -40,6 +40,7 @@ const AdminProductCreate = () => {
     countInStock: '',
     category: '',
     description: '',
+    discount: '',
   });
 
   useEffect(() => {
@@ -70,6 +71,7 @@ const AdminProductCreate = () => {
       .trim()
       .required('Description is required')
       .defined(),
+    discount: yup.string().defined(),
   });
 
   const handleSubmit = (values) => {
@@ -127,6 +129,16 @@ const AdminProductCreate = () => {
                     type="text"
                     error={errors.price}
                     placeholder="Product price"
+                  />
+
+                  <TextInput
+                    labelName="Discount"
+                    value={values.discount}
+                    onChange={handleChange}
+                    name="discount"
+                    type="text"
+                    error={errors.discount}
+                    placeholder="Product discount"
                   />
 
                   <TextInput

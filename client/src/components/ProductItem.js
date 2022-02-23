@@ -12,8 +12,13 @@ const ProductItem = ({
 }) => {
   const dispatch = useDispatch();
 
+  console.log(
+    parseFloat(product.price) -
+      parseFloat(product.price) * parseFloat(product.discount)
+  );
+
   return (
-    <div className="p-5 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-indigo-500 ">
+    <div className="relative p-4 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-indigo-500 ">
       {isLoggedIn && (
         <div className="flex justify-end">
           <FaHeart
@@ -35,10 +40,28 @@ const ProductItem = ({
 
         <div className="flex justify-between mt-4">
           <Review product={product} />
-          <p className="text-lg text-gray-700 font-semibold mt-1">
-            ₹{product.price}
-          </p>
+          <div className="flex items-center mt-1">
+            <p className="text-xl text-gray-700 font-semibold">
+              ₹
+              {Math.abs(
+                parseFloat(product.price) -
+                  parseFloat(product.price) *
+                    (parseFloat(product.discount) / 100)
+              )}
+              {product.discount > 0 && (
+                <strike className="text-sm ml-1 text-gray-500">
+                  ₹{product.price}
+                </strike>
+              )}
+            </p>
+          </div>
         </div>
+
+        {product.discount > 0 && (
+          <span class="absolute left-2 top-4 inline-flex items-center justify-center px-2 py-1 ml-2 text-xs font-bold leading-none text-red-100 bg-green-600 rounded-full">
+            {product.discount}% off
+          </span>
+        )}
       </Link>
     </div>
   );

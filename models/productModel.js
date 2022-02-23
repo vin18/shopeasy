@@ -26,6 +26,10 @@ const productSchema = mongoose.Schema(
         required: true,
       },
     },
+    discount: {
+      type: String,
+      default: '0',
+    },
     countInStock: {
       type: Number,
       required: [true, 'A product must have count in stock'],
