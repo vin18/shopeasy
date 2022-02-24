@@ -6,7 +6,7 @@ const StartPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center max-w-7xl mx-auto pt-32">
+    <div className="flex justify-center items-center max-w-7xl mx-auto pt-16 lg:pt-32">
       <div className="w-100 lg:w-2/3 lg:mr-32">
         <h1 className="text-3xl md:text-5xl font-semibold text-gray-800 mb-4">
           Shop your favourite products easily 🚀

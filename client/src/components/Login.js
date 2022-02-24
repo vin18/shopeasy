@@ -142,7 +142,7 @@ const Login = () => {
                   onClick={handleGuestLogin}
                   disabled={loading}
                 >
-                  Login as guest
+                  {!loading ? 'Login as guest' : 'Please wait..'}
                 </button>
               </div>
             </Form>

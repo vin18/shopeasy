@@ -162,7 +162,7 @@ const Product = () => {
               <div className="flex justify-between items-center">
                 <h3 className="text-3xl font-semibold">{product.name}</h3>
                 {isLoggedIn && (
-                  <div className="p-2 mr-2 rounded-full border-2 border-indigo-600 bg-indigo-50 transition-all hover:scale-110 cursor-pointer">
+                  <div className="p-3 flex items-center justify-center mr-2 rounded-full bg-indigo-50 transition-all hover:scale-110 cursor-pointer">
                     <FaHeart
                       onClick={() =>
                         dispatch(createUpdateWishlist(product._id))
@@ -178,7 +178,7 @@ const Product = () => {
           </div>
           <p>{product.description}</p>
           <Review product={product} /> ({product.numOfReviews} reviews)
-          <p className="text-2xl font-semibold">₹{product.price}</p>
+          <p className="text-2xl">₹{product.price}</p>
           <div className="flex">
             <p
               className={isProductAvailable ? 'text-green-600' : 'text-red-600'}

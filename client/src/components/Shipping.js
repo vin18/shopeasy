@@ -51,7 +51,10 @@ const Shipping = () => {
   };
 
   return (
-    <div className="flex justify-center items-center mt-20">
+    <div className="flex flex-col justify-center items-center mt-20">
+      <h1 className="text-center text-3xl font-semibold text-indigo-500 mb-4">
+        Shipping Address
+      </h1>
       <Formik
         validationSchema={shippingSchema}
         initialValues={initialValues}
@@ -68,12 +71,8 @@ const Shipping = () => {
         }) => {
           return (
             <Form noValidate onSubmit={handleSubmit}>
-              <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-lg max-w-sm border-2 border-indigo-100">
+              <div className="bg-white p-5 rounded-xl w-screen shadow-lg max-w-md border-2 border-indigo-100">
                 <div className="space-y-4">
-                  <h1 className="text-center text-2xl font-semibold text-indigo-500">
-                    Shipping Address
-                  </h1>
-
                   <TextInput
                     labelName="Address"
                     value={values.address}

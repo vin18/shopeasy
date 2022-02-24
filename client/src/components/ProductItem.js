@@ -12,11 +12,6 @@ const ProductItem = ({
 }) => {
   const dispatch = useDispatch();
 
-  console.log(
-    parseFloat(product.price) -
-      parseFloat(product.price) * parseFloat(product.discount)
-  );
-
   return (
     <div className="relative p-4 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-indigo-500 ">
       {isLoggedIn && (

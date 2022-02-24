@@ -6,13 +6,12 @@ import { getMe, logout } from '../store/slices/user';
 import toast from 'react-hot-toast';
 import Search from './Search';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { FaTimes } from 'react-icons/fa';
+import { FaHeart, FaTimes } from 'react-icons/fa';
 import useWindowWidth from '../hooks/useWindowWidth';
 import CartIcon from '../assets/icons/CartIcon';
 import UserIcon from '../assets/icons/UserIcon';
 import LogoutIcon from '../assets/icons/LogoutIcon';
 import { fetchProductsInCart } from '../store/slices/cart';
-import BookmarkIcon from './icons/BookmarkIcon';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -41,7 +40,7 @@ const Header = () => {
   return (
     <header className="relative bg-indigo-500 text-indigo-50 flex justify-between items-center py-4 px-8">
       <div>
-        <Link to="/">
+        <Link to="/products">
           <h1 className="flex items-center text-xl font-bold">
             <CartIcon />
             <span className="ml-1">ShopEasy</span>
@@ -108,7 +107,7 @@ const Header = () => {
                   </span>
                 )}
                 <Link title="wishlisted products" to="/wishlists">
-                  <BookmarkIcon />{' '}
+                  <FaHeart className="text-xl" />{' '}
                 </Link>
               </li>
             )}
@@ -178,7 +177,7 @@ const Header = () => {
                   </span>
                 )}
                 <Link title="wishlisted products" to="/wishlists">
-                  <BookmarkIcon />{' '}
+                  <FaHeart className="text-xl" />{' '}
                 </Link>
               </li>
             )}

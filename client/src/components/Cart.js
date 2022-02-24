@@ -75,7 +75,7 @@ const Cart = () => {
   return (
     <div className="flex flex-col lg:flex-row mt-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:mx-8 flex-1">
-        <h1 className="mb-2 text-4xl">Your cart</h1>
+        <h1 className="mb-2 text-4xl text-indigo-500 font-bold">Your cart</h1>
         <div className="py-2 mb-2 align-middle sm:px-6 lg:px-8">
           <div className="shadow overflow-x-auto border-b border-gray-200 sm:rounded-lg">
             <table className="divide-y w-full divide-gray-200">
@@ -199,7 +199,7 @@ const Cart = () => {
           <div className="flex flex-col sm:flex-row justify-between mt-3">
             <button
               onClick={() => history(`/products`)}
-              className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded mb-2"
+              className="bg-indigo-500 text-indigo-100 py-1 px-4 rounded"
             >
               Continue Shopping
             </button>
@@ -215,18 +215,18 @@ const Cart = () => {
 
       {products?.length !== 0 && (
         <div className="md:mx-8 mt-5 lg:mt-12 flex justify-center items-start sm:justify-end">
-          <div className="p-6 border-2 border-indigo-100 shadow rounded">
-            <div className="flex justify-between mb-1">
+          <div className="p-5 border-2 border-indigo-100 shadow rounded space-y-1">
+            <div className="flex justify-between">
               <p>Subtotal</p>
               <p>₹{totalPrice}</p>
             </div>
 
-            <div className="flex justify-between mb-3">
+            <div className="flex justify-between">
               <p>Shipping Fee</p>
               <p>₹{shippingPrice}</p>
             </div>
 
-            <div className="flex justify-between text-xl font-bold">
+            <div className="flex font-semibold justify-between">
               <p>Order Total</p>
               <p>₹{orderTotal}</p>
             </div>

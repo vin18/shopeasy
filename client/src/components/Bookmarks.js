@@ -36,7 +36,7 @@ const Bookmarks = () => {
   if (loading) return <Loader />;
 
   return (
-    <div>
+    <div className="max-w-5xl mx-auto">
       <h1 className="text-3xl text-indigo-500 font-bold mb-5">
         Bookmarked Products
       </h1>
@@ -44,7 +44,7 @@ const Bookmarks = () => {
       {wishlistsData?.length === 0 && (
         <div className="flex flex-col items-center mt-32">
           <h2 className="text-4xl text-center mb-4">
-            There are currently no items in your wihslist!
+            There are currently no items in your wishlist!
           </h2>
           <button
             onClick={() => history(`/products`)}

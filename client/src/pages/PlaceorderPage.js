@@ -145,8 +145,8 @@ const PlaceorderPage = () => {
         </div>
       </div>
 
-      <div className="mt-16 md:mt-0">
-        <div className="border border-gray-300 px-8 py-4 rounded shadow-mds space-y-2">
+      <div className="mt-8 md:mt-0">
+        <div className="border border-gray-300 p-5 rounded-md  shadow-md space-y-2">
           <h3 className="text-2xl text-indigo-500 font-bold mb-4 uppercase">
             Order Summary
           </h3>
@@ -161,7 +161,7 @@ const PlaceorderPage = () => {
             <p>₹{shippingPrice}</p>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex font-semibold justify-between">
             <p>Total</p>
             <p>₹{orderTotal}</p>
           </div>

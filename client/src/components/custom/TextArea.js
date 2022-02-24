@@ -29,7 +29,7 @@ const TextArea = (props) => {
           onChange={onChange}
           value={value}
           placeholder={placeholder}
-          className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2 ${
+          className={`bg-indigo-50 px-4 py-2 outline-none rounded-md w-full border-2 focus:border-indigo-500 ${
             error && 'border-red-500'
           }`}
           disabled={disabled}
