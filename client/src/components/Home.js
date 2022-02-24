@@ -14,9 +14,10 @@ import useWindowWidth from '../hooks/useWindowWidth.js';
 import Search from './Search.js';
 import Checkbox from './custom/Checkbox.js';
 import StarIcon from '../assets/icons/StarIcon.js';
+import Sort from './Sort.js';
+import ProductListings from './ProductListings.js';
 
 const Home = () => {
-  const priceRange = [500, 1000, 1500, 2000, 2500];
   const dispatch = useDispatch();
   const [sort, setSort] = useState('');
   const { keyword = '', pageNumber = 1 } = useParams();
@@ -61,54 +62,14 @@ const Home = () => {
     <div>
       {isMobile && <Search />}
 
-      <div className="flex max-w-7xl mx-auto">
+      <div className="flex max-w-5xl mx-auto" style={{ minHeight: '75vh' }}>
         <div className="flex flex-col">
-          <div className="flex flex-col md:flex-row mb-4">
-            <span className="text-gray-900 font-bold mr-16">Sort by</span>
-            <ul className="flex flex-col md:flex-row font-semibold md:space-x-6 cursor-pointer text-gray-700">
-              <li
-                className={
-                  sort === 'newest' &&
-                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
-                }
-                onClick={() => setSort('newest')}
-              >
-                Newest First
-              </li>
-              <li
-                className={
-                  sort === 'high-to-low' &&
-                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
-                }
-                onClick={() => setSort('high-to-low')}
-              >
-                Price - High to Low
-              </li>
-              <li
-                className={
-                  sort === 'low-to-high' &&
-                  'text-indigo-500 font-semibold md:border-b border-indigo-500'
-                }
-                onClick={() => setSort('low-to-high')}
-              >
-                Price - Low to High
-              </li>
-            </ul>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products?.map((product) => {
-              const isProductBookmarked =
-                wishlistsData?.find((w) => w.product === product?.id) || false;
-
-              return (
-                <ProductItem
-                  isLoggedIn={isLoggedIn}
-                  product={product}
-                  isProductBookmarked={isProductBookmarked}
-                />
-              );
-            })}
-          </div>
+          <Sort sort={sort} setSort={setSort} />
+          <ProductListings
+            isLoggedIn={isLoggedIn}
+            products={products}
+            wishlistsData={wishlistsData}
+          />
         </div>
       </div>
 

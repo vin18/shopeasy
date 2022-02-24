@@ -1,4 +1,4 @@
-import heroImage from '../assets/home-hero.jpg';
+import heroImage from '../assets/home-hero-2.jpg';
 import { useNavigate } from 'react-router-dom';
 import CartIcon from '../assets/icons/CartIcon';
 
@@ -7,7 +7,7 @@ const StartPage = () => {
 
   return (
     <div className="flex justify-center items-center max-w-7xl mx-auto pt-32">
-      <div className="w-100 md:w-2/3 md:mr-32">
+      <div className="w-100 lg:w-2/3 lg:mr-32">
         <h1 className="text-3xl md:text-5xl font-semibold text-gray-800 mb-4">
           Shop your favourite products easily 🚀
         </h1>
@@ -26,7 +26,7 @@ const StartPage = () => {
           </span>
         </button>
       </div>
-      <div className="hidden md:block w-3/5">
+      <div className="hidden lg:block w-3/5">
         <img src={heroImage} alt="home" />
       </div>
     </div>
