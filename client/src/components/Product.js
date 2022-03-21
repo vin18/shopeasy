@@ -141,7 +141,7 @@ const Product = () => {
   return (
     <div>
       <Link
-        to="/"
+        to="/products"
         className="inline-flex px-4 py-2 rounded shadow border border-gray-400 text-gray-800"
       >
         <LeftArrowIcon />
