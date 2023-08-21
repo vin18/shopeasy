@@ -5,6 +5,7 @@ const Footer = () => {
         ShopEasy - Made with ❤️ by{' '}
         <a
           target="_blank"
+          rel="noreferrer"
           href="https://www.linkedin.com/in/vinit-raut-404651148/"
           className="font-bold text-indigo-700 hover:underline"
         >
