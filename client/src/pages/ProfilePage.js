@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import Orders from '../components/Orders';
-import ProfileForm from '../components/ProfileForm';
+import { useState } from 'react'
+import Orders from '../components/Orders'
+import ProfileForm from '../components/ProfileForm'
 
 const ProfilePage = () => {
-  const [tab, setTab] = useState('profile');
+  const [tab, setTab] = useState('profile')
 
   return (
     <div className="flex justify-center flex-col mt-2">
@@ -28,7 +28,7 @@ const ProfilePage = () => {
       {tab === 'profile' && <ProfileForm />}
       {tab === 'orders' && <Orders />}
     </div>
-  );
-};
+  )
+}
 
-export default ProfilePage;
+export default ProfilePage

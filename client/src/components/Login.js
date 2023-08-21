@@ -1,35 +1,35 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import { useDispatch, useSelector } from 'react-redux';
-import { userReset, login } from '../store/slices/user';
-import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import { useDispatch, useSelector } from 'react-redux'
+import { userReset, login } from '../store/slices/user'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Login = () => {
   const initialValues = {
     email: '',
     password: '',
-  };
-  const history = useNavigate();
-  const dispatch = useDispatch();
-  const { userData, loading, error } = useSelector((state) => state.user);
-  const [showPassword, setShowPassword] = useState(false);
+  }
+  const history = useNavigate()
+  const dispatch = useDispatch()
+  const { userData, loading, error } = useSelector((state) => state.user)
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     if (userData?.email) {
-      toast.success(`Logged in!`);
-      return history(`/products`);
+      toast.success(`Logged in!`)
+      return history(`/products`)
     }
-  }, [userData, history]);
+  }, [userData, history])
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      dispatch(userReset());
+      toast.error(error)
+      dispatch(userReset())
     }
-  }, [error]);
+  }, [error])
 
   const loginSchema = yup.object().shape({
     email: yup
@@ -44,20 +44,20 @@ const Login = () => {
       .max(150)
       .required('Password is required')
       .defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
-    dispatch(login(values));
-  };
+    dispatch(login(values))
+  }
 
   const handleGuestLogin = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     handleSubmit({
       email: 'test@example.com',
       password: '123456',
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-24">
@@ -146,11 +146,11 @@ const Login = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

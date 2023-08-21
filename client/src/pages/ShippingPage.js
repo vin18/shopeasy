@@ -1,11 +1,11 @@
-import Shipping from '../components/Shipping';
+import Shipping from '../components/Shipping'
 
 const ShippingPage = () => {
   return (
     <>
       <Shipping />
     </>
-  );
-};
+  )
+}
 
-export default ShippingPage;
+export default ShippingPage

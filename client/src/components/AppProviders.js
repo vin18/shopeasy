@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Footer from './Footer';
-import Header from './Header';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import Footer from './Footer'
+import Header from './Header'
 import {
   HomePage,
   ProductPage,
@@ -21,9 +21,9 @@ import {
   AdminProductCreatePage,
   ForgotPasswordPage,
   ResetPasswordPage,
-} from '../pages';
-import ProtectedRoute from './ProtectedRoute';
-import StartPage from '../pages/StartPage';
+} from '../pages'
+import ProtectedRoute from './ProtectedRoute'
+import StartPage from '../pages/StartPage'
 
 function AppProviders() {
   return (
@@ -152,7 +152,7 @@ function AppProviders() {
       <Toaster />
       <Footer />
     </Router>
-  );
+  )
 }
 
-export default AppProviders;
+export default AppProviders

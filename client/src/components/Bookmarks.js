@@ -1,39 +1,39 @@
-import { useEffect } from 'react';
-import Loader from './Loader';
-import ProductItem from './ProductItem';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react'
+import Loader from './Loader'
+import ProductItem from './ProductItem'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchWishlistedProducts,
   wishlistsReset,
-} from '../store/slices/wishlists';
-import { useNavigate, useParams } from 'react-router-dom';
-import { fetchProducts } from '../store/slices/products';
+} from '../store/slices/wishlists'
+import { useNavigate, useParams } from 'react-router-dom'
+import { fetchProducts } from '../store/slices/products'
 
 const Bookmarks = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { productsData: products, loading } = useSelector(
     (state) => state.products
-  );
-  const { keyword = '', pageNumber = 1 } = useParams();
-  const { userData } = useSelector((state) => state.user);
+  )
+  const { keyword = '', pageNumber = 1 } = useParams()
+  const { userData } = useSelector((state) => state.user)
   const { wishlistsData, isBookmarkUpdated } = useSelector(
     (state) => state.wishlists
-  );
-  const isLoggedIn = userData?.email;
-  const history = useNavigate();
+  )
+  const isLoggedIn = userData?.email
+  const history = useNavigate()
 
   useEffect(() => {
-    dispatch(fetchProducts(keyword, pageNumber));
-  }, [keyword, pageNumber]);
+    dispatch(fetchProducts(keyword, pageNumber))
+  }, [keyword, pageNumber])
 
   useEffect(() => {
-    dispatch(fetchWishlistedProducts());
+    dispatch(fetchWishlistedProducts())
     if (isBookmarkUpdated) {
-      dispatch(wishlistsReset());
+      dispatch(wishlistsReset())
     }
-  }, [isBookmarkUpdated]);
+  }, [isBookmarkUpdated])
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -58,7 +58,7 @@ const Bookmarks = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
         {products.map((product) => {
           const isProductBookmarked =
-            wishlistsData?.find((w) => w.product === product?.id) || false;
+            wishlistsData?.find((w) => w.product === product?.id) || false
 
           if (isProductBookmarked)
             return (
@@ -67,11 +67,11 @@ const Bookmarks = () => {
                 product={product}
                 isProductBookmarked={isProductBookmarked}
               />
-            );
+            )
         })}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Bookmarks;
+export default Bookmarks

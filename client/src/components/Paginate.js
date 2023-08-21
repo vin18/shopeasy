@@ -1,24 +1,24 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
-  const { page: currentPageStr } = useSelector((state) => state.products);
-  const currentPage = Number(currentPageStr);
+  const { page: currentPageStr } = useSelector((state) => state.products)
+  const currentPage = Number(currentPageStr)
 
   const prevLink = !isAdmin
     ? keyword
       ? `/products/search/${keyword}/page/${currentPage - 1}`
       : `/products/page/${currentPage - 1}`
-    : `/admin/products/${currentPage - 1}`;
+    : `/admin/products/${currentPage - 1}`
 
   const nextLink = !isAdmin
     ? keyword
       ? `/products/search/${keyword}/products//${currentPage + 1}`
       : `/products/page/${currentPage + 1}`
-    : `/admin/products/${currentPage + 1}`;
+    : `/admin/products/${currentPage + 1}`
 
-  if (pages <= 1) return null;
+  if (pages <= 1) return null
 
   return (
     <nav className="mt-8 flex justify-center" aria-label="Page navigation">
@@ -41,8 +41,8 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
             ? keyword
               ? `/products/search/${keyword}/page/${page + 1}`
               : `/products/page/${page + 1}`
-            : `/admin/products/${page + 1}`;
-          const activePage = currentPage === page + 1;
+            : `/admin/products/${page + 1}`
+          const activePage = currentPage === page + 1
 
           return (
             <li key={page + 1}>
@@ -58,7 +58,7 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
                 </button>
               </Link>
             </li>
-          );
+          )
         })}
 
         <li>
@@ -75,7 +75,7 @@ const Paginate = ({ pages, page, keyword = '', isAdmin = false }) => {
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Paginate;
+export default Paginate

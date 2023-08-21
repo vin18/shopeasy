@@ -1,4 +1,4 @@
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa'
 
 const Sort = ({ sort, setSort }) => {
   return (
@@ -42,7 +42,7 @@ const Sort = ({ sort, setSort }) => {
         )}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Sort;
+export default Sort

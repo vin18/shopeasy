@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
-  const [searchText, setSearchText] = useState('');
-  const history = useNavigate();
+  const [searchText, setSearchText] = useState('')
+  const history = useNavigate()
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (searchText.trim()) {
-      history(`/products/search/${searchText?.toLowerCase()}`);
+      history(`/products/search/${searchText?.toLowerCase()}`)
     } else {
-      history(`/products`);
+      history(`/products`)
     }
-  };
+  }
 
   return (
     <div className="flex justify-center mb-4 md:mb-0 items-center">
@@ -52,7 +52,7 @@ const Search = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

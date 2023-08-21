@@ -1,16 +1,16 @@
-import React from 'react';
-import { FaHeart } from 'react-icons/fa';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { createUpdateWishlist } from '../store/slices/wishlists';
-import Review from './Review';
+import React from 'react'
+import { FaHeart } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { createUpdateWishlist } from '../store/slices/wishlists'
+import Review from './Review'
 
 const ProductItem = ({
   product,
   isLoggedIn = false,
   isProductBookmarked = false,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   return (
     <div className="relative p-4 border border-b-4 rounded transition ease-out-in hover:-translate-y-1 hover:border-b-indigo-500 ">
@@ -59,7 +59,7 @@ const ProductItem = ({
         )}
       </Link>
     </div>
-  );
-};
+  )
+}
 
-export default ProductItem;
+export default ProductItem

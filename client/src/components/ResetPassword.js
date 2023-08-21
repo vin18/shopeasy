@@ -1,44 +1,44 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   userReset,
   login,
   forgotPassword,
   userPasswordRequestReset,
   resetPassword,
-} from '../store/slices/user';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import toast from 'react-hot-toast';
+} from '../store/slices/user'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const ResetPassword = () => {
   const initialValues = {
     password: '',
     confirmPassword: '',
-  };
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const dispatch = useDispatch();
-  const { resetPasswordToken } = useParams();
+  }
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const dispatch = useDispatch()
+  const { resetPasswordToken } = useParams()
   const { passwordResetRequestSuccess, loading, error, userData } = useSelector(
     (state) => state.user
-  );
+  )
 
   useEffect(() => {
     if (passwordResetRequestSuccess) {
-      toast.success(passwordResetRequestSuccess);
-      dispatch(userPasswordRequestReset());
+      toast.success(passwordResetRequestSuccess)
+      dispatch(userPasswordRequestReset())
     }
-  }, [passwordResetRequestSuccess]);
+  }, [passwordResetRequestSuccess])
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      dispatch(userReset());
+      toast.error(error)
+      dispatch(userReset())
     }
-  }, [error]);
+  }, [error])
 
   const resetPasswordSchema = yup.object().shape({
     password: yup
@@ -53,15 +53,15 @@ const ResetPassword = () => {
       .max(150)
       .required('Password is required')
       .defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
-    const { password, confirmPassword } = values;
+    const { password, confirmPassword } = values
     if (password !== confirmPassword) {
-      return toast.error(`Passwords don't match!`);
+      return toast.error(`Passwords don't match!`)
     }
-    dispatch(resetPassword(resetPasswordToken, { ...userData, password }));
-  };
+    dispatch(resetPassword(resetPasswordToken, { ...userData, password }))
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-24">
@@ -124,11 +124,11 @@ const ResetPassword = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPassword;
+export default ResetPassword

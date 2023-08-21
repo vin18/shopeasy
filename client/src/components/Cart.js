@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import MinusIcon from '../assets/icons/MinusIcon';
-import PlusIcon from '../assets/icons/PlusIcon';
-import Loader from '../components/Loader';
+import { useEffect } from 'react'
+import { FaTrash } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import MinusIcon from '../assets/icons/MinusIcon'
+import PlusIcon from '../assets/icons/PlusIcon'
+import Loader from '../components/Loader'
 import {
   addProductsToCart,
   clearCart,
   fetchProductsInCart,
   removeProductFromCart,
-} from '../store/slices/cart';
+} from '../store/slices/cart'
 
 const Cart = () => {
-  const { cartData, loading } = useSelector((state) => state.cart);
-  const { userData } = useSelector((state) => state.user);
-  const isLoggedIn = Boolean(userData?.email);
-  const history = useNavigate();
-  const dispatch = useDispatch();
+  const { cartData, loading } = useSelector((state) => state.cart)
+  const { userData } = useSelector((state) => state.user)
+  const isLoggedIn = Boolean(userData?.email)
+  const history = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchProductsInCart());
-  }, [dispatch]);
+    dispatch(fetchProductsInCart())
+  }, [dispatch])
 
   if (!isLoggedIn) {
     return (
@@ -34,10 +34,10 @@ const Cart = () => {
           Login
         </button>
       </div>
-    );
+    )
   }
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   if (cartData?.length === 0 || cartData?.products?.length === 0) {
     return (
@@ -52,25 +52,25 @@ const Cart = () => {
           Continue Shopping
         </button>
       </div>
-    );
+    )
   }
 
-  const { products } = cartData;
+  const { products } = cartData
 
   const totalPrice = products?.reduce(
     (acc, product) => acc + product?.price * product?.quantity,
     0
-  );
-  const shippingPrice = parseFloat(totalPrice) < 500 ? 50 : 0;
-  const orderTotal = parseFloat(shippingPrice) + parseFloat(totalPrice);
+  )
+  const shippingPrice = parseFloat(totalPrice) < 500 ? 50 : 0
+  const orderTotal = parseFloat(shippingPrice) + parseFloat(totalPrice)
 
   const handleRemoveProductFromCart = (productId) => {
-    dispatch(removeProductFromCart(productId));
-  };
+    dispatch(removeProductFromCart(productId))
+  }
 
   const handleClearCart = () => {
-    dispatch(clearCart());
-  };
+    dispatch(clearCart())
+  }
 
   return (
     <div className="flex flex-col lg:flex-row mt-8">
@@ -142,8 +142,8 @@ const Cart = () => {
                                 name: product?.name,
                                 price: product?.price,
                                 image: product?.image?.url,
-                              };
-                              dispatch(addProductsToCart(productsData));
+                              }
+                              dispatch(addProductsToCart(productsData))
                             }}
                             className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                               product?.quantity >= product?.countInStock &&
@@ -166,8 +166,8 @@ const Cart = () => {
                                 name: product?.name,
                                 price: product?.price,
                                 image: product?.image?.url,
-                              };
-                              dispatch(addProductsToCart(productsData));
+                              }
+                              dispatch(addProductsToCart(productsData))
                             }}
                             className={`inline-flex leading-5 font-semibold rounded-full text-indigo-800 ${
                               product?.quantity <= 1 &&
@@ -191,7 +191,7 @@ const Cart = () => {
                         />
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -254,7 +254,7 @@ const Cart = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

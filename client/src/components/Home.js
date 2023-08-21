@@ -1,51 +1,51 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import ProductItem from './ProductItem.js';
-import { Link, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../store/slices/products.js';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import ProductItem from './ProductItem.js'
+import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts } from '../store/slices/products.js'
 import {
   fetchWishlistedProducts,
   wishlistsReset,
-} from '../store/slices/wishlists.js';
-import Paginate from '../components/Paginate';
-import Loader from './Loader.js';
-import useWindowWidth from '../hooks/useWindowWidth.js';
-import Search from './Search.js';
-import Checkbox from './custom/Checkbox.js';
-import StarIcon from '../assets/icons/StarIcon.js';
-import Sort from './Sort.js';
-import ProductListings from './ProductListings.js';
+} from '../store/slices/wishlists.js'
+import Paginate from '../components/Paginate'
+import Loader from './Loader.js'
+import useWindowWidth from '../hooks/useWindowWidth.js'
+import Search from './Search.js'
+import Checkbox from './custom/Checkbox.js'
+import StarIcon from '../assets/icons/StarIcon.js'
+import Sort from './Sort.js'
+import ProductListings from './ProductListings.js'
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const [sort, setSort] = useState('');
-  const { keyword = '', pageNumber = 1 } = useParams();
+  const dispatch = useDispatch()
+  const [sort, setSort] = useState('')
+  const { keyword = '', pageNumber = 1 } = useParams()
   const {
     productsData: products,
     loading,
     pages,
     page,
-  } = useSelector((state) => state.products);
-  const { isMobile } = useWindowWidth();
-  const { userData } = useSelector((state) => state.user);
+  } = useSelector((state) => state.products)
+  const { isMobile } = useWindowWidth()
+  const { userData } = useSelector((state) => state.user)
   const { wishlistsData, isBookmarkUpdated } = useSelector(
     (state) => state.wishlists
-  );
-  const isLoggedIn = userData?.email;
+  )
+  const isLoggedIn = userData?.email
 
   useEffect(() => {
-    dispatch(fetchProducts(keyword, pageNumber, sort));
-  }, [keyword, pageNumber, sort]);
+    dispatch(fetchProducts(keyword, pageNumber, sort))
+  }, [keyword, pageNumber, sort])
 
   useEffect(() => {
     if (isLoggedIn || isBookmarkUpdated) {
-      dispatch(fetchWishlistedProducts());
-      dispatch(wishlistsReset());
+      dispatch(fetchWishlistedProducts())
+      dispatch(wishlistsReset())
     }
-  }, [isLoggedIn, isBookmarkUpdated]);
+  }, [isLoggedIn, isBookmarkUpdated])
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   if (products?.length <= 0) {
     return (
@@ -55,7 +55,7 @@ const Home = () => {
           Back to Home page
         </Link>
       </div>
-    );
+    )
   }
 
   return (
@@ -75,7 +75,7 @@ const Home = () => {
 
       <Paginate pages={pages} page={page} keyword={keyword} />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

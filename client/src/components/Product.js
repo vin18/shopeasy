@@ -1,43 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import LeftArrowIcon from '../assets/icons/LeftArrowIcon';
-import Review from '../components/Review';
-import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from '../store/slices/product';
-import { addProductsToCart } from '../store/slices/cart';
-import toast from 'react-hot-toast';
-import Reviews from '../components/Reviews';
-import TextInput from '../components/custom/TextInput';
-import TextArea from '../components/custom/TextArea';
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import LeftArrowIcon from '../assets/icons/LeftArrowIcon'
+import Review from '../components/Review'
+import { capitalizeFirstLetter } from '../utils/capitalizeFirstLetter'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProduct } from '../store/slices/product'
+import { addProductsToCart } from '../store/slices/cart'
+import toast from 'react-hot-toast'
+import Reviews from '../components/Reviews'
+import TextInput from '../components/custom/TextInput'
+import TextArea from '../components/custom/TextArea'
 import {
   fetchProductReviews,
   postProductReview,
   reviewReset,
   removeProductReview,
   updateProductReview,
-} from '../store/slices/reviews';
-import MinusIcon from '../assets/icons/MinusIcon';
-import PlusIcon from '../assets/icons/PlusIcon';
-import Loader from '../components/Loader';
-import CartIcon from '../assets/icons/CartIcon';
-import { FaHeart } from 'react-icons/fa';
-import { createUpdateWishlist } from '../store/slices/wishlists';
+} from '../store/slices/reviews'
+import MinusIcon from '../assets/icons/MinusIcon'
+import PlusIcon from '../assets/icons/PlusIcon'
+import Loader from '../components/Loader'
+import CartIcon from '../assets/icons/CartIcon'
+import { FaHeart } from 'react-icons/fa'
+import { createUpdateWishlist } from '../store/slices/wishlists'
 
 const Product = () => {
-  const [quantity, setQuantity] = useState(1);
-  const { productId } = useParams();
-  const dispatch = useDispatch();
-  const history = useNavigate();
-  const [isReviewUpdate, setReviewUpdate] = useState(false);
-  const [reviewToUpdate, setReviewToUpdate] = useState();
-  const [rating, setRating] = useState('');
-  const [title, setTitle] = useState('');
-  const [comment, setComment] = useState('');
+  const [quantity, setQuantity] = useState(1)
+  const { productId } = useParams()
+  const dispatch = useDispatch()
+  const history = useNavigate()
+  const [isReviewUpdate, setReviewUpdate] = useState(false)
+  const [reviewToUpdate, setReviewToUpdate] = useState()
+  const [rating, setRating] = useState('')
+  const [title, setTitle] = useState('')
+  const [comment, setComment] = useState('')
 
   const { productData: product, loading } = useSelector(
     (state) => state.product
-  );
+  )
 
   const {
     reviewsData,
@@ -46,34 +46,34 @@ const Product = () => {
     reviewRemoved,
     reviewUpdated,
     error: reviewError,
-  } = useSelector((state) => state.reviews);
+  } = useSelector((state) => state.reviews)
 
-  const { userData } = useSelector((state) => state.user);
-  const isLoggedIn = Boolean(userData?.email);
-
-  useEffect(() => {
-    dispatch(fetchProduct(productId));
-  }, [productId, dispatch]);
+  const { userData } = useSelector((state) => state.user)
+  const isLoggedIn = Boolean(userData?.email)
 
   useEffect(() => {
-    dispatch(reviewReset());
+    dispatch(fetchProduct(productId))
+  }, [productId, dispatch])
+
+  useEffect(() => {
+    dispatch(reviewReset())
 
     if (reviewError) {
-      toast.error(reviewError);
+      toast.error(reviewError)
     } else if (reviewPosted) {
-      toast.success(`Review posted!`);
+      toast.success(`Review posted!`)
     } else if (reviewUpdated) {
-      toast.success(`Review updated!`);
+      toast.success(`Review updated!`)
     } else if (reviewRemoved) {
-      toast.success(`Review removed!`);
+      toast.success(`Review removed!`)
     }
 
-    dispatch(fetchProductReviews(productId));
-    setRating('');
-    setTitle('');
-    setComment('');
-    setReviewUpdate(false);
-    setReviewUpdate(null);
+    dispatch(fetchProductReviews(productId))
+    setRating('')
+    setTitle('')
+    setComment('')
+    setReviewUpdate(false)
+    setReviewUpdate(null)
   }, [
     reviewPosted,
     reviewRemoved,
@@ -81,13 +81,13 @@ const Product = () => {
     reviewError,
     productId,
     dispatch,
-  ]);
+  ])
 
-  const isProductAvailable = product.countInStock > 0;
+  const isProductAvailable = product.countInStock > 0
 
   const handleAddToCart = () => {
     if (!isLoggedIn) {
-      return toast.error(`Login to add item in the cart`);
+      return toast.error(`Login to add item in the cart`)
     }
     const productsData = {
       productId,
@@ -95,48 +95,47 @@ const Product = () => {
       name: product?.name,
       price: product?.price,
       image: product?.image?.url,
-    };
-    if (!isLoggedIn) {
-      history(`/login`);
-    } else {
-      dispatch(addProductsToCart(productsData));
-      history(`/cart`);
     }
-  };
+    if (!isLoggedIn) {
+      history(`/login`)
+    } else {
+      dispatch(addProductsToCart(productsData))
+      history(`/cart`)
+    }
+  }
 
   const handleReviewSubmit = (e) => {
-    e.preventDefault();
-    const review = { rating, title, comment };
+    e.preventDefault()
+    const review = { rating, title, comment }
 
     if (isReviewUpdate) {
       dispatch(
         updateProductReview({ ...review, reviewId: reviewToUpdate?._id })
-      );
+      )
     } else {
-      dispatch(postProductReview({ ...review, product: productId }));
-      setReviewToUpdate(null);
-      setReviewUpdate(false);
+      dispatch(postProductReview({ ...review, product: productId }))
+      setReviewToUpdate(null)
+      setReviewUpdate(false)
     }
-  };
+  }
 
   const handleUpdateProductReview = (review) => {
-    setRating(review?.rating);
-    setTitle(review?.title);
-    setComment(review?.comment);
-    setReviewUpdate(true);
-    setReviewToUpdate(review);
-  };
+    setRating(review?.rating)
+    setTitle(review?.title)
+    setComment(review?.comment)
+    setReviewUpdate(true)
+    setReviewToUpdate(review)
+  }
 
   const handleDeleteProductReview = (reviewId) => {
-    dispatch(removeProductReview(reviewId));
-  };
+    dispatch(removeProductReview(reviewId))
+  }
 
-  const addQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
+  const addQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1)
 
-  const subtractQuantity = () =>
-    setQuantity((prevQuantity) => prevQuantity - 1);
+  const subtractQuantity = () => setQuantity((prevQuantity) => prevQuantity - 1)
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   return (
     <div>
@@ -276,11 +275,11 @@ const Product = () => {
                 {isReviewUpdate && (
                   <button
                     onClick={() => {
-                      setReviewUpdate(false);
-                      setReviewToUpdate(null);
-                      setTitle('');
-                      setComment('');
-                      setRating('');
+                      setReviewUpdate(false)
+                      setReviewToUpdate(null)
+                      setTitle('')
+                      setComment('')
+                      setRating('')
                     }}
                     className="mt-4 ml-4 border-2 border-indigo-500 py-2 rounded-md text-lg px-8"
                   >
@@ -293,7 +292,7 @@ const Product = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Product;
+export default Product

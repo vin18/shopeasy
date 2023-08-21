@@ -22,6 +22,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.js\"",
+    "format-check": "prettier --check \"src/**/*.js\"",
     "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -47,7 +50,13 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.1",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.5",
+    "prettier": "^3.0.2",
     "tailwindcss": "^3.0.11"
   }
 }

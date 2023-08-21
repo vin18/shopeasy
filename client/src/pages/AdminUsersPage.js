@@ -1,45 +1,45 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import {
   getAdminUsers,
   deleteAdminUser,
   adminUserDeleteReset,
-} from '../store/slices/admin';
-import { useDispatch, useSelector } from 'react-redux';
-import { FaEdit, FaTrash } from 'react-icons/fa';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
+} from '../store/slices/admin'
+import { useDispatch, useSelector } from 'react-redux'
+import { FaEdit, FaTrash } from 'react-icons/fa'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import Loader from '../components/Loader'
 
 const AdminUsers = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { adminUserData, loading, error, userDeleted } = useSelector(
     (state) => state.admin
-  );
-  const history = useNavigate();
+  )
+  const history = useNavigate()
 
   useEffect(() => {
-    dispatch(getAdminUsers());
-  }, []);
+    dispatch(getAdminUsers())
+  }, [])
 
   useEffect(() => {
     if (userDeleted) {
-      toast.success(`User deleted!`);
+      toast.success(`User deleted!`)
       setTimeout(() => {
-        dispatch(adminUserDeleteReset());
-      }, 2000);
-      dispatch(getAdminUsers());
+        dispatch(adminUserDeleteReset())
+      }, 2000)
+      dispatch(getAdminUsers())
     }
-  }, [userDeleted]);
+  }, [userDeleted])
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   const handleDeleteUser = (userId) => {
-    dispatch(deleteAdminUser(userId));
-  };
+    dispatch(deleteAdminUser(userId))
+  }
 
   const handleUpdateUser = (userId) => {
-    return history(`/admin/users/${userId}`);
-  };
+    return history(`/admin/users/${userId}`)
+  }
 
   return (
     <div className="flex items-center flex-col mt-8 overflow-auto">
@@ -104,7 +104,7 @@ const AdminUsers = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminUsers;
+export default AdminUsers

@@ -1,37 +1,37 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik, Field } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import Checkbox from '../components/custom/Checkbox';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react'
+import { Form, Formik, Field } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import Checkbox from '../components/custom/Checkbox'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   adminUserUpdateReset,
   getAdminUser,
   updateAdminUser,
-} from '../store/slices/admin';
-import toast from 'react-hot-toast';
-import { useNavigate, useParams } from 'react-router-dom';
+} from '../store/slices/admin'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const AdminUserEdit = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const {
     adminUserData,
     userUpdated,
     adminUser: userData,
     loading,
-  } = useSelector((state) => state.admin);
-  const history = useNavigate();
-  const { userId } = useParams();
+  } = useSelector((state) => state.admin)
+  const history = useNavigate()
+  const { userId } = useParams()
 
   const [initialValues, setInitialValues] = useState({
     name: '',
     email: '',
     isAdmin: false,
-  });
+  })
 
   useEffect(() => {
-    dispatch(getAdminUser(userId));
-  }, [userId]);
+    dispatch(getAdminUser(userId))
+  }, [userId])
 
   useEffect(() => {
     if (userData?.email) {
@@ -39,18 +39,18 @@ const AdminUserEdit = () => {
         name: userData?.name,
         email: userData?.email,
         isAdmin: userData?.role === 'admin',
-      });
+      })
     }
-  }, [userData?.email]);
+  }, [userData?.email])
 
   useEffect(() => {
     if (userUpdated) {
-      toast.success(`User updated!`);
+      toast.success(`User updated!`)
       setTimeout(() => {
-        dispatch(adminUserUpdateReset());
-      }, 2000);
+        dispatch(adminUserUpdateReset())
+      }, 2000)
     }
-  }, [userUpdated]);
+  }, [userUpdated])
 
   const adminUserEditSchema = yup.object().shape({
     name: yup
@@ -67,17 +67,17 @@ const AdminUserEdit = () => {
       .required('Email is required')
       .defined(),
     isAdmin: yup.bool().defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
     const user = {
       ...values,
       _id: userId,
       role: values.isAdmin ? 'admin' : 'user',
-    };
-    delete user.isAdmin;
-    dispatch(updateAdminUser(user));
-  };
+    }
+    delete user.isAdmin
+    dispatch(updateAdminUser(user))
+  }
 
   return (
     <div className="flex justify-center items-center w-full mt-24">
@@ -137,11 +137,11 @@ const AdminUserEdit = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default AdminUserEdit;
+export default AdminUserEdit

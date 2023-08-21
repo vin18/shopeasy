@@ -1,4 +1,4 @@
-import { Field } from 'formik';
+import { Field } from 'formik'
 
 const Checkbox = ({ labelName, name }) => {
   return (
@@ -11,7 +11,7 @@ const Checkbox = ({ labelName, name }) => {
         {labelName}
       </label>
     </div>
-  );
-};
+  )
+}
 
-export default Checkbox;
+export default Checkbox

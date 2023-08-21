@@ -1,41 +1,41 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import moment from 'moment';
-import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
-import { orderDelivered, orderDeliveredReset } from '../store/slices/orders';
-import Loader from '../components/Loader';
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import moment from 'moment'
+import toast from 'react-hot-toast'
+import { useParams } from 'react-router-dom'
+import { orderDelivered, orderDeliveredReset } from '../store/slices/orders'
+import Loader from '../components/Loader'
 
 const OrderItemPage = () => {
-  const [order, setOrder] = useState();
-  const { userData } = useSelector((state) => state.user);
+  const [order, setOrder] = useState()
+  const { userData } = useSelector((state) => state.user)
   const { orderDelivered: orderDeliveredStatus } = useSelector(
     (state) => state.orders
-  );
-  const { orderId } = useParams();
-  const dispatch = useDispatch();
+  )
+  const { orderId } = useParams()
+  const dispatch = useDispatch()
 
   async function fetchOrder() {
-    const { data } = await axios.get(`/api/v1/orders/${orderId}`);
-    setOrder(data?.order);
+    const { data } = await axios.get(`/api/v1/orders/${orderId}`)
+    setOrder(data?.order)
   }
 
   useEffect(() => {
-    fetchOrder();
-  }, [orderId]);
+    fetchOrder()
+  }, [orderId])
 
   useEffect(() => {
     if (orderDeliveredStatus) {
-      toast.success(`Order delivered!`);
-      fetchOrder();
+      toast.success(`Order delivered!`)
+      fetchOrder()
       setTimeout(() => {
-        dispatch(orderDeliveredReset());
-      }, 2000);
+        dispatch(orderDeliveredReset())
+      }, 2000)
     }
-  }, [orderDeliveredStatus]);
+  }, [orderDeliveredStatus])
 
-  if (!order) return <Loader />;
+  if (!order) return <Loader />
 
   const {
     _id: orderID,
@@ -46,14 +46,14 @@ const OrderItemPage = () => {
     orderItems,
     paidAt,
     paymentInfo,
-  } = order;
-  const paymentSuccessful = paymentInfo?.paymentId;
-  const { address, city, country, postalCode } = shippingAddress;
-  const addressStr = `${address}, ${city}, ${country}, ${postalCode}`;
+  } = order
+  const paymentSuccessful = paymentInfo?.paymentId
+  const { address, city, country, postalCode } = shippingAddress
+  const addressStr = `${address}, ${city}, ${country}, ${postalCode}`
 
   const handleOrderDelivered = () => {
-    dispatch(orderDelivered(orderId));
-  };
+    dispatch(orderDelivered(orderId))
+  }
 
   return (
     <div className="flex flex-col lg:flex-row mt-18">
@@ -120,7 +120,7 @@ const OrderItemPage = () => {
                   {parseFloat(product?.quantity) * parseFloat(product?.price)}
                 </p>
               </div>
-            );
+            )
           })}
         </div>
       </div>
@@ -172,7 +172,7 @@ const OrderItemPage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrderItemPage;
+export default OrderItemPage

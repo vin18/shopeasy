@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const EyeIcon = () => {
   return (
@@ -15,7 +15,7 @@ const EyeIcon = () => {
         clipRule="evenodd"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default EyeIcon;
+export default EyeIcon

@@ -1,41 +1,41 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { About, Home } from '../App';
-import { getMe, logout } from '../store/slices/user';
-import toast from 'react-hot-toast';
-import Search from './Search';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { FaHeart, FaTimes } from 'react-icons/fa';
-import useWindowWidth from '../hooks/useWindowWidth';
-import CartIcon from '../assets/icons/CartIcon';
-import UserIcon from '../assets/icons/UserIcon';
-import LogoutIcon from '../assets/icons/LogoutIcon';
-import { fetchProductsInCart } from '../store/slices/cart';
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { About, Home } from '../App'
+import { getMe, logout } from '../store/slices/user'
+import toast from 'react-hot-toast'
+import Search from './Search'
+import { GiHamburgerMenu } from 'react-icons/gi'
+import { FaHeart, FaTimes } from 'react-icons/fa'
+import useWindowWidth from '../hooks/useWindowWidth'
+import CartIcon from '../assets/icons/CartIcon'
+import UserIcon from '../assets/icons/UserIcon'
+import LogoutIcon from '../assets/icons/LogoutIcon'
+import { fetchProductsInCart } from '../store/slices/cart'
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const { userData, loading } = useSelector((state) => state.user);
-  const { cartData } = useSelector((state) => state.cart);
-  const { wishlistsData } = useSelector((state) => state.wishlists);
-  const isLoggedIn = Boolean(userData?.email);
-  const itemsInTheCart = isLoggedIn ? cartData?.products?.length : 0;
-  const itemsInTheWishlists = isLoggedIn ? wishlistsData?.length : 0;
-  const isAdmin = userData?.role === 'admin';
-  const history = useNavigate();
-  const [open, setOpen] = useState(false);
-  const { isMobile, isTab } = useWindowWidth();
+  const dispatch = useDispatch()
+  const { userData, loading } = useSelector((state) => state.user)
+  const { cartData } = useSelector((state) => state.cart)
+  const { wishlistsData } = useSelector((state) => state.wishlists)
+  const isLoggedIn = Boolean(userData?.email)
+  const itemsInTheCart = isLoggedIn ? cartData?.products?.length : 0
+  const itemsInTheWishlists = isLoggedIn ? wishlistsData?.length : 0
+  const isAdmin = userData?.role === 'admin'
+  const history = useNavigate()
+  const [open, setOpen] = useState(false)
+  const { isMobile, isTab } = useWindowWidth()
 
   useEffect(() => {
-    dispatch(getMe());
-    dispatch(fetchProductsInCart());
-  }, [isLoggedIn]);
+    dispatch(getMe())
+    dispatch(fetchProductsInCart())
+  }, [isLoggedIn])
 
   const handleLogout = () => {
-    toast.success(`Logged out!`);
-    dispatch(logout());
-    history(`/products`);
-  };
+    toast.success(`Logged out!`)
+    dispatch(logout())
+    history(`/products`)
+  }
 
   return (
     <header className="relative bg-indigo-500 text-indigo-50 flex justify-between items-center py-4 px-8">
@@ -191,7 +191,7 @@ const Header = () => {
         </nav>
       )}
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

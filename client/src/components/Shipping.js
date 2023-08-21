@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile } from '../store/slices/user';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateProfile } from '../store/slices/user'
+import { useNavigate } from 'react-router-dom'
 
 const Shipping = () => {
-  const { userData, loading } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const history = useNavigate();
+  const { userData, loading } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const history = useNavigate()
 
   const [initialValues, setInitialValues] = useState({
     address: '',
     city: '',
     postalCode: '',
     country: '',
-  });
+  })
 
   useEffect(() => {
     if (userData?.email) {
@@ -25,9 +25,9 @@ const Shipping = () => {
         city: userData?.city,
         postalCode: userData?.postalCode,
         country: userData?.country,
-      });
+      })
     }
-  }, [userData?.email]);
+  }, [userData?.email])
 
   const shippingSchema = yup.object().shape({
     address: yup.string().required('Address is required').trim().defined(),
@@ -38,17 +38,17 @@ const Shipping = () => {
       .trim()
       .defined(),
     country: yup.string().required('Country is required').trim().defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
     const userObj = {
       name: userData?.name,
       email: userData?.email,
       ...values,
-    };
-    dispatch(updateProfile(userObj));
-    history(`/placeorder`);
-  };
+    }
+    dispatch(updateProfile(userObj))
+    history(`/placeorder`)
+  }
 
   return (
     <div className="flex flex-col justify-center items-center mt-20">
@@ -124,11 +124,11 @@ const Shipping = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default Shipping;
+export default Shipping

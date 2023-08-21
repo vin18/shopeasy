@@ -1,37 +1,37 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik, Field } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import Checkbox from '../components/custom/Checkbox';
-import { useSelector, useDispatch } from 'react-redux';
-import toast from 'react-hot-toast';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Form, Formik, Field } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import Checkbox from '../components/custom/Checkbox'
+import { useSelector, useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   createAdminProduct,
   adminProductCreateReset,
-} from '../store/slices/product';
-import TextArea from '../components/custom/TextArea';
+} from '../store/slices/product'
+import TextArea from '../components/custom/TextArea'
 
 const AdminProductCreate = () => {
-  const [productImage, setProductImage] = useState();
-  const [productImagePreview, setProductImagePreview] = useState();
-  const dispatch = useDispatch();
-  const { productCreated, loading } = useSelector((state) => state.product);
-  const history = useNavigate();
-  const { productId } = useParams();
+  const [productImage, setProductImage] = useState()
+  const [productImagePreview, setProductImagePreview] = useState()
+  const dispatch = useDispatch()
+  const { productCreated, loading } = useSelector((state) => state.product)
+  const history = useNavigate()
+  const { productId } = useParams()
 
   const handleImageChange = (event) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setProductImage(reader.result);
-        setProductImagePreview(reader.result);
+        setProductImage(reader.result)
+        setProductImagePreview(reader.result)
       }
-    };
+    }
 
-    reader.readAsDataURL(event.target.files[0]);
-  };
+    reader.readAsDataURL(event.target.files[0])
+  }
 
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -41,14 +41,14 @@ const AdminProductCreate = () => {
     category: '',
     description: '',
     discount: '',
-  });
+  })
 
   useEffect(() => {
     if (productCreated) {
-      toast.success(`Product created!`);
-      history(`/admin/products`);
+      toast.success(`Product created!`)
+      history(`/admin/products`)
     }
-  }, [productCreated]);
+  }, [productCreated])
 
   const adminProductCreateSchema = yup.object().shape({
     name: yup
@@ -72,11 +72,11 @@ const AdminProductCreate = () => {
       .required('Description is required')
       .defined(),
     discount: yup.string().defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
     if (!productImage) {
-      return toast.error(`Please select an image`);
+      return toast.error(`Please select an image`)
     }
 
     dispatch(
@@ -84,8 +84,8 @@ const AdminProductCreate = () => {
         image: productImage,
         ...values,
       })
-    );
-  };
+    )
+  }
 
   return (
     <div className="flex justify-center items-center w-full mt-8">
@@ -216,11 +216,11 @@ const AdminProductCreate = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default AdminProductCreate;
+export default AdminProductCreate

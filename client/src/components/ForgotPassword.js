@@ -1,39 +1,39 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   userReset,
   login,
   forgotPassword,
   userPasswordRequestReset,
-} from '../store/slices/user';
-import { Link, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+} from '../store/slices/user'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const ForgotPassword = () => {
   const initialValues = {
     email: '',
-  };
-  const dispatch = useDispatch();
+  }
+  const dispatch = useDispatch()
   const { passwordForgotRequestSuccess, loading, error } = useSelector(
     (state) => state.user
-  );
+  )
 
   useEffect(() => {
     if (passwordForgotRequestSuccess) {
-      toast.success(passwordForgotRequestSuccess);
-      dispatch(userPasswordRequestReset());
+      toast.success(passwordForgotRequestSuccess)
+      dispatch(userPasswordRequestReset())
     }
-  }, [passwordForgotRequestSuccess]);
+  }, [passwordForgotRequestSuccess])
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      dispatch(userReset());
+      toast.error(error)
+      dispatch(userReset())
     }
-  }, [error]);
+  }, [error])
 
   const forgotPasswordSchema = yup.object().shape({
     email: yup
@@ -42,11 +42,11 @@ const ForgotPassword = () => {
       .lowercase()
       .required('Email is required')
       .defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
-    dispatch(forgotPassword(values));
-  };
+    dispatch(forgotPassword(values))
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-24">
@@ -96,11 +96,11 @@ const ForgotPassword = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

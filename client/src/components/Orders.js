@@ -1,24 +1,24 @@
-import moment from 'moment';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllOrders } from '../store/slices/orders';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import Loader from './Loader';
+import moment from 'moment'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAllOrders } from '../store/slices/orders'
+import { FaCheck, FaTimes } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
+import Loader from './Loader'
 
 const Orders = () => {
-  const dispatch = useDispatch();
-  const { allOrders, loading } = useSelector((state) => state.orders);
-  const history = useNavigate();
+  const dispatch = useDispatch()
+  const { allOrders, loading } = useSelector((state) => state.orders)
+  const history = useNavigate()
 
   useEffect(() => {
-    dispatch(fetchAllOrders());
-  }, [dispatch]);
+    dispatch(fetchAllOrders())
+  }, [dispatch])
 
   if (allOrders?.length === 0) {
     return (
       <h2 className="mx-auto text-2xl mt-64">There are currently no orders!</h2>
-    );
+    )
   }
 
   return (
@@ -105,7 +105,7 @@ const Orders = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default Orders;
+export default Orders

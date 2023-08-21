@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from './custom/TextInput';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateProfile, userReset } from '../store/slices/user';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from './custom/TextInput'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateProfile, userReset } from '../store/slices/user'
+import toast from 'react-hot-toast'
 
 const ProfileForm = () => {
   const { userData, loading, isUserUpdated } = useSelector(
     (state) => state.user
-  );
-  const dispatch = useDispatch();
+  )
+  const dispatch = useDispatch()
 
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -19,7 +19,7 @@ const ProfileForm = () => {
     city: '',
     postalCode: '',
     country: '',
-  });
+  })
 
   useEffect(() => {
     if (userData?.email) {
@@ -30,20 +30,20 @@ const ProfileForm = () => {
         city: userData?.city,
         postalCode: userData?.postalCode,
         country: userData?.country,
-      });
+      })
     }
-  }, [userData?.email]);
+  }, [userData?.email])
 
   useEffect(() => {
     if (isUserUpdated) {
-      toast.success(`User profile updated!`);
-      dispatch(userReset());
+      toast.success(`User profile updated!`)
+      dispatch(userReset())
     }
-  }, [isUserUpdated]);
+  }, [isUserUpdated])
 
   const handleSubmit = (values) => {
-    dispatch(updateProfile(values));
-  };
+    dispatch(updateProfile(values))
+  }
 
   return (
     <div className="flex justify-center items-center">
@@ -128,11 +128,11 @@ const ProfileForm = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileForm;
+export default ProfileForm

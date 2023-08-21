@@ -1,51 +1,51 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Loader from '../components/Loader';
-import { clearCart } from '../store/slices/cart';
+import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import Loader from '../components/Loader'
+import { clearCart } from '../store/slices/cart'
 
 const PlaceorderPage = () => {
-  const [loading, setLoading] = useState(false);
-  const { userData } = useSelector((state) => state.user);
-  const { address, city, country, postalCode } = userData;
-  const { cartData } = useSelector((state) => state.cart);
-  const { products } = cartData;
-  const dispatch = useDispatch();
-  const history = useNavigate();
+  const [loading, setLoading] = useState(false)
+  const { userData } = useSelector((state) => state.user)
+  const { address, city, country, postalCode } = userData
+  const { cartData } = useSelector((state) => state.cart)
+  const { products } = cartData
+  const dispatch = useDispatch()
+  const history = useNavigate()
 
-  const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`;
+  const shippingAddress = `${address}, ${postalCode}, ${city}, ${country}`
   const totalProductsPrice = products?.reduce(
     (acc, product) =>
       acc + parseFloat(product?.price) * Number(product?.quantity),
     0
-  );
-  const shippingPrice = parseFloat(totalProductsPrice) < 500 ? 50 : 0;
-  const orderTotal = parseFloat(totalProductsPrice) + parseFloat(shippingPrice);
+  )
+  const shippingPrice = parseFloat(totalProductsPrice) < 500 ? 50 : 0
+  const orderTotal = parseFloat(totalProductsPrice) + parseFloat(shippingPrice)
 
   const loadRazorpay = () => {
-    const script = document.createElement('script');
-    script.src = `https://checkout.razorpay.com/v1/checkout.js`;
+    const script = document.createElement('script')
+    script.src = `https://checkout.razorpay.com/v1/checkout.js`
     script.onerror = () => {
-      toast.error(`Razorpay SDK failed to load!`);
-    };
+      toast.error(`Razorpay SDK failed to load!`)
+    }
     script.onload = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
 
         const razorpayOrder = await axios.post(`/api/v1/orders/create-order`, {
           amount: `${orderTotal}00`,
-        });
+        })
 
         const {
           amount: amountPaid,
           id: order_id,
           currency,
-        } = razorpayOrder.data.order;
+        } = razorpayOrder.data.order
         const {
           data: { key: razorpayKey },
-        } = await axios.get(`/api/v1/orders/get-razorpay-key`);
+        } = await axios.get(`/api/v1/orders/get-razorpay-key`)
 
         const options = {
           key: razorpayKey,
@@ -71,15 +71,15 @@ const PlaceorderPage = () => {
                 orderId: response.razorpay_order_id,
                 signature: response.razorpay_signature,
               },
-            };
+            }
             const { data } = await axios.post(
               `/api/v1/orders/pay-order`,
               orderObj
-            );
+            )
 
-            toast.success(`Payment successfull!`);
-            dispatch(clearCart());
-            history(`/orders/${data?.order?._id}`);
+            toast.success(`Payment successfull!`)
+            dispatch(clearCart())
+            history(`/orders/${data?.order?._id}`)
           },
           prefill: {
             name: `${userData.username}`,
@@ -89,20 +89,20 @@ const PlaceorderPage = () => {
           theme: {
             color: '#4299e1',
           },
-        };
+        }
 
-        setLoading(false);
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+        setLoading(false)
+        const paymentObject = new window.Razorpay(options)
+        paymentObject.open()
       } catch (error) {
-        console.error(`ERROR: ${error}`);
-        setLoading(false);
+        console.error(`ERROR: ${error}`)
+        setLoading(false)
       }
-    };
-    document.body.appendChild(script);
-  };
+    }
+    document.body.appendChild(script)
+  }
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   return (
     <div className="flex flex-col md:flex-row w-full mt-24">
@@ -127,7 +127,7 @@ const PlaceorderPage = () => {
           </h3>
           {products?.map((product) => {
             const totalProductPrice =
-              parseFloat(product?.price) * Number(product?.quantity);
+              parseFloat(product?.price) * Number(product?.quantity)
 
             return (
               <div
@@ -140,7 +140,7 @@ const PlaceorderPage = () => {
                   {product?.quantity} x ₹{product?.price} = ₹{totalProductPrice}
                 </p>
               </div>
-            );
+            )
           })}
         </div>
       </div>
@@ -175,7 +175,7 @@ const PlaceorderPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PlaceorderPage;
+export default PlaceorderPage

@@ -1,7 +1,7 @@
-import Product from '../components/Product';
+import Product from '../components/Product'
 
 const ProductPage = () => {
-  return <Product />;
-};
+  return <Product />
+}
 
-export default ProductPage;
+export default ProductPage

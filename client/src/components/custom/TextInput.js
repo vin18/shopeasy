@@ -1,7 +1,7 @@
-import { useField } from 'formik';
-import React from 'react';
-import EyeIcon from '../../assets/icons/EyeIcon';
-import EyeOffIcon from '../../assets/icons/EyeOffIcon';
+import { useField } from 'formik'
+import React from 'react'
+import EyeIcon from '../../assets/icons/EyeIcon'
+import EyeOffIcon from '../../assets/icons/EyeOffIcon'
 
 const TextInput = (props) => {
   const {
@@ -17,7 +17,7 @@ const TextInput = (props) => {
     isPasswordInput = false,
     showPassword,
     setShowPassword,
-  } = props;
+  } = props
 
   return (
     <div>
@@ -47,7 +47,7 @@ const TextInput = (props) => {
       </div>
       {error && <span className="text-red-500 font-bold">{error}</span>}
     </div>
-  );
-};
+  )
+}
 
-export default TextInput;
+export default TextInput

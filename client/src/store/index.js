@@ -1,14 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers } from 'redux'
 
-import productsReducer from './slices/products';
-import productReducer from './slices/product';
-import cartReducer from './slices/cart';
-import userReducer from './slices/user';
-import ordersReducer from './slices/orders';
-import adminReducer from './slices/admin';
-import reviewsReducer from './slices/reviews.js';
-import wishlistsReducer from './slices/wishlists.js';
+import productsReducer from './slices/products'
+import productReducer from './slices/product'
+import cartReducer from './slices/cart'
+import userReducer from './slices/user'
+import ordersReducer from './slices/orders'
+import adminReducer from './slices/admin'
+import reviewsReducer from './slices/reviews.js'
+import wishlistsReducer from './slices/wishlists.js'
 
 const reducer = combineReducers({
   products: productsReducer,
@@ -19,10 +19,10 @@ const reducer = combineReducers({
   admin: adminReducer,
   reviews: reviewsReducer,
   wishlists: wishlistsReducer,
-});
+})
 
 const store = configureStore({
   reducer,
-});
+})
 
-export default store;
+export default store

@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import MinusIcon from '../assets/icons/MinusIcon';
-import PlusIcon from '../assets/icons/PlusIcon';
-import { addProductsToCart } from '../store/slices/cart';
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import MinusIcon from '../assets/icons/MinusIcon'
+import PlusIcon from '../assets/icons/PlusIcon'
+import { addProductsToCart } from '../store/slices/cart'
 
 const ProductQuantity = ({
   quantity = 1,
@@ -10,9 +10,8 @@ const ProductQuantity = ({
   countInStock = 0,
   handleAddToCart,
 }) => {
-  const addQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1);
-  const subtractQuantity = () =>
-    setQuantity((prevQuantity) => prevQuantity - 1);
+  const addQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1)
+  const subtractQuantity = () => setQuantity((prevQuantity) => prevQuantity - 1)
 
   return (
     <div className="flex">
@@ -33,7 +32,7 @@ const ProductQuantity = ({
         <MinusIcon />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default ProductQuantity;
+export default ProductQuantity

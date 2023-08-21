@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import {
   getAdminUsers,
   deleteAdminUser,
   adminUserDeleteReset,
   getAdminOrders,
-} from '../store/slices/admin';
-import { useDispatch, useSelector } from 'react-redux';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
-import Loader from '../components/Loader';
+} from '../store/slices/admin'
+import { useDispatch, useSelector } from 'react-redux'
+import { FaCheck, FaTimes } from 'react-icons/fa'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import moment from 'moment'
+import Loader from '../components/Loader'
 
 const AdminOrders = () => {
-  const dispatch = useDispatch();
-  const { adminOrders, loading, error } = useSelector((state) => state.admin);
-  const history = useNavigate();
+  const dispatch = useDispatch()
+  const { adminOrders, loading, error } = useSelector((state) => state.admin)
+  const history = useNavigate()
 
   useEffect(() => {
-    dispatch(getAdminOrders());
-  }, []);
+    dispatch(getAdminOrders())
+  }, [])
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader />
 
   return (
     <div className="flex justify-center items-center flex-col mt-5 overflow-auto">
@@ -125,7 +125,7 @@ const AdminOrders = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminOrders;
+export default AdminOrders

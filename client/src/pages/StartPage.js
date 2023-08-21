@@ -1,9 +1,9 @@
-import heroImage from '../assets/home-hero-2.jpg';
-import { useNavigate } from 'react-router-dom';
-import CartIcon from '../assets/icons/CartIcon';
+import heroImage from '../assets/home-hero-2.jpg'
+import { useNavigate } from 'react-router-dom'
+import CartIcon from '../assets/icons/CartIcon'
 
 const StartPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div className="flex justify-center items-center max-w-7xl mx-auto pt-16 lg:pt-32">
@@ -30,7 +30,7 @@ const StartPage = () => {
         <img src={heroImage} alt="home" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StartPage;
+export default StartPage

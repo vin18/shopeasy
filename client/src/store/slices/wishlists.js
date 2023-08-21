@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const slice = createSlice({
   name: 'wishlists',
@@ -11,27 +11,27 @@ const slice = createSlice({
   },
   reducers: {
     wishlistsRequest: (state, action) => {
-      state.loading = true;
+      state.loading = true
     },
     wishlistsRequestSuccess: (state, action) => {
-      state.loading = false;
-      state.wishlistsData = action.payload;
+      state.loading = false
+      state.wishlistsData = action.payload
     },
     wishlistsUpdateRequest: (state, action) => {
-      state.isBookmarkUpdated = true;
+      state.isBookmarkUpdated = true
     },
     wishlistsReset: (state, action) => {
-      state.isBookmarkUpdated = false;
-      state.error = null;
+      state.isBookmarkUpdated = false
+      state.error = null
     },
     wishlistsRequestFail: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
+      state.loading = false
+      state.error = action.payload
     },
   },
-});
+})
 
-export default slice.reducer;
+export default slice.reducer
 
 // Actions
 export const {
@@ -40,43 +40,43 @@ export const {
   wishlistsRequestFail,
   wishlistsUpdateRequest,
   wishlistsReset,
-} = slice.actions;
+} = slice.actions
 
 export const createUpdateWishlist = (productId) => async (dispatch) => {
   try {
     dispatch({
       type: wishlistsRequest.type,
-    });
+    })
 
-    const { data } = await axios.post(`/api/v1/bookmarks/${productId}`);
+    const { data } = await axios.post(`/api/v1/bookmarks/${productId}`)
 
     dispatch({
       type: wishlistsUpdateRequest.type,
-    });
+    })
   } catch (error) {
     dispatch({
       type: wishlistsRequestFail.type,
       payload: error.response.data.msg,
-    });
+    })
   }
-};
+}
 
 export const fetchWishlistedProducts = () => async (dispatch) => {
   try {
     dispatch({
       type: wishlistsRequest.type,
-    });
+    })
 
-    const { data } = await axios.get(`/api/v1/bookmarks`);
+    const { data } = await axios.get(`/api/v1/bookmarks`)
 
     dispatch({
       type: wishlistsRequestSuccess.type,
       payload: data?.products,
-    });
+    })
   } catch (error) {
     dispatch({
       type: wishlistsRequestFail.type,
       payload: error.response.data.msg,
-    });
+    })
   }
-};
+}

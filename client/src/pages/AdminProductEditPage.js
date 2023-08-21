@@ -1,48 +1,48 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik, Field } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import Checkbox from '../components/custom/Checkbox';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react'
+import { Form, Formik, Field } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import Checkbox from '../components/custom/Checkbox'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   adminUserUpdateReset,
   getAdminUser,
   updateAdminUser,
-} from '../store/slices/admin';
-import toast from 'react-hot-toast';
-import { useNavigate, useParams } from 'react-router-dom';
+} from '../store/slices/admin'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   adminProductUpdateReset,
   fetchAdminProduct,
   updateAdminProduct,
-} from '../store/slices/product';
-import TextArea from '../components/custom/TextArea';
-import { getBase64FromUrl } from '../utils/getBase64FromUrl';
+} from '../store/slices/product'
+import TextArea from '../components/custom/TextArea'
+import { getBase64FromUrl } from '../utils/getBase64FromUrl'
 
 const AdminProductEdit = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const {
     productAdminData: product,
     productUpdated,
     loading,
-  } = useSelector((state) => state.product);
-  const history = useNavigate();
-  const { productId } = useParams();
-  const [productImage, setProductImage] = useState();
-  const [productImagePreview, setProductImagePreview] = useState();
+  } = useSelector((state) => state.product)
+  const history = useNavigate()
+  const { productId } = useParams()
+  const [productImage, setProductImage] = useState()
+  const [productImagePreview, setProductImagePreview] = useState()
 
   const handleImageChange = (event) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setProductImage(reader.result);
-        setProductImagePreview(reader.result);
+        setProductImage(reader.result)
+        setProductImagePreview(reader.result)
       }
-    };
+    }
 
-    reader.readAsDataURL(event.target.files[0]);
-  };
+    reader.readAsDataURL(event.target.files[0])
+  }
 
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -53,33 +53,33 @@ const AdminProductEdit = () => {
     category: '',
     description: '',
     discount: '',
-  });
+  })
 
   useEffect(() => {
-    dispatch(fetchAdminProduct(productId));
-  }, [productId]);
+    dispatch(fetchAdminProduct(productId))
+  }, [productId])
 
   useEffect(() => {
     async function hydrateProductData() {
       if (product) {
-        const image = await getBase64FromUrl(product.image.url);
-        setProductImage(image);
-        setProductImagePreview(image);
+        const image = await getBase64FromUrl(product.image.url)
+        setProductImage(image)
+        setProductImagePreview(image)
         setInitialValues({
           ...product,
-        });
+        })
       }
     }
 
-    hydrateProductData();
-  }, [product]);
+    hydrateProductData()
+  }, [product])
 
   useEffect(() => {
     if (productUpdated) {
-      toast.success(`Product updated!`);
-      dispatch(adminProductUpdateReset());
+      toast.success(`Product updated!`)
+      dispatch(adminProductUpdateReset())
     }
-  }, [productUpdated]);
+  }, [productUpdated])
 
   const adminProductEditSchema = yup.object().shape({
     name: yup
@@ -103,11 +103,11 @@ const AdminProductEdit = () => {
       .required('Description is required')
       .defined(),
     discount: yup.string().defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
     if (!productImage) {
-      return toast.error(`Please select an image`);
+      return toast.error(`Please select an image`)
     }
 
     dispatch(
@@ -115,8 +115,8 @@ const AdminProductEdit = () => {
         productImage,
         ...values,
       })
-    );
-  };
+    )
+  }
 
   return (
     <div className="flex justify-center items-center w-full mt-8">
@@ -247,11 +247,11 @@ const AdminProductEdit = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default AdminProductEdit;
+export default AdminProductEdit

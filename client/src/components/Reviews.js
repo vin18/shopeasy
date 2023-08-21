@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { fetchProductReviews } from '../store/slices/reviews';
-import moment from 'moment';
-import StarIcon from '../assets/icons/StarIcon';
-import { FaTrash, FaEdit } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react'
+import { fetchProductReviews } from '../store/slices/reviews'
+import moment from 'moment'
+import StarIcon from '../assets/icons/StarIcon'
+import { FaTrash, FaEdit } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
 
 const Reviews = ({
   productId,
@@ -12,9 +12,9 @@ const Reviews = ({
   handleUpdateProductReview,
   handleDeleteProductReview,
 }) => {
-  const { userData, loading } = useSelector((state) => state.user);
+  const { userData, loading } = useSelector((state) => state.user)
 
-  if (reviewLoading) return <p>Loading...</p>;
+  if (reviewLoading) return <p>Loading...</p>
 
   return (
     <div className="md:w-1/2 md:mr-16">
@@ -60,7 +60,7 @@ const Reviews = ({
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Reviews;
+export default Reviews

@@ -1,36 +1,36 @@
-import { useState, useEffect } from 'react';
-import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import TextInput from '../components/custom/TextInput';
-import { useDispatch, useSelector } from 'react-redux';
-import { userReset, register } from '../store/slices/user';
-import { useNavigate, Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { useState, useEffect } from 'react'
+import { Form, Formik } from 'formik'
+import * as yup from 'yup'
+import TextInput from '../components/custom/TextInput'
+import { useDispatch, useSelector } from 'react-redux'
+import { userReset, register } from '../store/slices/user'
+import { useNavigate, Link } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const Register = () => {
   const initialValues = {
     name: '',
     email: '',
     password: '',
-  };
-  const history = useNavigate();
-  const dispatch = useDispatch();
-  const { userData, loading, error } = useSelector((state) => state.user);
-  const [showPassword, setShowPassword] = useState(false);
+  }
+  const history = useNavigate()
+  const dispatch = useDispatch()
+  const { userData, loading, error } = useSelector((state) => state.user)
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
     if (userData?.email) {
-      toast.success(`Registered successfully!`);
-      return history(`/products`);
+      toast.success(`Registered successfully!`)
+      return history(`/products`)
     }
-  }, [userData, history]);
+  }, [userData, history])
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      dispatch(userReset());
+      toast.error(error)
+      dispatch(userReset())
     }
-  }, [error]);
+  }, [error])
 
   const registerSchema = yup.object().shape({
     name: yup
@@ -52,11 +52,11 @@ const Register = () => {
       .max(150)
       .required('Password is required')
       .defined(),
-  });
+  })
 
   const handleSubmit = (values) => {
-    dispatch(register(values));
-  };
+    dispatch(register(values))
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full mt-24">
@@ -138,11 +138,11 @@ const Register = () => {
                 </button>
               </div>
             </Form>
-          );
+          )
         }}
       </Formik>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

@@ -1,5 +1,5 @@
-import { useField } from 'formik';
-import React from 'react';
+import { useField } from 'formik'
+import React from 'react'
 
 const TextArea = (props) => {
   const {
@@ -12,7 +12,7 @@ const TextArea = (props) => {
     placeholder,
     label,
     disabled,
-  } = props;
+  } = props
 
   return (
     <>
@@ -38,7 +38,7 @@ const TextArea = (props) => {
         {error && <span className="text-red-500 font-bold">{error}</span>}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default TextArea;
+export default TextArea
