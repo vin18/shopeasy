@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const productSchema = mongoose.Schema(
   {
@@ -56,26 +56,26 @@ const productSchema = mongoose.Schema(
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
-);
+)
 
 productSchema.virtual('reviews', {
   ref: 'Review',
   localField: '_id',
   foreignField: 'product',
   justOne: false,
-});
+})
 
 productSchema.virtual('wishlist', {
   ref: 'Wishlist',
   localField: '_id',
   foreignField: 'product',
   justOne: false,
-});
+})
 
 productSchema.pre('remove', async function (next) {
-  await this.model('Review').deleteMany({ product: this._id });
-  await this.model('Wishlist').deleteMany({ product: this._id });
-});
+  await this.model('Review').deleteMany({ product: this._id })
+  await this.model('Wishlist').deleteMany({ product: this._id })
+})
 
-const Product = mongoose.model('Product', productSchema);
-export default Product;
+const Product = mongoose.model('Product', productSchema)
+export default Product

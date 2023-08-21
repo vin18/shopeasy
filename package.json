@@ -5,6 +5,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.js\"",
+    "format-check": "prettier --check \"src/**/*.js\"",
     "build-client": "cd client && npm run build",
     "client": "cd client && npm run start",
     "server": "nodemon server --ignore client",
